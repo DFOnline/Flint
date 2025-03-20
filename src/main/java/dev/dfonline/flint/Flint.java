@@ -5,7 +5,6 @@ import dev.dfonline.flint.feature.FeatureManager;
 import dev.dfonline.flint.feature.impl.ModeTrackerFeature;
 import dev.dfonline.flint.feature.impl.command.FlintCommandFeature;
 import dev.dfonline.flint.feature.trait.CommandFeature;
-import dev.dfonline.flint.feature.trait.FeatureTrait;
 import dev.dfonline.flint.feature.trait.FeatureTraitType;
 import dev.dfonline.flint.feature.trait.TickableFeature;
 import dev.dfonline.flint.util.Logger;
@@ -20,10 +19,18 @@ public class Flint implements ClientModInitializer {
 
     public static final String MOD_ID = "flint";
     public static final String MOD_NAME = "Flint";
+    public static final FeatureManager FEATURE_MANAGER = new FeatureManager();
     private static final Logger LOGGER = Logger.of(Flint.class);
     private static final MinecraftClient CLIENT = MinecraftClient.getInstance();
-    public static final FeatureManager FEATURE_MANAGER = new FeatureManager();
     private static final User user = new User();
+
+    public static MinecraftClient getClient() {
+        return CLIENT;
+    }
+
+    public static User getUser() {
+        return user;
+    }
 
     @Override
     public void onInitializeClient() {
@@ -52,14 +59,6 @@ public class Flint implements ClientModInitializer {
             });
         });
 
-    }
-
-    public static MinecraftClient getClient() {
-        return CLIENT;
-    }
-
-    public static User getUser() {
-        return user;
     }
 
 }

@@ -14,15 +14,15 @@ public final class User {
     private Mode mode;
     private Plot plot;
 
-    public Mode getMode() {
-        return mode;
-    }
-
     public ClientPlayerEntity getPlayer() {
         ClientPlayerEntity player = Flint.getClient().player;
 
         assert player != null : "Player is null";
         return player;
+    }
+
+    public Mode getMode() {
+        return mode;
     }
 
     @ApiStatus.Internal

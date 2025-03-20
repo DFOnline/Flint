@@ -5,7 +5,6 @@ import dev.dfonline.flint.feature.trait.FeatureTrait;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public interface FeatureRegistrationCallback {

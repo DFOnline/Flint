@@ -20,7 +20,7 @@ public class FlintCommandFeature implements CommandFeature {
 
     @Override
     public LiteralArgumentBuilder<FabricClientCommandSource> createCommand(LiteralArgumentBuilder<FabricClientCommandSource> cmd, CommandRegistryAccess registryAccess) {
-        return cmd.executes(context ->{
+        return cmd.executes(context -> {
             Flint.getUser().sendMessage(new CompoundMessage(
                     new SuccessMessage("flint.command.flint"),
                     new SoundMessage(FSound.builder()
