@@ -44,20 +44,12 @@ Flint.getUser().
 
 sendMessage(new CompoundMessage(
         new SuccessMessage("my_mod.awesome_success"),
-        new
-
-SoundMessage(FSound.builder()
-                .
-
-soundEvent(SoundEvents.ENTITY_PLAYER_LEVELUP)
-                .
-
-pitch(1.5F)
-                .
-
-build()
+        new SoundMessage(FSound.builder()
+                .soundEvent(SoundEvents.ENTITY_PLAYER_LEVELUP)
+                .pitch(1.5F)
+                .build()
         )
-                ));
+));
 ```
 
 ### Color Palette
