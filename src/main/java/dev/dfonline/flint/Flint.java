@@ -6,11 +6,13 @@ import dev.dfonline.flint.feature.impl.ModeTrackerFeature;
 import dev.dfonline.flint.feature.impl.command.FlintCommandFeature;
 import dev.dfonline.flint.feature.trait.CommandFeature;
 import dev.dfonline.flint.feature.trait.FeatureTraitType;
+import dev.dfonline.flint.feature.trait.RenderedFeature;
 import dev.dfonline.flint.feature.trait.TickableFeature;
 import dev.dfonline.flint.util.Logger;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.MinecraftClient;
 
 import java.util.List;
@@ -58,6 +60,12 @@ public class Flint implements ClientModInitializer {
                 ((CommandFeature) feature).onEnable(dispatcher, registryAccess);
             });
         });
+
+        HudRenderCallback.EVENT.register(((drawContext, renderTickCounter) ->
+                FEATURE_MANAGER.getByTrait(FeatureTraitType.RENDERED).forEach(feature -> {
+                    ((RenderedFeature) feature).render(drawContext, renderTickCounter);
+                })
+        ));
 
     }
 

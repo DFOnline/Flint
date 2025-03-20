@@ -5,8 +5,7 @@
   "compatibilityLevel": "JAVA_21",
   "client": [
     "MClientCommonPlayNetworkHandler",
-    "MClientConnection",
-    "MInGameHud"
+    "MClientConnection"
   ],
   "injectors": {
     "defaultRequire": 1
