@@ -47,25 +47,26 @@ public class Flint implements ClientModInitializer {
         // Let listeners register their features.
         FeatureRegistrationCallback.EVENT.invoker().getFeatures();
 
-        // Let ticking features tick.
-        ClientTickEvents.START_CLIENT_TICK.register(client -> {
-            FEATURE_MANAGER.getByTrait(FeatureTraitType.TICKABLE).forEach(feature -> {
-                ((TickableFeature) feature).tick();
-            });
-        });
+        // Ticking features.
+        ClientTickEvents.START_CLIENT_TICK.register(client ->
+                FEATURE_MANAGER.getByTrait(FeatureTraitType.TICKABLE).forEach(feature ->
+                        ((TickableFeature) feature).tick()
+                )
+        );
 
-        // Let command features register their commands.
-        ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
-            FEATURE_MANAGER.getByTrait(FeatureTraitType.COMMAND).forEach(feature -> {
-                ((CommandFeature) feature).onEnable(dispatcher, registryAccess);
-            });
-        });
+        // Command features.
+        ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) ->
+                FEATURE_MANAGER.getByTrait(FeatureTraitType.COMMAND).forEach(feature ->
+                        ((CommandFeature) feature).onEnable(dispatcher, registryAccess)
+                )
+        );
 
-        HudRenderCallback.EVENT.register(((drawContext, renderTickCounter) ->
-                FEATURE_MANAGER.getByTrait(FeatureTraitType.RENDERED).forEach(feature -> {
-                    ((RenderedFeature) feature).render(drawContext, renderTickCounter);
-                })
-        ));
+        // Rendered features.
+        HudRenderCallback.EVENT.register((drawContext, renderTickCounter) ->
+                FEATURE_MANAGER.getByTrait(FeatureTraitType.RENDERED).forEach(feature ->
+                        ((RenderedFeature) feature).render(drawContext, renderTickCounter)
+                )
+        );
 
     }
 
