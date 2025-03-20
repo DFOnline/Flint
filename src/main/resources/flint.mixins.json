@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "dev.dfonline.flint.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "MClientCommonPlayNetworkHandler",
+    "MClientConnection",
+    "MInGameHud"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

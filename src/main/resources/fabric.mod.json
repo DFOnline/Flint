@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "flint",
+  "version": "${version}",
+
+  "name": "Flint",
+  "description": "",
+  "authors": [],
+  "contact": {},
+
+  "license": "LGPL-3.0",
+  "icon": "assets/flint/icon.png",
+
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "dev.dfonline.flint.Flint"
+    ]
+  },
+
+  "mixins": [
+    "flint.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}

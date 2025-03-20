@@ -1,0 +1,46 @@
+package dev.dfonline.flint;
+
+import dev.dfonline.flint.plot.Mode;
+import dev.dfonline.flint.plot.Plot;
+import dev.dfonline.flint.util.message.Message;
+import net.minecraft.client.network.ClientPlayerEntity;
+import org.jetbrains.annotations.ApiStatus;
+
+/**
+ * Stores additional information about the client player.
+ */
+public final class User {
+
+    private Mode mode;
+    private Plot plot;
+
+    public Mode getMode() {
+        return mode;
+    }
+
+    public ClientPlayerEntity getPlayer() {
+        ClientPlayerEntity player = Flint.getClient().player;
+
+        assert player != null : "Player is null";
+        return player;
+    }
+
+    @ApiStatus.Internal
+    public void setMode(Mode mode) {
+        this.mode = mode;
+    }
+
+    public Plot getPlot() {
+        return plot;
+    }
+
+    @ApiStatus.Internal
+    public void setPlot(Plot plot) {
+        this.plot = plot;
+    }
+
+    public void sendMessage(Message message) {
+        message.send();
+    }
+
+}
