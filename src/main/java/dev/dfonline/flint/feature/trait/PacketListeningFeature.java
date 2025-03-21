@@ -4,13 +4,10 @@ import net.minecraft.network.packet.Packet;
 
 public interface PacketListeningFeature extends FeatureTrait {
 
-    PacketResult onReceivePacket(Packet<?> packet);
-
-    PacketResult onSendPacket(Packet<?> packet);
-
-    enum PacketResult {
-        CANCEL,
-        PASS
+    default Result onReceivePacket(Packet<?> packet) {
+        return Result.PASS;
     }
-
+    default Result onSendPacket(Packet<?> packet) {
+        return Result.PASS;
+    }
 }

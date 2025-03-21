@@ -3,6 +3,7 @@ package dev.dfonline.flint.mixin;
 import dev.dfonline.flint.Flint;
 import dev.dfonline.flint.feature.trait.FeatureTraitType;
 import dev.dfonline.flint.feature.trait.PacketListeningFeature;
+import dev.dfonline.flint.feature.trait.Result;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.network.listener.PacketListener;
 import net.minecraft.network.packet.Packet;
@@ -19,7 +20,7 @@ public class MClientConnection {
         Flint.FEATURE_MANAGER.getByTrait(FeatureTraitType.PACKET_LISTENING).forEach(feature -> {
             var result = ((PacketListeningFeature) feature).onReceivePacket(packet);
 
-            if (result == PacketListeningFeature.PacketResult.CANCEL) {
+            if (result == Result.CANCEL) {
                 ci.cancel();
             }
         });

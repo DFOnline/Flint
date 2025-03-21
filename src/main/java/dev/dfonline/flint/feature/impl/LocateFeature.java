@@ -1,6 +1,7 @@
 package dev.dfonline.flint.feature.impl;
 
 import dev.dfonline.flint.feature.trait.PacketListeningFeature;
+import dev.dfonline.flint.feature.trait.Result;
 import dev.dfonline.flint.hypercube.Mode;
 import dev.dfonline.flint.hypercube.Node;
 import dev.dfonline.flint.hypercube.Plot;
@@ -62,13 +63,13 @@ public class LocateFeature implements PacketListeningFeature {
     }
 
     @Override
-    public PacketResult onReceivePacket(Packet<?> packet) {
+    public Result onReceivePacket(Packet<?> packet) {
         if (!(packet instanceof GameMessageS2CPacket message)) {
-            return PacketResult.PASS;
+            return Result.PASS;
         }
 
         if (locateRequests.isEmpty() || !awaitingResponse) {
-            return PacketResult.PASS;
+            return Result.PASS;
         }
 
         Pair<String, CompletableFuture<LocateResult>> currentRequest = locateRequests.peek();
@@ -79,13 +80,13 @@ public class LocateFeature implements PacketListeningFeature {
         Matcher matcher = LOCATE_PATTERN.matcher(Formatting.strip(text));
 
         if (!matcher.find()) {
-            return PacketResult.PASS;
+            return Result.PASS;
         }
 
         LocateResult result = this.parseLocateResponse(matcher, playerName);
 
         if (result == null) {
-            return PacketResult.PASS;
+            return Result.PASS;
         }
 
         locateRequests.poll();
@@ -94,7 +95,7 @@ public class LocateFeature implements PacketListeningFeature {
 
         processNextRequestIfReady();
 
-        return PacketResult.CANCEL;
+        return Result.CANCEL;
     }
 
     private LocateResult parseLocateResponse(Matcher matcher, String playerName) {
@@ -138,8 +139,8 @@ public class LocateFeature implements PacketListeningFeature {
     }
 
     @Override
-    public PacketResult onSendPacket(Packet<?> packet) {
-        return PacketResult.PASS;
+    public Result onSendPacket(Packet<?> packet) {
+        return Result.PASS;
     }
 
     public record LocateResult(String player, Mode mode, @Nullable Plot plot, Node node) {

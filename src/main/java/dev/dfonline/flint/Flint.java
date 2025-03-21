@@ -2,20 +2,14 @@ package dev.dfonline.flint;
 
 import dev.dfonline.flint.event.FeatureRegistrationCallback;
 import dev.dfonline.flint.feature.FeatureManager;
-import dev.dfonline.flint.feature.impl.CommandSender;
-import dev.dfonline.flint.feature.impl.FlintCommandFeature;
-import dev.dfonline.flint.feature.impl.LocateFeature;
-import dev.dfonline.flint.feature.impl.ModeTrackerFeature;
-import dev.dfonline.flint.feature.impl.PacketLoggerFeature;
-import dev.dfonline.flint.feature.trait.CommandFeature;
-import dev.dfonline.flint.feature.trait.FeatureTraitType;
-import dev.dfonline.flint.feature.trait.RenderedFeature;
-import dev.dfonline.flint.feature.trait.TickedFeature;
+import dev.dfonline.flint.feature.impl.*;
+import dev.dfonline.flint.feature.trait.*;
 import dev.dfonline.flint.util.Logger;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import net.kyori.adventure.platform.modcommon.MinecraftAudiences;
 import net.kyori.adventure.platform.modcommon.MinecraftClientAudiences;
 import net.minecraft.client.MinecraftClient;
@@ -86,6 +80,79 @@ public class Flint implements ClientModInitializer {
                 )
         );
 
+        worldRenderCallbacks();
+    }
+
+    private void worldRenderCallbacks() {
+        WorldRenderEvents.LAST.register(worldRenderContext -> {
+            FEATURE_MANAGER.getByTrait(FeatureTraitType.WORLD_RENDER).forEach(
+                    feature -> ((WorldRenderFeature) feature).worldRenderLast(worldRenderContext)
+            );
+        });
+
+        WorldRenderEvents.END.register(worldRenderContext -> {
+            FEATURE_MANAGER.getByTrait(FeatureTraitType.WORLD_RENDER).forEach(
+                    feature -> ((WorldRenderFeature) feature).worldRenderEnd(worldRenderContext)
+            );
+        });
+
+        WorldRenderEvents.BEFORE_BLOCK_OUTLINE.register((worldRenderContext, hitResult) -> {
+            boolean shouldRender = true;
+            for (var feature : FEATURE_MANAGER.getByTrait(FeatureTraitType.WORLD_RENDER)) {
+                if (((WorldRenderFeature) feature).worldRenderBeforeBlockOutline(worldRenderContext, hitResult) == Result.CANCEL) {
+                    shouldRender = false;
+                }
+            }
+
+            return shouldRender;
+        });
+
+        WorldRenderEvents.BEFORE_ENTITIES.register(worldRenderContext -> {
+            FEATURE_MANAGER.getByTrait(FeatureTraitType.WORLD_RENDER).forEach(feature -> {
+                ((WorldRenderFeature) feature).worldRenderBeforeEntities(worldRenderContext);
+            });
+        });
+
+        WorldRenderEvents.AFTER_ENTITIES.register(worldRenderContext -> {
+            FEATURE_MANAGER.getByTrait(FeatureTraitType.WORLD_RENDER).forEach(feature -> {
+                ((WorldRenderFeature) feature).worldRenderAfterEntities(worldRenderContext);
+            });
+        });
+
+        WorldRenderEvents.AFTER_SETUP.register(worldRenderContext -> {
+            FEATURE_MANAGER.getByTrait(FeatureTraitType.WORLD_RENDER).forEach(feature -> {
+                        ((WorldRenderFeature) feature).worldRenderAfterSetup(worldRenderContext);
+            });
+        });
+
+        WorldRenderEvents.AFTER_TRANSLUCENT.register(worldRenderContext -> {
+            FEATURE_MANAGER.getByTrait(FeatureTraitType.WORLD_RENDER).forEach(feature -> {
+                ((WorldRenderFeature) feature).worldRenderAfterTranslucent(worldRenderContext);
+            });
+        });
+
+        WorldRenderEvents.BEFORE_DEBUG_RENDER.register(worldRenderContext -> {
+            FEATURE_MANAGER.getByTrait(FeatureTraitType.WORLD_RENDER).forEach(feature -> {
+                ((WorldRenderFeature) feature).worldRenderBeforeDebugRender(worldRenderContext);
+            });
+        });
+
+        WorldRenderEvents.BLOCK_OUTLINE.register((worldRenderContext, blockOutlineContext) -> {
+            boolean shouldRender = true;
+            for (var feature : FEATURE_MANAGER.getByTrait(FeatureTraitType.WORLD_RENDER)) {
+                if (((WorldRenderFeature) feature).worldRenderBlockOutline(worldRenderContext, blockOutlineContext) == Result.CANCEL) {
+                    shouldRender = false;
+                }
+            }
+
+            return shouldRender;
+        });
+
+        WorldRenderEvents.START.register(worldRenderContext -> {
+            FEATURE_MANAGER.getByTrait(FeatureTraitType.WORLD_RENDER).forEach(feature -> {
+                ((WorldRenderFeature) feature).worldRenderStart(worldRenderContext);
+            });
+        });
     }
 
 }

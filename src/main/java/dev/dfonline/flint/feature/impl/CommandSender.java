@@ -2,6 +2,7 @@ package dev.dfonline.flint.feature.impl;
 
 import dev.dfonline.flint.Flint;
 import dev.dfonline.flint.feature.trait.PacketListeningFeature;
+import dev.dfonline.flint.feature.trait.Result;
 import dev.dfonline.flint.feature.trait.TickedFeature;
 import dev.dfonline.flint.util.RateLimiter;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
@@ -44,17 +45,17 @@ public final class CommandSender implements PacketListeningFeature, TickedFeatur
     }
 
     @Override
-    public PacketResult onReceivePacket(Packet<?> packet) {
-        return PacketResult.PASS;
+    public Result onReceivePacket(Packet<?> packet) {
+        return Result.PASS;
     }
 
     @Override
-    public PacketResult onSendPacket(Packet<?> packet) {
+    public Result onSendPacket(Packet<?> packet) {
         if (packet instanceof CommandExecutionC2SPacket || packet instanceof ChatMessageC2SPacket) {
             rateLimiter.increment();
         }
 
-        return PacketResult.PASS;
+        return Result.PASS;
     }
 
 }
