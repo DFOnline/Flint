@@ -1,7 +1,7 @@
 package dev.dfonline.flint;
 
-import dev.dfonline.flint.plot.Mode;
-import dev.dfonline.flint.plot.Plot;
+import dev.dfonline.flint.hypercube.Mode;
+import dev.dfonline.flint.hypercube.Plot;
 import dev.dfonline.flint.util.message.Message;
 import net.minecraft.client.network.ClientPlayerEntity;
 import org.jetbrains.annotations.ApiStatus;

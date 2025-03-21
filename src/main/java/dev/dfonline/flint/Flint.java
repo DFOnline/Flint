@@ -2,9 +2,11 @@ package dev.dfonline.flint;
 
 import dev.dfonline.flint.event.FeatureRegistrationCallback;
 import dev.dfonline.flint.feature.FeatureManager;
+import dev.dfonline.flint.feature.impl.CommandSender;
+import dev.dfonline.flint.feature.impl.FlintCommandFeature;
+import dev.dfonline.flint.feature.impl.LocateFeature;
 import dev.dfonline.flint.feature.impl.ModeTrackerFeature;
 import dev.dfonline.flint.feature.impl.PacketLoggerFeature;
-import dev.dfonline.flint.feature.impl.command.FlintCommandFeature;
 import dev.dfonline.flint.feature.trait.CommandFeature;
 import dev.dfonline.flint.feature.trait.FeatureTraitType;
 import dev.dfonline.flint.feature.trait.RenderedFeature;
@@ -14,6 +16,8 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+import net.kyori.adventure.platform.modcommon.MinecraftAudiences;
+import net.kyori.adventure.platform.modcommon.MinecraftClientAudiences;
 import net.minecraft.client.MinecraftClient;
 
 import java.util.List;
@@ -22,10 +26,13 @@ public class Flint implements ClientModInitializer {
 
     public static final String MOD_ID = "flint";
     public static final String MOD_NAME = "Flint";
-    public static final FeatureManager FEATURE_MANAGER = new FeatureManager();
     private static final Logger LOGGER = Logger.of(Flint.class);
+
+    public static final FeatureManager FEATURE_MANAGER = new FeatureManager();
     private static final MinecraftClient CLIENT = MinecraftClient.getInstance();
     private static final User user = new User();
+
+    public static final MinecraftAudiences AUDIENCE = MinecraftClientAudiences.builder().build();
 
     public static MinecraftClient getClient() {
         return CLIENT;
@@ -39,10 +46,21 @@ public class Flint implements ClientModInitializer {
     public void onInitializeClient() {
         LOGGER.info("Sparking it up");
 
+        // FlintAPI.setDebugging(true);
+        FlintAPI.confirmLocationWithLocate();
+
         // Register our features for when the event is fired.
         FeatureRegistrationCallback.EVENT.register(() -> List.of(
-                new FlintCommandFeature(),
-                new ModeTrackerFeature()
+                // Debug
+                new PacketLoggerFeature(),
+
+                // Systems
+                new CommandSender(),
+                new LocateFeature(),
+
+                // Functionality
+                new ModeTrackerFeature(),
+                new FlintCommandFeature()
         ));
 
         // Let listeners register their features.
