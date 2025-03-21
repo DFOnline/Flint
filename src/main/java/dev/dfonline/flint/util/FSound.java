@@ -27,7 +27,7 @@ public final class FSound {
     private final SoundCategory source;
 
     public FSound(Builder builder) {
-        this.soundEvent = builder.soundEvent;
+        this.soundEvent = builder.sound;
         this.volume = builder.volume;
         this.pitch = builder.pitch;
         this.source = builder.source;
@@ -55,27 +55,27 @@ public final class FSound {
 
     public static class Builder {
 
-        private SoundEvent soundEvent;
+        private SoundEvent sound;
         private float volume = 1.0F;
         private float pitch = 1.0F;
         private SoundCategory source = SoundCategory.MASTER;
 
-        public Builder soundEvent(SoundEvent soundEvent) {
-            this.soundEvent = soundEvent;
+        public Builder setSound(SoundEvent sound) {
+            this.sound = sound;
             return this;
         }
 
-        public Builder volume(float volume) {
+        public Builder setVolume(float volume) {
             this.volume = volume;
             return this;
         }
 
-        public Builder pitch(float pitch) {
+        public Builder setPitch(float pitch) {
             this.pitch = pitch;
             return this;
         }
 
-        public Builder source(SoundCategory source) {
+        public Builder setSource(SoundCategory source) {
             this.source = source;
             return this;
         }

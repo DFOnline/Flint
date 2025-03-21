@@ -8,7 +8,7 @@ public record SoundMessage(FSound sound) implements Message {
 
     @Override
     public void send() {
-        Flint.getUser().getPlayer().playSoundToPlayer(sound.getSoundEvent(), sound.getSource(), sound.getVolume(), sound.getPitch());
+        Flint.getUser().getPlayer().playSoundToPlayer(this.sound.getSoundEvent(), this.sound.getSource(), this.sound.getVolume(), this.sound.getPitch());
     }
 
 }

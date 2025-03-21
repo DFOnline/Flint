@@ -8,8 +8,9 @@ import net.fabricmc.fabric.api.event.EventFactory;
 import java.util.List;
 
 public interface FeatureRegistrationCallback {
+
     Event<FeatureRegistrationCallback> EVENT = EventFactory.createArrayBacked(FeatureRegistrationCallback.class,
-            (listeners) -> () -> {
+            listeners -> {
                 for (FeatureRegistrationCallback listener : listeners) {
                     List<FeatureTrait> features = listener.getFeatures();
                     for (FeatureTrait feature : features) {
@@ -17,7 +18,9 @@ public interface FeatureRegistrationCallback {
                     }
                 }
                 return null;
-            });
+            }
+    );
 
     List<FeatureTrait> getFeatures();
+
 }

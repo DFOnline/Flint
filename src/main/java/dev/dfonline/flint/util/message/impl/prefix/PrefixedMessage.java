@@ -18,9 +18,9 @@ public class PrefixedMessage implements Message {
     public void send() {
         Flint.getUser().getPlayer().sendMessage(
                 Component.empty()
-                        .append(prefix)
+                        .append(this.prefix)
                         .appendSpace()
-                        .append(message)
+                        .append(this.message)
         );
     }
 

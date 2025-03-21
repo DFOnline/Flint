@@ -16,11 +16,11 @@ public enum Mode {
     }
 
     public boolean isInPlot() {
-        return inPlot;
+        return this.inPlot;
     }
 
     public boolean isEditor() {
-        return isEditor;
+        return this.isEditor;
     }
 
 }

@@ -1,10 +1,11 @@
 package dev.dfonline.flint.feature.trait;
 
 /**
- * Represents the type of a feature trait.
+ * Represents the type of feature trait.
  */
 public enum FeatureTraitType {
-    TICKABLE(0, TickableFeature.class),
+
+    TICKED(0, TickedFeature.class),
     RENDERED(1, RenderedFeature.class),
     COMMAND(2, CommandFeature.class),
     PACKET_LISTENING(3, PacketListeningFeature.class);
@@ -18,10 +19,11 @@ public enum FeatureTraitType {
     }
 
     public int getIndex() {
-        return index;
+        return this.index;
     }
 
     public Class<? extends FeatureTrait> getFeatureClass() {
-        return featureClass;
+        return this.featureClass;
     }
+
 }

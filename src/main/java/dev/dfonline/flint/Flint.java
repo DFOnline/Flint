@@ -3,11 +3,12 @@ package dev.dfonline.flint;
 import dev.dfonline.flint.event.FeatureRegistrationCallback;
 import dev.dfonline.flint.feature.FeatureManager;
 import dev.dfonline.flint.feature.impl.ModeTrackerFeature;
+import dev.dfonline.flint.feature.impl.PacketLoggerFeature;
 import dev.dfonline.flint.feature.impl.command.FlintCommandFeature;
 import dev.dfonline.flint.feature.trait.CommandFeature;
 import dev.dfonline.flint.feature.trait.FeatureTraitType;
 import dev.dfonline.flint.feature.trait.RenderedFeature;
-import dev.dfonline.flint.feature.trait.TickableFeature;
+import dev.dfonline.flint.feature.trait.TickedFeature;
 import dev.dfonline.flint.util.Logger;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
@@ -49,8 +50,8 @@ public class Flint implements ClientModInitializer {
 
         // Ticking features.
         ClientTickEvents.START_CLIENT_TICK.register(client ->
-                FEATURE_MANAGER.getByTrait(FeatureTraitType.TICKABLE).forEach(feature ->
-                        ((TickableFeature) feature).tick()
+                FEATURE_MANAGER.getByTrait(FeatureTraitType.TICKED).forEach(feature ->
+                        ((TickedFeature) feature).tick()
                 )
         );
 

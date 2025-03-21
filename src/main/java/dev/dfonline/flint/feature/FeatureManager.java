@@ -22,9 +22,9 @@ public class FeatureManager {
      */
     @SuppressWarnings("unchecked")
     public FeatureManager() {
-        featureLists = new List[FeatureTraitType.values().length];
-        for (int i = 0; i < featureLists.length; i++) {
-            featureLists[i] = new ArrayList<>();
+        this.featureLists = new List[FeatureTraitType.values().length];
+        for (int i = 0; i < this.featureLists.length; i++) {
+            this.featureLists[i] = new ArrayList<>();
         }
     }
 
@@ -37,7 +37,7 @@ public class FeatureManager {
     public void register(FeatureTrait feature) {
         for (FeatureTraitType trait : FeatureTraitType.values()) {
             if (trait.getFeatureClass().isInstance(feature)) {
-                featureLists[trait.getIndex()].add(feature);
+                this.featureLists[trait.getIndex()].add(feature);
             }
         }
     }
@@ -49,7 +49,7 @@ public class FeatureManager {
      */
     public void registerAll(FeatureTrait... features) {
         for (FeatureTrait feature : features) {
-            register(feature);
+            this.register(feature);
         }
     }
 
@@ -62,7 +62,7 @@ public class FeatureManager {
      */
     @SuppressWarnings("unchecked")
     public <T extends FeatureTrait> List<T> getByTrait(FeatureTraitType trait) {
-        return (List<T>) featureLists[trait.getIndex()];
+        return (List<T>) this.featureLists[trait.getIndex()];
     }
 
 }

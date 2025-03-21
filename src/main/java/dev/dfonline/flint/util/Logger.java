@@ -36,19 +36,19 @@ public final class Logger {
     }
 
     public void info(String message, Object... args) {
-        logger.info(message, args);
+        this.logger.info(message, args);
     }
 
     public void warn(String message, Object... args) {
-        logger.warn(message, args);
+        this.logger.warn(message, args);
     }
 
     public void error(String message, Object... args) {
-        logger.error(message, args);
+        this.logger.error(message, args);
     }
 
     public void error(String message, Throwable throwable) {
-        logger.error(message, throwable);
+        this.logger.error(message, throwable);
     }
 
 }

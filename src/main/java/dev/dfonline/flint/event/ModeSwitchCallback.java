@@ -7,8 +7,9 @@ import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 
 public interface ModeSwitchCallback {
+
     Event<ModeSwitchCallback> EVENT = EventFactory.createArrayBacked(ModeSwitchCallback.class,
-            (listeners) -> (plot, newMode, oldMode) -> {
+            listeners -> (plot, newMode, oldMode) -> {
                 Flint.getUser().setPlot(plot);
                 Flint.getUser().setMode(newMode);
 
@@ -18,4 +19,5 @@ public interface ModeSwitchCallback {
             });
 
     void switchMode(Plot plot, Mode newMode, Mode oldMode);
+
 }

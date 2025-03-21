@@ -22,7 +22,7 @@ public final class User {
     }
 
     public Mode getMode() {
-        return mode;
+        return this.mode;
     }
 
     @ApiStatus.Internal
@@ -31,7 +31,7 @@ public final class User {
     }
 
     public Plot getPlot() {
-        return plot;
+        return this.plot;
     }
 
     @ApiStatus.Internal

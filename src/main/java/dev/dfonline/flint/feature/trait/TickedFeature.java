@@ -1,6 +1,6 @@
 package dev.dfonline.flint.feature.trait;
 
-public interface TickableFeature extends FeatureTrait {
+public interface TickedFeature extends FeatureTrait {
 
     void tick();
 

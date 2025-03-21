@@ -7,7 +7,7 @@ import net.kyori.adventure.text.format.TextDecoration;
 
 public class InfoMessage extends PrefixedMessage {
 
-    private static final Component INFO_PREFIX = Component.text("»", PaletteColor.SKY_LIGHT, TextDecoration.ITALIC);
+    private static final Component INFO_PREFIX = Component.text("»", PaletteColor.SKY_LIGHT, TextDecoration.BOLD);
 
     public InfoMessage(String key, ComponentLike... args) {
         super(INFO_PREFIX, Component.translatable(key, args));

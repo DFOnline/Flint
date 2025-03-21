@@ -5,7 +5,7 @@ public record Plot(String id) {
     @Override
     public String toString() {
         return "Plot{" +
-                "id='" + id + '\'' +
+                "id='" + this.id + '\'' +
                 '}';
     }
 

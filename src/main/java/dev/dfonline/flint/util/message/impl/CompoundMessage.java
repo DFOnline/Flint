@@ -6,7 +6,7 @@ public record CompoundMessage(Message... components) implements Message {
 
     @Override
     public void send() {
-        for (Message component : components) {
+        for (Message component : this.components) {
             component.send();
         }
     }

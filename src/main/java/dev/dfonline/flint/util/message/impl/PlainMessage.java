@@ -17,7 +17,7 @@ public class PlainMessage implements Message {
 
     @Override
     public void send() {
-        Flint.getUser().getPlayer().sendMessage(Component.translatable(key, args));
+        Flint.getUser().getPlayer().sendMessage(Component.translatable(this.key, this.args));
     }
 
 }
