@@ -2,6 +2,8 @@ package dev.dfonline.flint.mixin;
 
 import dev.dfonline.flint.Flint;
 import dev.dfonline.flint.feature.trait.*;
+import dev.dfonline.flint.feature.trait.results.ReplaceEventResult;
+import dev.dfonline.flint.feature.trait.results.Result;
 import net.minecraft.client.network.ClientCommonNetworkHandler;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.c2s.play.CommandExecutionC2SPacket;

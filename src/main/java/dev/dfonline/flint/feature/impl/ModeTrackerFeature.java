@@ -3,7 +3,7 @@ package dev.dfonline.flint.feature.impl;
 import dev.dfonline.flint.Flint;
 import dev.dfonline.flint.FlintAPI;
 import dev.dfonline.flint.feature.trait.PacketListeningFeature;
-import dev.dfonline.flint.feature.trait.Result;
+import dev.dfonline.flint.feature.trait.results.Result;
 import dev.dfonline.flint.hypercube.Mode;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.ClearTitleS2CPacket;

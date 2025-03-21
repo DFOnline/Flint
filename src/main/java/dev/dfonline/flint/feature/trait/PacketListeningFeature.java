@@ -1,5 +1,6 @@
 package dev.dfonline.flint.feature.trait;
 
+import dev.dfonline.flint.feature.trait.results.Result;
 import net.minecraft.network.packet.Packet;
 
 public interface PacketListeningFeature extends FeatureTrait {

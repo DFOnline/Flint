@@ -1,7 +1,7 @@
 package dev.dfonline.flint.feature.impl;
 
 import dev.dfonline.flint.feature.trait.PacketListeningFeature;
-import dev.dfonline.flint.feature.trait.Result;
+import dev.dfonline.flint.feature.trait.results.Result;
 import dev.dfonline.flint.hypercube.Mode;
 import dev.dfonline.flint.hypercube.Node;
 import dev.dfonline.flint.hypercube.Plot;

@@ -3,6 +3,7 @@ package dev.dfonline.flint;
 import dev.dfonline.flint.feature.FeatureManager;
 import dev.dfonline.flint.feature.impl.*;
 import dev.dfonline.flint.feature.trait.*;
+import dev.dfonline.flint.feature.trait.results.Result;
 import dev.dfonline.flint.util.Logger;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
