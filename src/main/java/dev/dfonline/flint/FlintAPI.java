@@ -1,5 +1,7 @@
 package dev.dfonline.flint;
 
+import dev.dfonline.flint.feature.trait.FeatureTrait;
+
 public final class FlintAPI {
 
     private static boolean confirmLocationWithLocate = false;
@@ -46,6 +48,24 @@ public final class FlintAPI {
      */
     public static boolean isDebugging() {
         return debugging;
+    }
+
+    /**
+     * Register a feature with Flint, call this on your mod's initialization method.
+     *
+     * @param feature The feature to register.
+     */
+    public static void registerFeature(FeatureTrait feature) {
+        Flint.FEATURE_MANAGER.register(feature);
+    }
+
+    /**
+     * Register multiple features with Flint, call this on your mod's initialization method.
+     *
+     * @param features The features to register.
+     */
+    public static void registerFeatures(FeatureTrait features) {
+        Flint.FEATURE_MANAGER.registerAll(features);
     }
 
 }
