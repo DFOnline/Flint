@@ -15,7 +15,11 @@ Mods can define features, classes that implement a **FeatureTrait**.
 - **CommandFeature** - Lets a feature register a command with aliases.
 - **PacketListeningFeature** - Lets a feature listening to incoming and outgoing packets
 - **RenderedFeature** - Lets a packet run code when a frame is rendered
-- **TickableFeature** - Lets a feature run code every tick
+- **TickedFeature** - Lets a feature run code every tick
+- **UserCommandListeningFeature** - Allows you to run code when the player runs a command,
+                                    additionally allowing you to modify or cancel the command.
+- **UserMessageListeningFeature** - Allows you to run code when the player sends a message, 
+                                    additionally allowing you to modify or cancel the message.
 
 #### Registering features
 
