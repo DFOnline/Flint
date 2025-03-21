@@ -26,13 +26,12 @@ public class Flint implements ClientModInitializer {
 
     public static final String MOD_ID = "flint";
     public static final String MOD_NAME = "Flint";
-    private static final Logger LOGGER = Logger.of(Flint.class);
-
     public static final FeatureManager FEATURE_MANAGER = new FeatureManager();
+    public static final MinecraftAudiences AUDIENCE = MinecraftClientAudiences.builder().build();
+
+    private static final Logger LOGGER = Logger.of(Flint.class);
     private static final MinecraftClient CLIENT = MinecraftClient.getInstance();
     private static final User user = new User();
-
-    public static final MinecraftAudiences AUDIENCE = MinecraftClientAudiences.builder().build();
 
     public static MinecraftClient getClient() {
         return CLIENT;

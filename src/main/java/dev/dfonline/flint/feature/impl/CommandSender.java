@@ -1,4 +1,3 @@
-
 package dev.dfonline.flint.feature.impl;
 
 import dev.dfonline.flint.Flint;

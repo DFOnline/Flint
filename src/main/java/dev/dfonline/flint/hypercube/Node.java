@@ -18,9 +18,6 @@ public enum Node {
     DEV_2("dev2", "Dev 2"),
     DEV_3("dev3", "Dev 3");
 
-    private final String id;
-    private final String name;
-
     private static final Map<String, Node> ID_MAP = new HashMap<>();
     private static final Map<String, Node> NAME_MAP = new HashMap<>();
 
@@ -31,17 +28,12 @@ public enum Node {
         }
     }
 
+    private final String id;
+    private final String name;
+
     Node(String id, String name) {
         this.id = id;
         this.name = name;
-    }
-
-    public String getId() {
-        return this.id;
-    }
-
-    public String getName() {
-        return this.name;
     }
 
     public static Node fromId(String serverId) {
@@ -50,6 +42,14 @@ public enum Node {
 
     public static Node fromName(String serverName) {
         return NAME_MAP.get(serverName);
+    }
+
+    public String getId() {
+        return this.id;
+    }
+
+    public String getName() {
+        return this.name;
     }
 
 }
