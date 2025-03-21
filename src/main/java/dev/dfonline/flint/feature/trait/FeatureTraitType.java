@@ -8,7 +8,9 @@ public enum FeatureTraitType {
     TICKED(0, TickedFeature.class),
     RENDERED(1, RenderedFeature.class),
     COMMAND(2, CommandFeature.class),
-    PACKET_LISTENING(3, PacketListeningFeature.class);
+    PACKET_LISTENING(3, PacketListeningFeature.class),
+    USER_MESSAGE_LISTENING(4, UserMessageListeningFeature.class),
+    USER_COMMAND_LISTENING(5, UserCommandListeningFeature.class);
 
     private final int index;
     private final Class<? extends FeatureTrait> featureClass;
