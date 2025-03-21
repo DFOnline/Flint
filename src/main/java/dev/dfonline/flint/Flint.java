@@ -1,8 +1,16 @@
 package dev.dfonline.flint;
 
 import dev.dfonline.flint.feature.FeatureManager;
-import dev.dfonline.flint.feature.impl.*;
-import dev.dfonline.flint.feature.trait.*;
+import dev.dfonline.flint.feature.impl.CommandSender;
+import dev.dfonline.flint.feature.impl.FlintCommandFeature;
+import dev.dfonline.flint.feature.impl.LocateFeature;
+import dev.dfonline.flint.feature.impl.ModeTrackerFeature;
+import dev.dfonline.flint.feature.impl.PacketLoggerFeature;
+import dev.dfonline.flint.feature.trait.CommandFeature;
+import dev.dfonline.flint.feature.trait.FeatureTraitType;
+import dev.dfonline.flint.feature.trait.RenderedFeature;
+import dev.dfonline.flint.feature.trait.TickedFeature;
+import dev.dfonline.flint.feature.trait.WorldRenderFeature;
 import dev.dfonline.flint.feature.trait.results.Result;
 import dev.dfonline.flint.util.Logger;
 import net.fabricmc.api.ClientModInitializer;
@@ -53,6 +61,10 @@ public class Flint implements ClientModInitializer {
                 new FlintCommandFeature()
         );
 
+        this.registerEventCallbacks();
+    }
+
+    private void registerEventCallbacks() {
         // Ticking features.
         ClientTickEvents.START_CLIENT_TICK.register(client ->
                 FEATURE_MANAGER.getByTrait(FeatureTraitType.TICKED).forEach(feature ->
@@ -74,10 +86,6 @@ public class Flint implements ClientModInitializer {
                 )
         );
 
-        worldRenderCallbacks();
-    }
-
-    private void worldRenderCallbacks() {
         WorldRenderEvents.LAST.register(worldRenderContext -> {
             FEATURE_MANAGER.getByTrait(FeatureTraitType.WORLD_RENDER).forEach(
                     feature -> ((WorldRenderFeature) feature).worldRenderLast(worldRenderContext)

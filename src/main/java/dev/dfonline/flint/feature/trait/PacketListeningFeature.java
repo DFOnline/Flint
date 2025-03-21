@@ -8,7 +8,9 @@ public interface PacketListeningFeature extends FeatureTrait {
     default Result onReceivePacket(Packet<?> packet) {
         return Result.PASS;
     }
+
     default Result onSendPacket(Packet<?> packet) {
         return Result.PASS;
     }
+
 }
