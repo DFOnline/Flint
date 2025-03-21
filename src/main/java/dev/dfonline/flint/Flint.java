@@ -1,6 +1,5 @@
 package dev.dfonline.flint;
 
-import dev.dfonline.flint.event.FeatureRegistrationCallback;
 import dev.dfonline.flint.feature.FeatureManager;
 import dev.dfonline.flint.feature.impl.*;
 import dev.dfonline.flint.feature.trait.*;
@@ -13,8 +12,6 @@ import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import net.kyori.adventure.platform.modcommon.MinecraftAudiences;
 import net.kyori.adventure.platform.modcommon.MinecraftClientAudiences;
 import net.minecraft.client.MinecraftClient;
-
-import java.util.List;
 
 public class Flint implements ClientModInitializer {
 
@@ -42,8 +39,7 @@ public class Flint implements ClientModInitializer {
         // FlintAPI.setDebugging(true);
         FlintAPI.confirmLocationWithLocate();
 
-        // Register our features for when the event is fired.
-        FeatureRegistrationCallback.EVENT.register(() -> List.of(
+        FEATURE_MANAGER.registerAll(
                 // Debug
                 new PacketLoggerFeature(),
 
@@ -54,10 +50,7 @@ public class Flint implements ClientModInitializer {
                 // Functionality
                 new ModeTrackerFeature(),
                 new FlintCommandFeature()
-        ));
-
-        // Let listeners register their features.
-        FeatureRegistrationCallback.EVENT.invoker().getFeatures();
+        );
 
         // Ticking features.
         ClientTickEvents.START_CLIENT_TICK.register(client ->
