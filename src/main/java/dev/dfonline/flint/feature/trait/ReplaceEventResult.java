@@ -1,7 +1,5 @@
 package dev.dfonline.flint.feature.trait;
 
-import java.util.Optional;
-
 public class ReplaceEventResult <T> {
     public enum Type {
         PASS,
