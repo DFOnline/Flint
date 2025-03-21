@@ -4,10 +4,12 @@ import dev.dfonline.flint.feature.FeatureManager;
 import dev.dfonline.flint.feature.impl.*;
 import dev.dfonline.flint.feature.trait.*;
 import dev.dfonline.flint.feature.trait.results.Result;
+import dev.dfonline.flint.feature.trait.results.TooltipRenderFeature;
 import dev.dfonline.flint.util.Logger;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import net.kyori.adventure.platform.modcommon.MinecraftAudiences;
@@ -73,6 +75,11 @@ public class Flint implements ClientModInitializer {
                         ((RenderedFeature) feature).render(drawContext, renderTickCounter)
                 )
         );
+
+        ItemTooltipCallback.EVENT.register((itemStack, tooltipContext, tooltipType, list) -> {
+            FEATURE_MANAGER.getByTrait(FeatureTraitType.TOOLTIP_RENDER).forEach(feature ->
+                    ((TooltipRenderFeature) feature).tooltipRender(itemStack, tooltipContext, tooltipType, list));
+        });
 
         worldRenderCallbacks();
     }
