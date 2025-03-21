@@ -3,7 +3,7 @@ package dev.dfonline.flint.mixin;
 import dev.dfonline.flint.Flint;
 import dev.dfonline.flint.feature.trait.FeatureTraitType;
 import dev.dfonline.flint.feature.trait.PacketListeningFeature;
-import dev.dfonline.flint.feature.trait.results.Result;
+import dev.dfonline.flint.util.result.Result;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.network.listener.PacketListener;
 import net.minecraft.network.packet.Packet;

@@ -1,6 +1,6 @@
 package dev.dfonline.flint.feature.trait;
 
-import dev.dfonline.flint.feature.trait.results.Result;
+import dev.dfonline.flint.util.result.Result;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.minecraft.util.hit.HitResult;
 

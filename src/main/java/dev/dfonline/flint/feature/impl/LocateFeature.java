@@ -1,11 +1,11 @@
 package dev.dfonline.flint.feature.impl;
 
 import dev.dfonline.flint.feature.trait.PacketListeningFeature;
-import dev.dfonline.flint.feature.trait.results.Result;
 import dev.dfonline.flint.hypercube.Mode;
 import dev.dfonline.flint.hypercube.Node;
 import dev.dfonline.flint.hypercube.Plot;
 import dev.dfonline.flint.util.Toaster;
+import dev.dfonline.flint.util.result.Result;
 import it.unimi.dsi.fastutil.Pair;
 import net.kyori.adventure.text.Component;
 import net.minecraft.network.packet.Packet;

@@ -2,8 +2,8 @@ package dev.dfonline.flint.feature.impl;
 
 import dev.dfonline.flint.FlintAPI;
 import dev.dfonline.flint.feature.trait.PacketListeningFeature;
-import dev.dfonline.flint.feature.trait.results.Result;
 import dev.dfonline.flint.util.Logger;
+import dev.dfonline.flint.util.result.Result;
 import net.minecraft.network.packet.Packet;
 
 import java.util.List;
