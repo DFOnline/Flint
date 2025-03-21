@@ -1,7 +1,5 @@
 package dev.dfonline.flint.feature.trait;
 
-import dev.dfonline.flint.feature.trait.results.TooltipRenderFeature;
-
 /**
  * Represents the type of feature trait.
  */
