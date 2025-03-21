@@ -20,6 +20,7 @@ Mods can define features, classes that implement a **FeatureTrait**.
                                     additionally allowing you to modify or cancel the command.
 - **UserMessageListeningFeature** - Allows you to run code when the player sends a message, 
                                     additionally allowing you to modify or cancel the message.
+- **WorldRenderFeature** - Allows listening to all the different WorldRenderEvents
 
 #### Registering features
 
