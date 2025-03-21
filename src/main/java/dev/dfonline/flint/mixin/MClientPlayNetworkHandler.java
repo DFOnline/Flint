@@ -2,6 +2,7 @@ package dev.dfonline.flint.mixin;
 
 import dev.dfonline.flint.Flint;
 import dev.dfonline.flint.feature.trait.FeatureTraitType;
+import dev.dfonline.flint.feature.trait.ReplaceEventResult;
 import dev.dfonline.flint.feature.trait.UserMessageListeningFeature;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import org.spongepowered.asm.mixin.Mixin;
@@ -23,23 +24,23 @@ public class MClientPlayNetworkHandler {
             return;
         }
 
-        Optional<String> newMessage = Optional.empty();
+        String newMessage = null;
 
-        for (var trait : Flint.FEATURE_MANAGER.getByTrait(FeatureTraitType.USER_SEND_MESSAGE)) {
+        for (var trait : Flint.FEATURE_MANAGER.getByTrait(FeatureTraitType.USER_MESSAGE_LISTENING)) {
             var result = ((UserMessageListeningFeature) trait).sendMessage(message);
-            if (result.getType() == UserMessageListeningFeature.Result.Type.CANCEL) {
+            if (result.getType() == ReplaceEventResult.Type.CANCEL) {
                 ci.cancel();
             }
-            if (result.getType() == UserMessageListeningFeature.Result.Type.REPLACE) {
+            if (result.getType() == ReplaceEventResult.Type.REPLACE) {
                 ci.cancel();
-                newMessage = result.getMessage();
+                newMessage = result.getValue();
             }
         }
 
-        if (newMessage.isPresent()) {
+        if (newMessage != null) {
             ClientPlayNetworkHandler handler = (ClientPlayNetworkHandler) (Object) this;
             sending = true;
-            handler.sendChatMessage(newMessage.get());
+            handler.sendChatMessage(newMessage);
             sending = false;
         }
     }
