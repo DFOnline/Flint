@@ -11,16 +11,15 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.Optional;
-
 @Mixin(ClientPlayNetworkHandler.class)
 public class MClientPlayNetworkHandler {
+
     @Unique
     private boolean sending = false;
 
     @Inject(method = "sendChatMessage", at = @At("HEAD"), cancellable = true)
     private void sendChatMessage(String message, CallbackInfo ci) {
-        if (sending) {
+        if (this.sending) {
             return;
         }
 
@@ -39,9 +38,10 @@ public class MClientPlayNetworkHandler {
 
         if (newMessage != null) {
             ClientPlayNetworkHandler handler = (ClientPlayNetworkHandler) (Object) this;
-            sending = true;
+            this.sending = true;
             handler.sendChatMessage(newMessage);
-            sending = false;
+            this.sending = false;
         }
     }
+
 }
