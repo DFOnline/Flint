@@ -98,25 +98,6 @@ public boolean shouldShowPlotOverlay() {
 > This makes Flint run /locate every time a suspected mode change occurs.
 > Not only does this give you access to the plot the user is on, but it also makes mode tracking more accurate.
 
-### Callbacks
-
-Flint has callbacks (events) mods can listen to in addition to feature traits, this uses Fabric events and so the
-syntax.
-is:
-
-```java
-public void onInitializeClient() {
-
-  AFlintCallback.EVENT.register((the, args) -> {
-    // Do something
-  });
-
-}
-```
-
-- **ModeSwitchCallback** - Called when the user switches modes
-  - args: Mode oldMode, Mode newMode
-
 ### DFItem
 TODO
 
