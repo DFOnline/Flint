@@ -1,6 +1,5 @@
 package dev.dfonline.flint;
 
-import dev.dfonline.flint.event.ModeSwitchCallback;
 import dev.dfonline.flint.hypercube.Mode;
 import dev.dfonline.flint.hypercube.Plot;
 import dev.dfonline.flint.util.message.Message;
@@ -28,9 +27,7 @@ public final class User {
 
     @ApiStatus.Internal
     public void setMode(Mode mode) {
-        Mode oldMode = this.mode;
         this.mode = mode;
-        ModeSwitchCallback.EVENT.invoker().switchMode(mode, oldMode);
     }
 
     public Plot getPlot() {
