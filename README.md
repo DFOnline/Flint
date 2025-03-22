@@ -117,6 +117,9 @@ public void onInitializeClient() {
 - **ModeSwitchCallback** - Called when the user switches modes
   - args: Mode oldMode, Mode newMode
 
+### DFItem
+TODO
+
 ### Useful Classes
 
 #### Mode
