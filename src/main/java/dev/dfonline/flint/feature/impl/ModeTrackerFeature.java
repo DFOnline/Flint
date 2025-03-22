@@ -3,8 +3,8 @@ package dev.dfonline.flint.feature.impl;
 import dev.dfonline.flint.Flint;
 import dev.dfonline.flint.FlintAPI;
 import dev.dfonline.flint.feature.trait.PacketListeningFeature;
-import dev.dfonline.flint.feature.trait.results.Result;
 import dev.dfonline.flint.hypercube.Mode;
+import dev.dfonline.flint.util.result.Result;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.ClearTitleS2CPacket;
 import net.minecraft.network.packet.s2c.play.GameJoinS2CPacket;
@@ -71,11 +71,6 @@ public class ModeTrackerFeature implements PacketListeningFeature {
             Flint.getUser().setPlot(null);
         }
 
-        return Result.PASS;
-    }
-
-    @Override
-    public Result onSendPacket(Packet<?> packet) {
         return Result.PASS;
     }
 

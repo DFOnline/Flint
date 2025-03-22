@@ -1,13 +1,23 @@
 package dev.dfonline.flint;
 
 import dev.dfonline.flint.feature.FeatureManager;
-import dev.dfonline.flint.feature.impl.*;
-import dev.dfonline.flint.feature.trait.*;
-import dev.dfonline.flint.feature.trait.results.Result;
-import dev.dfonline.flint.feature.trait.results.TooltipRenderFeature;
+import dev.dfonline.flint.feature.impl.CommandSender;
+import dev.dfonline.flint.feature.impl.FlintCommandFeature;
+import dev.dfonline.flint.feature.impl.LocateFeature;
+import dev.dfonline.flint.feature.impl.ModeTrackerFeature;
+import dev.dfonline.flint.feature.impl.PacketLoggerFeature;
+import dev.dfonline.flint.feature.trait.CommandFeature;
+import dev.dfonline.flint.feature.trait.FeatureTraitType;
+import dev.dfonline.flint.feature.trait.RenderedFeature;
+import dev.dfonline.flint.feature.trait.ShutdownFeature;
+import dev.dfonline.flint.feature.trait.TickedFeature;
+import dev.dfonline.flint.feature.trait.TooltipRenderFeature;
+import dev.dfonline.flint.feature.trait.WorldRenderFeature;
 import dev.dfonline.flint.util.Logger;
+import dev.dfonline.flint.util.result.Result;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
@@ -55,47 +65,45 @@ public class Flint implements ClientModInitializer {
                 new FlintCommandFeature()
         );
 
-        // Ticking features.
+        this.registerEventCallbacks();
+    }
+
+    private void registerEventCallbacks() {
         ClientTickEvents.START_CLIENT_TICK.register(client ->
                 FEATURE_MANAGER.getByTrait(FeatureTraitType.TICKED).forEach(feature ->
                         ((TickedFeature) feature).tick()
                 )
         );
 
-        // Command features.
         ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) ->
                 FEATURE_MANAGER.getByTrait(FeatureTraitType.COMMAND).forEach(feature ->
                         ((CommandFeature) feature).onEnable(dispatcher, registryAccess)
                 )
         );
 
-        // Rendered features.
         HudRenderCallback.EVENT.register((drawContext, renderTickCounter) ->
                 FEATURE_MANAGER.getByTrait(FeatureTraitType.RENDERED).forEach(feature ->
                         ((RenderedFeature) feature).render(drawContext, renderTickCounter)
                 )
         );
 
-        ItemTooltipCallback.EVENT.register((itemStack, tooltipContext, tooltipType, list) -> {
-            FEATURE_MANAGER.getByTrait(FeatureTraitType.TOOLTIP_RENDER).forEach(feature ->
-                    ((TooltipRenderFeature) feature).tooltipRender(itemStack, tooltipContext, tooltipType, list));
-        });
+        ItemTooltipCallback.EVENT.register((itemStack, tooltipContext, tooltipType, list) ->
+                FEATURE_MANAGER.getByTrait(FeatureTraitType.TOOLTIP_RENDER).forEach(feature ->
+                        ((TooltipRenderFeature) feature).tooltipRender(itemStack, tooltipContext, tooltipType, list)
+                )
+        );
 
-        worldRenderCallbacks();
-    }
+        WorldRenderEvents.LAST.register(worldRenderContext ->
+                FEATURE_MANAGER.getByTrait(FeatureTraitType.WORLD_RENDER).forEach(feature ->
+                        ((WorldRenderFeature) feature).worldRenderLast(worldRenderContext)
+                )
+        );
 
-    private void worldRenderCallbacks() {
-        WorldRenderEvents.LAST.register(worldRenderContext -> {
-            FEATURE_MANAGER.getByTrait(FeatureTraitType.WORLD_RENDER).forEach(
-                    feature -> ((WorldRenderFeature) feature).worldRenderLast(worldRenderContext)
-            );
-        });
-
-        WorldRenderEvents.END.register(worldRenderContext -> {
-            FEATURE_MANAGER.getByTrait(FeatureTraitType.WORLD_RENDER).forEach(
-                    feature -> ((WorldRenderFeature) feature).worldRenderEnd(worldRenderContext)
-            );
-        });
+        WorldRenderEvents.END.register(worldRenderContext ->
+                FEATURE_MANAGER.getByTrait(FeatureTraitType.WORLD_RENDER).forEach(feature ->
+                        ((WorldRenderFeature) feature).worldRenderEnd(worldRenderContext)
+                )
+        );
 
         WorldRenderEvents.BEFORE_BLOCK_OUTLINE.register((worldRenderContext, hitResult) -> {
             boolean shouldRender = true;
@@ -108,35 +116,35 @@ public class Flint implements ClientModInitializer {
             return shouldRender;
         });
 
-        WorldRenderEvents.BEFORE_ENTITIES.register(worldRenderContext -> {
-            FEATURE_MANAGER.getByTrait(FeatureTraitType.WORLD_RENDER).forEach(feature -> {
-                ((WorldRenderFeature) feature).worldRenderBeforeEntities(worldRenderContext);
-            });
-        });
+        WorldRenderEvents.BEFORE_ENTITIES.register(worldRenderContext ->
+                FEATURE_MANAGER.getByTrait(FeatureTraitType.WORLD_RENDER).forEach(feature ->
+                        ((WorldRenderFeature) feature).worldRenderBeforeEntities(worldRenderContext)
+                )
+        );
 
-        WorldRenderEvents.AFTER_ENTITIES.register(worldRenderContext -> {
-            FEATURE_MANAGER.getByTrait(FeatureTraitType.WORLD_RENDER).forEach(feature -> {
-                ((WorldRenderFeature) feature).worldRenderAfterEntities(worldRenderContext);
-            });
-        });
+        WorldRenderEvents.AFTER_ENTITIES.register(worldRenderContext ->
+                FEATURE_MANAGER.getByTrait(FeatureTraitType.WORLD_RENDER).forEach(feature ->
+                        ((WorldRenderFeature) feature).worldRenderAfterEntities(worldRenderContext)
+                )
+        );
 
-        WorldRenderEvents.AFTER_SETUP.register(worldRenderContext -> {
-            FEATURE_MANAGER.getByTrait(FeatureTraitType.WORLD_RENDER).forEach(feature -> {
-                        ((WorldRenderFeature) feature).worldRenderAfterSetup(worldRenderContext);
-            });
-        });
+        WorldRenderEvents.AFTER_SETUP.register(worldRenderContext ->
+                FEATURE_MANAGER.getByTrait(FeatureTraitType.WORLD_RENDER).forEach(feature ->
+                        ((WorldRenderFeature) feature).worldRenderAfterSetup(worldRenderContext)
+                )
+        );
 
-        WorldRenderEvents.AFTER_TRANSLUCENT.register(worldRenderContext -> {
-            FEATURE_MANAGER.getByTrait(FeatureTraitType.WORLD_RENDER).forEach(feature -> {
-                ((WorldRenderFeature) feature).worldRenderAfterTranslucent(worldRenderContext);
-            });
-        });
+        WorldRenderEvents.AFTER_TRANSLUCENT.register(worldRenderContext ->
+                FEATURE_MANAGER.getByTrait(FeatureTraitType.WORLD_RENDER).forEach(feature ->
+                        ((WorldRenderFeature) feature).worldRenderAfterTranslucent(worldRenderContext)
+                )
+        );
 
-        WorldRenderEvents.BEFORE_DEBUG_RENDER.register(worldRenderContext -> {
-            FEATURE_MANAGER.getByTrait(FeatureTraitType.WORLD_RENDER).forEach(feature -> {
-                ((WorldRenderFeature) feature).worldRenderBeforeDebugRender(worldRenderContext);
-            });
-        });
+        WorldRenderEvents.BEFORE_DEBUG_RENDER.register(worldRenderContext ->
+                FEATURE_MANAGER.getByTrait(FeatureTraitType.WORLD_RENDER).forEach(feature ->
+                        ((WorldRenderFeature) feature).worldRenderBeforeDebugRender(worldRenderContext)
+                )
+        );
 
         WorldRenderEvents.BLOCK_OUTLINE.register((worldRenderContext, blockOutlineContext) -> {
             boolean shouldRender = true;
@@ -149,11 +157,18 @@ public class Flint implements ClientModInitializer {
             return shouldRender;
         });
 
-        WorldRenderEvents.START.register(worldRenderContext -> {
-            FEATURE_MANAGER.getByTrait(FeatureTraitType.WORLD_RENDER).forEach(feature -> {
-                ((WorldRenderFeature) feature).worldRenderStart(worldRenderContext);
-            });
-        });
+        WorldRenderEvents.START.register(worldRenderContext ->
+                FEATURE_MANAGER.getByTrait(FeatureTraitType.WORLD_RENDER).forEach(feature ->
+                        ((WorldRenderFeature) feature).worldRenderStart(worldRenderContext)
+                )
+        );
+
+        ClientLifecycleEvents.CLIENT_STOPPING.register(client ->
+                FEATURE_MANAGER.getByTrait(FeatureTraitType.SHUTDOWN).forEach(feature ->
+                        ((ShutdownFeature) feature).onShutdown()
+                )
+        );
+
     }
 
 }

@@ -1,11 +1,11 @@
 package dev.dfonline.flint.feature.impl;
 
 import dev.dfonline.flint.feature.trait.PacketListeningFeature;
-import dev.dfonline.flint.feature.trait.results.Result;
 import dev.dfonline.flint.hypercube.Mode;
 import dev.dfonline.flint.hypercube.Node;
 import dev.dfonline.flint.hypercube.Plot;
 import dev.dfonline.flint.util.Toaster;
+import dev.dfonline.flint.util.result.Result;
 import it.unimi.dsi.fastutil.Pair;
 import net.kyori.adventure.text.Component;
 import net.minecraft.network.packet.Packet;
@@ -113,6 +113,9 @@ public class LocateFeature implements PacketListeningFeature {
             case "playing" -> mode = Mode.PLAY;
             case "coding" -> mode = Mode.DEV;
             case "building" -> mode = Mode.BUILD;
+            // we assume 'existing' can only be achieved with code spectating.
+            case "existing" -> mode = Mode.CODE_SPECTATE;
+            // this is an impossible case.
             default -> mode = Mode.SPAWN;
         }
 
@@ -136,11 +139,6 @@ public class LocateFeature implements PacketListeningFeature {
         }
         boolean whitelisted = matcher.group("whitelisted") != null;
         return new Plot(plotID, plotName, plotHandle, whitelisted);
-    }
-
-    @Override
-    public Result onSendPacket(Packet<?> packet) {
-        return Result.PASS;
     }
 
     public record LocateResult(String player, Mode mode, @Nullable Plot plot, Node node) {

@@ -5,7 +5,8 @@ public enum Mode {
     SPAWN("Spawn", false, false),
     PLAY("Play", true, false),
     DEV("Dev", true, true),
-    BUILD("Build", true, true);
+    BUILD("Build", true, true),
+    CODE_SPECTATE("Code Spectate", true, false);
 
     private final String name;
     private final boolean inPlot;

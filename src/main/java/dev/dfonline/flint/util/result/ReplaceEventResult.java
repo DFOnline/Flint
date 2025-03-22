@@ -1,4 +1,4 @@
-package dev.dfonline.flint.feature.trait.results;
+package dev.dfonline.flint.util.result;
 
 public final class ReplaceEventResult<T> {
 

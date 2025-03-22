@@ -2,8 +2,8 @@ package dev.dfonline.flint.mixin;
 
 import dev.dfonline.flint.Flint;
 import dev.dfonline.flint.feature.trait.FeatureTraitType;
-import dev.dfonline.flint.feature.trait.results.ReplaceEventResult;
 import dev.dfonline.flint.feature.trait.UserMessageListeningFeature;
+import dev.dfonline.flint.util.result.ReplaceEventResult;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
