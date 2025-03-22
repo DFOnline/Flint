@@ -1,7 +1,5 @@
 package dev.dfonline.flint.feature.trait;
 
-import dev.dfonline.flint.feature.trait.results.TooltipRenderFeature;
-
 /**
  * Represents the type of feature trait.
  */
@@ -15,7 +13,7 @@ public enum FeatureTraitType {
     USER_COMMAND_LISTENING(5, UserCommandListeningFeature.class),
     WORLD_RENDER(6, WorldRenderFeature.class),
     TOOLTIP_RENDER(7, TooltipRenderFeature.class),
-
+    SHUTDOWN(8, ShutdownFeature.class),
     GAME_MESSAGE_LISTENING(9, GameMessageListeningFeature.class);
 
     private final int index;
