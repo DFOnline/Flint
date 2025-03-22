@@ -62,7 +62,7 @@ public class FeatureManager {
      */
     @SuppressWarnings("unchecked")
     public <T extends FeatureTrait> List<T> getByTrait(FeatureTraitType trait) {
-        return (List<T>) this.featureLists[trait.getIndex()];
+        return (List<T>) this.featureLists[trait.getIndex()].stream().filter(FeatureTrait::isEnabled).toList();
     }
 
 }
