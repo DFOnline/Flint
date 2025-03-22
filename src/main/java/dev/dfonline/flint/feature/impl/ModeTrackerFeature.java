@@ -4,7 +4,7 @@ import dev.dfonline.flint.Flint;
 import dev.dfonline.flint.FlintAPI;
 import dev.dfonline.flint.feature.trait.PacketListeningFeature;
 import dev.dfonline.flint.hypercube.Mode;
-import dev.dfonline.flint.util.result.Result;
+import dev.dfonline.flint.util.result.EventResult;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.ClearTitleS2CPacket;
 import net.minecraft.network.packet.s2c.play.GameJoinS2CPacket;
@@ -32,7 +32,7 @@ public class ModeTrackerFeature implements PacketListeningFeature {
     }
 
     @Override
-    public Result onReceivePacket(Packet<?> packet) {
+    public EventResult onReceivePacket(Packet<?> packet) {
 
         if (packet instanceof ClearTitleS2CPacket clear && clear.shouldReset()) {
             this.pendingAction = PendingModeSwitchAction.POSITION_CHANGE;
@@ -71,7 +71,7 @@ public class ModeTrackerFeature implements PacketListeningFeature {
             Flint.getUser().setPlot(null);
         }
 
-        return Result.PASS;
+        return EventResult.PASS;
     }
 
     private enum PendingModeSwitchAction {

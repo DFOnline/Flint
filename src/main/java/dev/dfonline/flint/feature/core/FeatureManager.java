@@ -1,7 +1,4 @@
-package dev.dfonline.flint.feature;
-
-import dev.dfonline.flint.feature.trait.FeatureTrait;
-import dev.dfonline.flint.feature.trait.FeatureTraitType;
+package dev.dfonline.flint.feature.core;
 
 import java.util.ArrayList;
 import java.util.List;

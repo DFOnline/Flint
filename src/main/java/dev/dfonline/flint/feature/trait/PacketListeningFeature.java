@@ -1,16 +1,17 @@
 package dev.dfonline.flint.feature.trait;
 
-import dev.dfonline.flint.util.result.Result;
+import dev.dfonline.flint.feature.core.FeatureTrait;
+import dev.dfonline.flint.util.result.EventResult;
 import net.minecraft.network.packet.Packet;
 
 public interface PacketListeningFeature extends FeatureTrait {
 
-    default Result onReceivePacket(Packet<?> packet) {
-        return Result.PASS;
+    default EventResult onReceivePacket(Packet<?> packet) {
+        return EventResult.PASS;
     }
 
-    default Result onSendPacket(Packet<?> packet) {
-        return Result.PASS;
+    default EventResult onSendPacket(Packet<?> packet) {
+        return EventResult.PASS;
     }
 
 }

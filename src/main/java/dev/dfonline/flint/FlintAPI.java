@@ -1,6 +1,6 @@
 package dev.dfonline.flint;
 
-import dev.dfonline.flint.feature.trait.FeatureTrait;
+import dev.dfonline.flint.feature.core.FeatureTrait;
 
 public final class FlintAPI {
 

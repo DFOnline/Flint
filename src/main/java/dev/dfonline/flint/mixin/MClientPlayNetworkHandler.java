@@ -1,9 +1,9 @@
 package dev.dfonline.flint.mixin;
 
 import dev.dfonline.flint.Flint;
-import dev.dfonline.flint.feature.trait.FeatureTraitType;
+import dev.dfonline.flint.feature.core.FeatureTraitType;
 import dev.dfonline.flint.feature.trait.UserMessageListeningFeature;
-import dev.dfonline.flint.util.result.ReplaceEventResult;
+import dev.dfonline.flint.util.result.ReplacementEventResult;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -27,10 +27,10 @@ public class MClientPlayNetworkHandler {
 
         for (var trait : Flint.FEATURE_MANAGER.getByTrait(FeatureTraitType.USER_MESSAGE_LISTENING)) {
             var result = ((UserMessageListeningFeature) trait).sendMessage(message);
-            if (result.getType() == ReplaceEventResult.Type.CANCEL) {
+            if (result.getType() == ReplacementEventResult.Type.CANCEL) {
                 ci.cancel();
             }
-            if (result.getType() == ReplaceEventResult.Type.REPLACE) {
+            if (result.getType() == ReplacementEventResult.Type.REPLACE) {
                 ci.cancel();
                 newMessage = result.getValue();
             }

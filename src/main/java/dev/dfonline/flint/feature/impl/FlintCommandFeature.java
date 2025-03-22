@@ -5,7 +5,7 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import dev.dfonline.flint.Flint;
 import dev.dfonline.flint.feature.trait.CommandFeature;
 import dev.dfonline.flint.hypercube.Plot;
-import dev.dfonline.flint.util.FSound;
+import dev.dfonline.flint.util.FlintSound;
 import dev.dfonline.flint.util.message.impl.CompoundMessage;
 import dev.dfonline.flint.util.message.impl.SoundMessage;
 import dev.dfonline.flint.util.message.impl.prefix.ErrorMessage;
@@ -31,7 +31,7 @@ public class FlintCommandFeature implements CommandFeature {
         return cmd.executes(context -> {
             Flint.getUser().sendMessage(new CompoundMessage(
                     new SuccessMessage("flint.command.flint"),
-                    new SoundMessage(FSound.builder()
+                    new SoundMessage(FlintSound.builder()
                             .setSound(SoundEvents.ENTITY_VILLAGER_YES)
                             .setPitch(2.0F)
                             .build()
@@ -51,8 +51,8 @@ public class FlintCommandFeature implements CommandFeature {
                 })
         ).then(literal("clear_queue")
                 .executes(context -> {
-                    if (CommandSender.queueSize() > 0) {
-                        CommandSender.clearQueue();
+                    if (CommandSenderFeature.queueSize() > 0) {
+                        CommandSenderFeature.clearQueue();
                         Flint.getUser().sendMessage(new SuccessMessage("flint.command.flint.clear_queue.success"));
                     } else {
                         Flint.getUser().sendMessage(new ErrorMessage("flint.command.flint.clear_queue.empty"));

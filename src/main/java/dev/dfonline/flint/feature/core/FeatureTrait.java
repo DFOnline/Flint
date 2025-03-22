@@ -1,4 +1,4 @@
-package dev.dfonline.flint.feature.trait;
+package dev.dfonline.flint.feature.core;
 
 public interface FeatureTrait {
 

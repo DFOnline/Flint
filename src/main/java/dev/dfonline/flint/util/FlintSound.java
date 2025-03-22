@@ -9,24 +9,25 @@ import net.minecraft.sound.SoundEvent;
  * <p>
  * Example:
  * <pre>
- *         FSound sound = FSound.builder()
+ *         FlintSound sound = FlintSound.builder()
  *          .soundEvent(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP)
  *          .volume(1.0F)
  *          .pitch(2.0F)
  *          .source(SoundCategory.RECORDS)
  *          .build();
  *     </pre>
- * An FSound cannot be played directly, it must be wrapped in a {@link SoundMessage MessageSoundComponent} and sent as a message.
+ * An FlintSound cannot be played directly,
+ * it must be wrapped in a {@link SoundMessage MessageSoundComponent} and sent as a message.
  * </p>
  */
-public final class FSound {
+public final class FlintSound {
 
     private final SoundEvent soundEvent;
     private final float volume;
     private final float pitch;
     private final SoundCategory source;
 
-    public FSound(Builder builder) {
+    public FlintSound(Builder builder) {
         this.soundEvent = builder.sound;
         this.volume = builder.volume;
         this.pitch = builder.pitch;
@@ -80,8 +81,8 @@ public final class FSound {
             return this;
         }
 
-        public FSound build() {
-            return new FSound(this);
+        public FlintSound build() {
+            return new FlintSound(this);
         }
 
     }

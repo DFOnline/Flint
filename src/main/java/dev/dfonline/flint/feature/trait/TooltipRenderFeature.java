@@ -1,5 +1,6 @@
 package dev.dfonline.flint.feature.trait;
 
+import dev.dfonline.flint.feature.core.FeatureTrait;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;

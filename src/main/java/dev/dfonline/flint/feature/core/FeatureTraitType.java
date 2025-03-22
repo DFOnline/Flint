@@ -1,4 +1,6 @@
-package dev.dfonline.flint.feature.trait;
+package dev.dfonline.flint.feature.core;
+
+import dev.dfonline.flint.feature.trait.*;
 
 /**
  * Represents the type of feature trait.

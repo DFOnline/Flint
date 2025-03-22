@@ -2,6 +2,7 @@ package dev.dfonline.flint.feature.trait;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import dev.dfonline.flint.feature.core.FeatureTrait;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.command.CommandRegistryAccess;
 

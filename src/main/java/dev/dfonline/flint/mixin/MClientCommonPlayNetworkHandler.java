@@ -1,11 +1,11 @@
 package dev.dfonline.flint.mixin;
 
 import dev.dfonline.flint.Flint;
-import dev.dfonline.flint.feature.trait.FeatureTraitType;
+import dev.dfonline.flint.feature.core.FeatureTraitType;
 import dev.dfonline.flint.feature.trait.PacketListeningFeature;
 import dev.dfonline.flint.feature.trait.UserCommandListeningFeature;
-import dev.dfonline.flint.util.result.ReplaceEventResult;
-import dev.dfonline.flint.util.result.Result;
+import dev.dfonline.flint.util.result.EventResult;
+import dev.dfonline.flint.util.result.ReplacementEventResult;
 import net.minecraft.client.network.ClientCommonNetworkHandler;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.c2s.play.CommandExecutionC2SPacket;
@@ -27,10 +27,10 @@ public abstract class MClientCommonPlayNetworkHandler {
             String newCommand = null;
             for (var trait : Flint.FEATURE_MANAGER.getByTrait(FeatureTraitType.USER_COMMAND_LISTENING)) {
                 var result = ((UserCommandListeningFeature) trait).sendCommand(command);
-                if (result.getType() == ReplaceEventResult.Type.CANCEL) {
+                if (result.getType() == ReplacementEventResult.Type.CANCEL) {
                     ci.cancel();
                 }
-                if (result.getType() == ReplaceEventResult.Type.REPLACE) {
+                if (result.getType() == ReplacementEventResult.Type.REPLACE) {
                     ci.cancel();
                     newCommand = result.getValue();
                 }
@@ -47,7 +47,7 @@ public abstract class MClientCommonPlayNetworkHandler {
         Flint.FEATURE_MANAGER.getByTrait(FeatureTraitType.PACKET_LISTENING).forEach(feature -> {
             var result = ((PacketListeningFeature) feature).onSendPacket(packet);
 
-            if (result == Result.CANCEL) {
+            if (result == EventResult.CANCEL) {
                 ci.cancel();
             }
         });

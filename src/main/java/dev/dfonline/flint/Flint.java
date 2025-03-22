@@ -1,20 +1,20 @@
 package dev.dfonline.flint;
 
-import dev.dfonline.flint.feature.FeatureManager;
-import dev.dfonline.flint.feature.impl.CommandSender;
+import dev.dfonline.flint.feature.core.FeatureManager;
+import dev.dfonline.flint.feature.core.FeatureTraitType;
+import dev.dfonline.flint.feature.impl.CommandSenderFeature;
 import dev.dfonline.flint.feature.impl.FlintCommandFeature;
 import dev.dfonline.flint.feature.impl.LocateFeature;
 import dev.dfonline.flint.feature.impl.ModeTrackerFeature;
 import dev.dfonline.flint.feature.impl.PacketLoggerFeature;
 import dev.dfonline.flint.feature.trait.CommandFeature;
-import dev.dfonline.flint.feature.trait.FeatureTraitType;
 import dev.dfonline.flint.feature.trait.RenderedFeature;
 import dev.dfonline.flint.feature.trait.ShutdownFeature;
 import dev.dfonline.flint.feature.trait.TickedFeature;
 import dev.dfonline.flint.feature.trait.TooltipRenderFeature;
 import dev.dfonline.flint.feature.trait.WorldRenderFeature;
 import dev.dfonline.flint.util.Logger;
-import dev.dfonline.flint.util.result.Result;
+import dev.dfonline.flint.util.result.EventResult;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
@@ -57,7 +57,7 @@ public class Flint implements ClientModInitializer {
                 new PacketLoggerFeature(),
 
                 // Systems
-                new CommandSender(),
+                new CommandSenderFeature(),
                 new LocateFeature(),
 
                 // Functionality
@@ -108,7 +108,7 @@ public class Flint implements ClientModInitializer {
         WorldRenderEvents.BEFORE_BLOCK_OUTLINE.register((worldRenderContext, hitResult) -> {
             boolean shouldRender = true;
             for (var feature : FEATURE_MANAGER.getByTrait(FeatureTraitType.WORLD_RENDER)) {
-                if (((WorldRenderFeature) feature).worldRenderBeforeBlockOutline(worldRenderContext, hitResult) == Result.CANCEL) {
+                if (((WorldRenderFeature) feature).worldRenderBeforeBlockOutline(worldRenderContext, hitResult) == EventResult.CANCEL) {
                     shouldRender = false;
                 }
             }
@@ -149,7 +149,7 @@ public class Flint implements ClientModInitializer {
         WorldRenderEvents.BLOCK_OUTLINE.register((worldRenderContext, blockOutlineContext) -> {
             boolean shouldRender = true;
             for (var feature : FEATURE_MANAGER.getByTrait(FeatureTraitType.WORLD_RENDER)) {
-                if (((WorldRenderFeature) feature).worldRenderBlockOutline(worldRenderContext, blockOutlineContext) == Result.CANCEL) {
+                if (((WorldRenderFeature) feature).worldRenderBlockOutline(worldRenderContext, blockOutlineContext) == EventResult.CANCEL) {
                     shouldRender = false;
                 }
             }

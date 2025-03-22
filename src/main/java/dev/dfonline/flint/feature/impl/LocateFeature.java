@@ -5,7 +5,7 @@ import dev.dfonline.flint.hypercube.Mode;
 import dev.dfonline.flint.hypercube.Node;
 import dev.dfonline.flint.hypercube.Plot;
 import dev.dfonline.flint.util.Toaster;
-import dev.dfonline.flint.util.result.Result;
+import dev.dfonline.flint.util.result.EventResult;
 import it.unimi.dsi.fastutil.Pair;
 import net.kyori.adventure.text.Component;
 import net.minecraft.network.packet.Packet;
@@ -58,18 +58,18 @@ public class LocateFeature implements PacketListeningFeature {
             awaitingResponse = true;
             Pair<String, CompletableFuture<LocateResult>> currentRequest = locateRequests.peek();
 
-            CommandSender.queue("locate " + currentRequest.first());
+            CommandSenderFeature.queue("locate " + currentRequest.first());
         }
     }
 
     @Override
-    public Result onReceivePacket(Packet<?> packet) {
+    public EventResult onReceivePacket(Packet<?> packet) {
         if (!(packet instanceof GameMessageS2CPacket message)) {
-            return Result.PASS;
+            return EventResult.PASS;
         }
 
         if (locateRequests.isEmpty() || !awaitingResponse) {
-            return Result.PASS;
+            return EventResult.PASS;
         }
 
         Pair<String, CompletableFuture<LocateResult>> currentRequest = locateRequests.peek();
@@ -80,13 +80,13 @@ public class LocateFeature implements PacketListeningFeature {
         Matcher matcher = LOCATE_PATTERN.matcher(Formatting.strip(text));
 
         if (!matcher.find()) {
-            return Result.PASS;
+            return EventResult.PASS;
         }
 
         LocateResult result = this.parseLocateResponse(matcher, playerName);
 
         if (result == null) {
-            return Result.PASS;
+            return EventResult.PASS;
         }
 
         locateRequests.poll();
@@ -95,7 +95,7 @@ public class LocateFeature implements PacketListeningFeature {
 
         processNextRequestIfReady();
 
-        return Result.CANCEL;
+        return EventResult.CANCEL;
     }
 
     private LocateResult parseLocateResponse(Matcher matcher, String playerName) {

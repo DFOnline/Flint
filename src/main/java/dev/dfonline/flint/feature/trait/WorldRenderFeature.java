@@ -1,6 +1,7 @@
 package dev.dfonline.flint.feature.trait;
 
-import dev.dfonline.flint.util.result.Result;
+import dev.dfonline.flint.feature.core.FeatureTrait;
+import dev.dfonline.flint.util.result.EventResult;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.minecraft.util.hit.HitResult;
 
@@ -12,8 +13,8 @@ public interface WorldRenderFeature extends FeatureTrait {
     default void worldRenderEnd(WorldRenderContext context) {
     }
 
-    default Result worldRenderBeforeBlockOutline(WorldRenderContext context, HitResult hit) {
-        return Result.PASS;
+    default EventResult worldRenderBeforeBlockOutline(WorldRenderContext context, HitResult hit) {
+        return EventResult.PASS;
     }
 
     default void worldRenderBeforeEntities(WorldRenderContext context) {
@@ -31,8 +32,8 @@ public interface WorldRenderFeature extends FeatureTrait {
     default void worldRenderBeforeDebugRender(WorldRenderContext context) {
     }
 
-    default Result worldRenderBlockOutline(WorldRenderContext context, WorldRenderContext.BlockOutlineContext blockOutlineContext) {
-        return Result.PASS;
+    default EventResult worldRenderBlockOutline(WorldRenderContext context, WorldRenderContext.BlockOutlineContext blockOutlineContext) {
+        return EventResult.PASS;
     }
 
     default void worldRenderStart(WorldRenderContext context) {
