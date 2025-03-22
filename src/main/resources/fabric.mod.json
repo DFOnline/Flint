@@ -4,7 +4,7 @@
   "version": "${version}",
 
   "name": "Flint",
-  "description": "",
+  "description": "Core library for DiamondFire mods, allowing them to share a common codebase and systems.",
   "authors": [],
   "contact": {},
 
