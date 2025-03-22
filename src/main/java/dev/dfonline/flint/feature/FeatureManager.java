@@ -53,16 +53,14 @@ public class FeatureManager {
         }
     }
 
-
     /**
      * Gets all features that implement the specified trait.
      *
      * @param trait The trait to look up
      * @return List of features implementing the specified trait
      */
-    @SuppressWarnings("unchecked")
-    public <T extends FeatureTrait> List<T> getByTrait(FeatureTraitType trait) {
-        return (List<T>) this.featureLists[trait.getIndex()].stream().filter(FeatureTrait::isEnabled).toList();
+    public List<FeatureTrait> getByTrait(FeatureTraitType trait) {
+        return this.featureLists[trait.getIndex()].stream().filter(FeatureTrait::isEnabled).toList();
     }
 
 }
