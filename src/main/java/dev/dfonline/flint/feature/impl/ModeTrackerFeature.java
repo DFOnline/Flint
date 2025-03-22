@@ -74,11 +74,6 @@ public class ModeTrackerFeature implements PacketListeningFeature {
         return Result.PASS;
     }
 
-    @Override
-    public Result onSendPacket(Packet<?> packet) {
-        return Result.PASS;
-    }
-
     private enum PendingModeSwitchAction {
         CLEAR_TITLE,
         POSITION_CHANGE,

@@ -141,11 +141,6 @@ public class LocateFeature implements PacketListeningFeature {
         return new Plot(plotID, plotName, plotHandle, whitelisted);
     }
 
-    @Override
-    public Result onSendPacket(Packet<?> packet) {
-        return Result.PASS;
-    }
-
     public record LocateResult(String player, Mode mode, @Nullable Plot plot, Node node) {
     }
 

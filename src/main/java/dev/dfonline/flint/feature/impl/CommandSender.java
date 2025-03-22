@@ -45,11 +45,6 @@ public final class CommandSender implements PacketListeningFeature, TickedFeatur
     }
 
     @Override
-    public Result onReceivePacket(Packet<?> packet) {
-        return Result.PASS;
-    }
-
-    @Override
     public Result onSendPacket(Packet<?> packet) {
         if (packet instanceof CommandExecutionC2SPacket || packet instanceof ChatMessageC2SPacket) {
             rateLimiter.increment();
