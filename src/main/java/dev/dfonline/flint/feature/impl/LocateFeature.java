@@ -113,6 +113,9 @@ public class LocateFeature implements PacketListeningFeature {
             case "playing" -> mode = Mode.PLAY;
             case "coding" -> mode = Mode.DEV;
             case "building" -> mode = Mode.BUILD;
+            // we assume 'existing' can only be achieved with code spectating.
+            case "existing" -> mode = Mode.CODE_SPECTATE;
+            // this is an impossible case.
             default -> mode = Mode.SPAWN;
         }
 

@@ -16,7 +16,8 @@ public enum Node {
     BETA("beta", "Node Beta"),
     DEV("dev", "Dev"),
     DEV_2("dev2", "Dev 2"),
-    DEV_3("dev3", "Dev 3");
+    DEV_3("dev3", "Dev 3"),
+    LOCAL("local", "Local");
 
     private static final Map<String, Node> ID_MAP = new HashMap<>();
     private static final Map<String, Node> NAME_MAP = new HashMap<>();
