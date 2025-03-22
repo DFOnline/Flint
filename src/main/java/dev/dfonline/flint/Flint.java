@@ -9,6 +9,7 @@ import dev.dfonline.flint.feature.impl.PacketLoggerFeature;
 import dev.dfonline.flint.feature.trait.CommandFeature;
 import dev.dfonline.flint.feature.trait.FeatureTraitType;
 import dev.dfonline.flint.feature.trait.RenderedFeature;
+import dev.dfonline.flint.feature.trait.ShutdownFeature;
 import dev.dfonline.flint.feature.trait.TickedFeature;
 import dev.dfonline.flint.feature.trait.TooltipRenderFeature;
 import dev.dfonline.flint.feature.trait.WorldRenderFeature;
@@ -16,6 +17,7 @@ import dev.dfonline.flint.util.Logger;
 import dev.dfonline.flint.util.result.Result;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
@@ -160,6 +162,13 @@ public class Flint implements ClientModInitializer {
                         ((WorldRenderFeature) feature).worldRenderStart(worldRenderContext)
                 )
         );
+
+        ClientLifecycleEvents.CLIENT_STOPPING.register(client ->
+                FEATURE_MANAGER.getByTrait(FeatureTraitType.SHUTDOWN).forEach(feature ->
+                        ((ShutdownFeature) feature).onShutdown()
+                )
+        );
+
     }
 
 }

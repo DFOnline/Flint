@@ -12,7 +12,8 @@ public enum FeatureTraitType {
     USER_MESSAGE_LISTENING(4, UserMessageListeningFeature.class),
     USER_COMMAND_LISTENING(5, UserCommandListeningFeature.class),
     WORLD_RENDER(6, WorldRenderFeature.class),
-    TOOLTIP_RENDER(7, TooltipRenderFeature.class);
+    TOOLTIP_RENDER(7, TooltipRenderFeature.class),
+    SHUTDOWN(8, ShutdownFeature.class);
 
     private final int index;
     private final Class<? extends FeatureTrait> featureClass;
