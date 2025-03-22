@@ -20,29 +20,30 @@ Mods can define features, classes that implement a **FeatureTrait**.
 
 #### Feature Traits
 
+- **ChatListeningFeature** - Listen to chat messages
 - **CommandFeature** - Register a command with aliases
 - **PacketListeningFeature** - Listen to incoming and outgoing packets
 - **RenderedFeature** - Run code when a frame is rendered
+- **ShutdownFeature** - Run code when the game is shutting down
 - **TickedFeature** - Run code every tick
-- **UserCommandListeningFeature** - Run code when the player runs a command, allowing you to modify or cancel the
-  command.
-- **UserMessageListeningFeature** - Run code when the player sends a message, allowing you to modify or cancel the
-  message.
+- **TooltipRenderFeature** - Run code when a tooltip is rendered, allowing you to modify it
+- **UserCommandListeningFeature** - Run code when the player runs a command, lets you to modify or cancel the command
+- **UserMessageListeningFeature** - Run code when the player sends a message, lets you to modify or cancel the message
 - **WorldRenderFeature** - Listen to world render events
 
 #### Registering features
 
-To register a feature, in your mod's onInitializeClient, call **FlintAPI.registerFeature(FeatureTrait)** or *
-*FlintAPI.registerFeature(FeatureTrait...)**.
+To register a feature, in your mod's onInitializeClient,
+call **FlintAPI.registerFeature(FeatureTrait)** or **FlintAPI.registerFeature(FeatureTrait...)**.
 
 ```java
 public class Flint implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-      FlintAPI.registerFeatures(
+        FlintAPI.registerFeatures(
                 new AwesomeFeature()
-      );
+        );
 
     }
 
@@ -56,14 +57,14 @@ Send formatted messages with ease using messages.
 ```java
 public void success() {
 
-  Flint.getUser().sendMessage(new CompoundMessage(
-          new SuccessMessage("my_mod.awesome_success"),
-          new SoundMessage(FSound.builder()
-                  .setSound(SoundEvents.ENTITY_PLAYER_LEVELUP)
-                  .setPitch(1.5F)
-                  .build()
-          )
-  ));
+    Flint.getUser().sendMessage(new CompoundMessage(
+            new SuccessMessage("my_mod.awesome_success"),
+            new SoundMessage(FSound.builder()
+                    .setSound(SoundEvents.ENTITY_PLAYER_LEVELUP)
+                    .setPitch(1.5F)
+                    .build()
+            )
+    ));
 
 }
 ```
@@ -75,7 +76,7 @@ The library provides a color palette for easy access to beautiful colors.
 ```java
 public void error() {
 
-  Component.text("You did something BAD!", PaletteColor.RED);
+    Component.text("You did something BAD!", PaletteColor.RED);
 
 }
 ```
@@ -87,7 +88,7 @@ Flint tracks the user's current mode and optionally the plot they are on, you ca
 
 ```java
 public boolean shouldShowPlotOverlay() {
-  return Flint.getUser().getMode() == Mode.PLAY && Flint.getUser().getPlot().handle() == "myplot";
+    return Flint.getUser().getMode() == Mode.PLAY && Flint.getUser().getPlot().handle() == "myplot";
 }
 ```
 
@@ -99,6 +100,7 @@ public boolean shouldShowPlotOverlay() {
 > Not only does this give you access to the plot the user is on, but it also makes mode tracking more accurate.
 
 ### DFItem
+
 TODO
 
 ### Useful Classes
