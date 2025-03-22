@@ -2,7 +2,7 @@ package dev.dfonline.flint.mixin;
 
 import dev.dfonline.flint.Flint;
 import dev.dfonline.flint.feature.core.FeatureTraitType;
-import dev.dfonline.flint.feature.trait.GameMessageListeningFeature;
+import dev.dfonline.flint.feature.trait.ChatListeningFeature;
 import dev.dfonline.flint.feature.trait.PacketListeningFeature;
 import dev.dfonline.flint.util.result.EventResult;
 import net.minecraft.network.ClientConnection;
@@ -22,8 +22,8 @@ public class MClientConnection {
     private static <T extends PacketListener> void handlePacket(Packet<T> packet, PacketListener listener, CallbackInfo ci) {
         if (packet instanceof GameMessageS2CPacket(Text content, boolean overlay)) {
             boolean shouldReturn = false;
-            for (var feature : Flint.FEATURE_MANAGER.getByTrait(FeatureTraitType.GAME_MESSAGE_LISTENING)) {
-                var result = ((GameMessageListeningFeature) feature).onGameMessage(content, overlay);
+            for (var feature : Flint.FEATURE_MANAGER.getByTrait(FeatureTraitType.CHAT_LISTENING)) {
+                var result = ((ChatListeningFeature) feature).onGameMessage(content, overlay);
 
                 if (result == EventResult.CANCEL) {
                     shouldReturn = true;

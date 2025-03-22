@@ -16,7 +16,7 @@ public enum FeatureTraitType {
     WORLD_RENDER(6, WorldRenderFeature.class),
     TOOLTIP_RENDER(7, TooltipRenderFeature.class),
     SHUTDOWN(8, ShutdownFeature.class),
-    GAME_MESSAGE_LISTENING(9, GameMessageListeningFeature.class);
+    CHAT_LISTENING(9, ChatListeningFeature.class);
 
     private final int index;
     private final Class<? extends FeatureTrait> featureClass;
