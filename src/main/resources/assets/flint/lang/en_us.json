@@ -4,8 +4,8 @@
   "flint.command.flint.clear_queue.success":  "Cleared the command queue, any pending commands have been cancelled",
   "flint.command.flint.clear_queue.empty": "No commands in the queue to clear",
   "flint.command.flint.locate_test.success": "Located player %s, mode %s, plot %s, node %s",
-  "flint.command.flint.locate_test.fail": "Failed to locate",
+  "flint.command.flint.locate_test.fail": "Failed to locate: %s",
 
   "flint.locate.timeout.title": "Locate timeout",
-  "flint.locate.timeout.description": "Failed to locate after 1 second."
+  "flint.locate.timeout.description": "Failed to locate after %s second(s)."
 }

@@ -84,6 +84,9 @@ public class FlintCommandFeature implements CommandFeature {
 
             Flint.getUser().sendMessage(new SuccessMessage("flint.command.flint.locate_test.success", Component.text(locate.player()), Component.text(locate.mode().getName()), Component.text(plotString), Component.text(locate.node().getName())));
 
+        }).exceptionally(throwable -> {
+            Flint.getUser().sendMessage(new ErrorMessage("flint.command.flint.locate_test.fail", Component.text(throwable.getMessage())));
+            return null;
         });
     }
 
