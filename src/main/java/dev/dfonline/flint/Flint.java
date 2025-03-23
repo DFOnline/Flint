@@ -2,11 +2,7 @@ package dev.dfonline.flint;
 
 import dev.dfonline.flint.feature.core.FeatureManager;
 import dev.dfonline.flint.feature.core.FeatureTraitType;
-import dev.dfonline.flint.feature.impl.CommandSenderFeature;
-import dev.dfonline.flint.feature.impl.FlintCommandFeature;
-import dev.dfonline.flint.feature.impl.LocateFeature;
-import dev.dfonline.flint.feature.impl.ModeTrackerFeature;
-import dev.dfonline.flint.feature.impl.PacketLoggerFeature;
+import dev.dfonline.flint.feature.impl.*;
 import dev.dfonline.flint.feature.trait.CommandFeature;
 import dev.dfonline.flint.feature.trait.RenderedFeature;
 import dev.dfonline.flint.feature.trait.ShutdownFeature;
@@ -63,6 +59,7 @@ public class Flint implements ClientModInitializer {
                 // Functionality
                 new ModeTrackerFeature(),
                 new FlintCommandFeature()
+
         );
 
         this.registerEventCallbacks();

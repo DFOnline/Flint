@@ -25,6 +25,9 @@ public class ModeTrackerFeature implements PacketListeningFeature {
             return;
         }
 
+        if (Flint.getUser().getPlayer() == null) {
+            return;
+        }
         LocateFeature.requestLocate(Flint.getUser().getPlayer().getNameForScoreboard()).thenAccept(locate -> {
             Flint.getUser().setPlot(locate.plot());
             Flint.getUser().setMode(locate.mode());
@@ -66,6 +69,7 @@ public class ModeTrackerFeature implements PacketListeningFeature {
                 }
             }
         }
+
         if (packet instanceof GameJoinS2CPacket) {
             Flint.getUser().setMode(Mode.SPAWN);
             Flint.getUser().setPlot(null);
