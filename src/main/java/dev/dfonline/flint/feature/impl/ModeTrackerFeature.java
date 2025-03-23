@@ -20,10 +20,12 @@ public class ModeTrackerFeature implements PacketListeningFeature {
     private static void setMode(Mode mode) {
         if (FlintAPI.shouldConfirmLocationWithLocate() && Flint.getUser().getPlayer() != null) {
             LocateFeature.requestLocate(Flint.getUser().getPlayer().getNameForScoreboard()).thenAccept(locate -> {
+                Flint.getUser().setNode(locate.node());
                 Flint.getUser().setPlot(locate.plot());
                 Flint.getUser().setMode(locate.mode());
             });
         } else {
+            Flint.getUser().setNode(null);
             Flint.getUser().setPlot(null);
             Flint.getUser().setMode(mode);
         }
@@ -66,8 +68,9 @@ public class ModeTrackerFeature implements PacketListeningFeature {
         }
 
         if (packet instanceof GameJoinS2CPacket) {
-            Flint.getUser().setMode(Mode.SPAWN);
+            Flint.getUser().setNode(null);
             Flint.getUser().setPlot(null);
+            Flint.getUser().setMode(Mode.SPAWN);
         }
 
         return EventResult.PASS;

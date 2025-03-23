@@ -4,10 +4,12 @@ import dev.dfonline.flint.feature.core.FeatureTraitType;
 import dev.dfonline.flint.feature.trait.SwitchModeListeningFeature;
 import dev.dfonline.flint.feature.trait.SwitchPlotListeningFeature;
 import dev.dfonline.flint.hypercube.Mode;
+import dev.dfonline.flint.hypercube.Node;
 import dev.dfonline.flint.hypercube.Plot;
 import dev.dfonline.flint.util.message.Message;
 import net.minecraft.client.network.ClientPlayerEntity;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Stores additional information about the client player.
@@ -15,7 +17,8 @@ import org.jetbrains.annotations.ApiStatus;
 public final class User {
 
     private Mode mode;
-    private Plot plot;
+    private @Nullable Plot plot;
+    private @Nullable Node node;
 
     public ClientPlayerEntity getPlayer() {
         ClientPlayerEntity player = Flint.getClient().player;
@@ -38,15 +41,15 @@ public final class User {
         this.mode = mode;
     }
 
-    public Plot getPlot() {
+    public @Nullable Plot getPlot() {
         return this.plot;
     }
 
     @ApiStatus.Internal
-    public void setPlot(Plot plot) {
+    public void setPlot(@Nullable Plot plot) {
         boolean shouldTriggerEvent = false;
-        if (!(this.plot == null == plot == null)) {
-            // Whether the current plot was null and now isn't or it wasn't null but now is
+        if ((this.plot == null || plot == null) && this.plot != plot) {
+            // Whether the current plot was null or the new plot is null, and they are not equal
             shouldTriggerEvent = true;
         } else {
             // Both plots are not null, check whether they are equal
@@ -60,6 +63,15 @@ public final class User {
             });
         }
         this.plot = plot;
+    }
+
+    public @Nullable Node getNode() {
+        return this.node;
+    }
+
+    @ApiStatus.Internal
+    public void setNode(@Nullable Node node) {
+        this.node = node;
     }
 
     public void sendMessage(Message message) {

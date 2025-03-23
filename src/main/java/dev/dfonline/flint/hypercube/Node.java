@@ -5,19 +5,19 @@ import java.util.Map;
 
 public enum Node {
 
-    NODE_1("node1", "Node 1"),
-    NODE_2("node2", "Node 2"),
-    NODE_3("node3", "Node 3"),
-    NODE_4("node4", "Node 4"),
-    NODE_5("node5", "Node 5"),
-    NODE_6("node6", "Node 6"),
-    NODE_7("node7", "Node 7"),
-    EVENT("event", "Event"),
-    BETA("beta", "Node Beta"),
-    DEV("dev", "Dev"),
-    DEV_2("dev2", "Dev 2"),
-    DEV_3("dev3", "Dev 3"),
-    LOCAL("local", "Local");
+    NODE_1("node1", "Node 1", false),
+    NODE_2("node2", "Node 2", false),
+    NODE_3("node3", "Node 3", false),
+    NODE_4("node4", "Node 4", false),
+    NODE_5("node5", "Node 5", false),
+    NODE_6("node6", "Node 6", false),
+    NODE_7("node7", "Node 7", false),
+    EVENT("event", "Event", false),
+    BETA("beta", "Node Beta", true),
+    DEV("dev", "Dev", true),
+    DEV_2("dev2", "Dev 2", true),
+    DEV_3("dev3", "Dev 3", true),
+    LOCAL("local", "Local", true);
 
     private static final Map<String, Node> ID_MAP = new HashMap<>();
     private static final Map<String, Node> NAME_MAP = new HashMap<>();
@@ -31,10 +31,12 @@ public enum Node {
 
     private final String id;
     private final String name;
+    private final boolean isActionDumpObtainable;
 
-    Node(String id, String name) {
+    Node(String id, String name, boolean isActionDumpObtainable) {
         this.id = id;
         this.name = name;
+        this.isActionDumpObtainable = isActionDumpObtainable;
     }
 
     public static Node fromId(String serverId) {
@@ -51,6 +53,10 @@ public enum Node {
 
     public String getName() {
         return this.name;
+    }
+
+    public boolean isActionDumpObtainable() {
+        return this.isActionDumpObtainable;
     }
 
 }
