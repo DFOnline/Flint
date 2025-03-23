@@ -4,6 +4,7 @@ import dev.dfonline.flint.Flint;
 import dev.dfonline.flint.FlintAPI;
 import dev.dfonline.flint.feature.trait.PacketListeningFeature;
 import dev.dfonline.flint.hypercube.Mode;
+import dev.dfonline.flint.hypercube.Plot;
 import dev.dfonline.flint.util.result.EventResult;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.ClearTitleS2CPacket;
@@ -12,16 +13,27 @@ import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket;
 import net.minecraft.network.packet.s2c.play.OverlayMessageS2CPacket;
 import net.minecraft.network.packet.s2c.play.PlayerSpawnPositionS2CPacket;
 import net.minecraft.text.Text;
+import net.minecraft.util.math.Vec3d;
 
 public class ModeTrackerFeature implements PacketListeningFeature {
 
     private PendingModeSwitchAction pendingAction = PendingModeSwitchAction.CLEAR_TITLE;
 
     private static void setMode(Mode mode) {
+        final Vec3d newOrigin;
+        if (mode == Mode.DEV) {
+            Vec3d devPos = Flint.getUser().getPlayer().getPos();
+            newOrigin = new Vec3d(devPos.x + 10.5, 0, devPos.z - 10.5);
+        } else {
+            newOrigin = null;
+        }
         if (FlintAPI.shouldConfirmLocationWithLocate() && Flint.getUser().getPlayer() != null) {
             LocateFeature.requestLocate(Flint.getUser().getPlayer().getNameForScoreboard()).thenAccept(locate -> {
                 Flint.getUser().setNode(locate.node());
                 Flint.getUser().setPlot(locate.plot());
+                if (Flint.getUser().getPlot() != null) {
+                    Flint.getUser().getPlot().setOrigin(newOrigin);
+                }
                 Flint.getUser().setMode(locate.mode());
             });
         } else {
