@@ -2,7 +2,12 @@ package dev.dfonline.flint;
 
 import dev.dfonline.flint.feature.core.FeatureManager;
 import dev.dfonline.flint.feature.core.FeatureTraitType;
-import dev.dfonline.flint.feature.impl.*;
+import dev.dfonline.flint.feature.impl.ActionDumpGetterFeature;
+import dev.dfonline.flint.feature.impl.CommandSenderFeature;
+import dev.dfonline.flint.feature.impl.FlintCommandFeature;
+import dev.dfonline.flint.feature.impl.LocateFeature;
+import dev.dfonline.flint.feature.impl.ModeTrackerFeature;
+import dev.dfonline.flint.feature.impl.PacketLoggerFeature;
 import dev.dfonline.flint.feature.trait.CommandFeature;
 import dev.dfonline.flint.feature.trait.RenderedFeature;
 import dev.dfonline.flint.feature.trait.ShutdownFeature;
@@ -20,6 +25,9 @@ import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import net.kyori.adventure.platform.modcommon.MinecraftAudiences;
 import net.kyori.adventure.platform.modcommon.MinecraftClientAudiences;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
+import net.kyori.adventure.text.minimessage.tag.standard.StandardTags;
 import net.minecraft.client.MinecraftClient;
 
 public class Flint implements ClientModInitializer {
@@ -28,6 +36,12 @@ public class Flint implements ClientModInitializer {
     public static final String MOD_NAME = "Flint";
     public static final FeatureManager FEATURE_MANAGER = new FeatureManager();
     public static final MinecraftAudiences AUDIENCE = MinecraftClientAudiences.builder().build();
+    public static final MiniMessage STYLE_MINI_MESSAGE = MiniMessage.builder()
+            .strict(true)
+            .tags(TagResolver.builder()
+                    .resolvers(StandardTags.color(), StandardTags.decorations(), StandardTags.newline())
+                    .build())
+            .build();
 
     private static final Logger LOGGER = Logger.of(Flint.class);
     private static final MinecraftClient CLIENT = MinecraftClient.getInstance();
@@ -58,6 +72,7 @@ public class Flint implements ClientModInitializer {
 
                 // Functionality
                 new ModeTrackerFeature(),
+                new ActionDumpGetterFeature(),
                 new FlintCommandFeature()
 
         );

@@ -4,7 +4,9 @@ import java.nio.file.Path;
 
 public enum ExternalFile {
 
-    ;
+    ACTION_DUMP(builder()
+            .setName("actiondump.json")
+            .build());
 
     private final Path path;
 

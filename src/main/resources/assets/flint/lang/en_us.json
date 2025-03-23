@@ -5,8 +5,11 @@
   "flint.command.flint.clear_queue.empty": "No commands in the queue to clear",
   "flint.command.flint.locate_test.success": "Located player %s, mode %s, plot %s, node %s",
   "flint.command.flint.locate_test.fail": "Failed to locate: %s",
-  "flint.command.flint.action_dump.fail.start": "Failed to start reading the action dump, make sure you are on Node Beta, if you are, something might have gone wrong.",
+  "flint.command.flint.action_dump.fail.start": "Failed to start reading the action dump, make sure you are on Node Beta, if you are, something might have gone wrong",
   "flint.command.flint.action_dump.fail.node": "Action dump can only be gotten on Node Beta, if you are in Node Beta, add 'force' to the command",
+  "flint.command.flint.action_dump.fail.write": "Failed to write the action dump file",
+  "flint.command.flint.action_dump.progress": "Reading action dump, %s second(s) elapsed, %s characters",
+  "flint.command.flint.action_dump.success": "Action dump written in %s seconds! lines: %s, length: %s",
   "flint.locate.timeout.title": "Locate timeout",
   "flint.locate.timeout.description": "Failed to locate after %s second(s)."
 }
