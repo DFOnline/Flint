@@ -18,20 +18,15 @@ public class ModeTrackerFeature implements PacketListeningFeature {
     private PendingModeSwitchAction pendingAction = PendingModeSwitchAction.CLEAR_TITLE;
 
     private static void setMode(Mode mode) {
-        Flint.getUser().setPlot(null);
-        Flint.getUser().setMode(mode);
-
-        if (!FlintAPI.shouldConfirmLocationWithLocate()) {
-            return;
+        if (FlintAPI.shouldConfirmLocationWithLocate() && Flint.getUser().getPlayer() != null) {
+            LocateFeature.requestLocate(Flint.getUser().getPlayer().getNameForScoreboard()).thenAccept(locate -> {
+                Flint.getUser().setPlot(locate.plot());
+                Flint.getUser().setMode(locate.mode());
+            });
+        } else {
+            Flint.getUser().setPlot(null);
+            Flint.getUser().setMode(mode);
         }
-
-        if (Flint.getUser().getPlayer() == null) {
-            return;
-        }
-        LocateFeature.requestLocate(Flint.getUser().getPlayer().getNameForScoreboard()).thenAccept(locate -> {
-            Flint.getUser().setPlot(locate.plot());
-            Flint.getUser().setMode(locate.mode());
-        });
     }
 
     @Override
