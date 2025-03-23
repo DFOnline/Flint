@@ -6,6 +6,6 @@ import net.minecraft.text.Text;
 
 public interface ChatListeningFeature extends FeatureTrait {
 
-    EventResult onGameMessage(Text text, boolean actionbar);
+    EventResult onChatMessage(Text text, boolean actionbar);
 
 }

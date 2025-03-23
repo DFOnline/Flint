@@ -23,7 +23,7 @@ public class MClientConnection {
         if (packet instanceof GameMessageS2CPacket(Text content, boolean overlay)) {
             boolean shouldReturn = false;
             for (var feature : Flint.FEATURE_MANAGER.getByTrait(FeatureTraitType.CHAT_LISTENING)) {
-                var result = ((ChatListeningFeature) feature).onGameMessage(content, overlay);
+                var result = ((ChatListeningFeature) feature).onChatMessage(content, overlay);
 
                 if (result == EventResult.CANCEL) {
                     shouldReturn = true;
