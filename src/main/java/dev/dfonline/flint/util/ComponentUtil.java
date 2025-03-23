@@ -23,9 +23,9 @@ public final class ComponentUtil {
                 if (color != null && lastColor != color && colorMode != ColorMode.NONE) {
                     lastColor = color;
                     if (color.getName().contains("#")) {
-                        build.append(String.join(colorMode.prefix, color.getName().split("")).replace("#", colorMode.prefix + "x").toLowerCase());
+                        build.append(String.join(colorMode.getPrefix(), color.getName().split("")).replace("#", colorMode.getPrefix() + "x").toLowerCase());
                     } else {
-                        build.append(Formatting.valueOf(String.valueOf(color).toUpperCase()).toString().replace("§", colorMode.prefix));
+                        build.append(Formatting.valueOf(String.valueOf(color).toUpperCase()).toString().replace("§", colorMode.getPrefix()));
                     }
                 }
                 build.append(text.getString());

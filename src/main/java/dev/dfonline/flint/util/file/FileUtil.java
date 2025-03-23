@@ -10,11 +10,10 @@ public final class FileUtil {
     private FileUtil() {
     }
 
-    public static Path writeFile(Path path, String content) throws IOException {
+    public static void writeFile(Path path, String content) throws IOException {
         Files.deleteIfExists(path);
         Files.createFile(path);
         Files.writeString(path, content, StandardOpenOption.WRITE);
-        return path;
     }
 
 }

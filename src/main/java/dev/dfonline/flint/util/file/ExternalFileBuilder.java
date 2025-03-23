@@ -65,10 +65,6 @@ public class ExternalFileBuilder {
         return path;
     }
 
-    public Path buildRaw() throws IOException {
-        return this.buildRaw(null);
-    }
-
     public Path build(@Nullable Consumer<Path> init) {
         try {
             return this.buildRaw(init);
