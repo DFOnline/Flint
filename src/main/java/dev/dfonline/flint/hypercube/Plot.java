@@ -1,6 +1,7 @@
 package dev.dfonline.flint.hypercube;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
 import net.minecraft.util.math.Vec3d;
 
 import java.util.Objects;
@@ -46,7 +47,7 @@ public class Plot {
     }
 
     public String toReadableString() {
-        return "ID " + this.id + ", name " + this.name + ", handle " + this.handle + ", whitelisted " + this.whitelisted + ", origin " + this.origin;
+        return "ID " + this.id + ", name " + ((TextComponent) this.name).content() + ", handle " + this.handle + ", whitelisted " + this.whitelisted + ", origin " + this.origin;
     }
 
     @Override
