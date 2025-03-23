@@ -4,6 +4,7 @@ import dev.dfonline.flint.Flint;
 import dev.dfonline.flint.FlintAPI;
 import dev.dfonline.flint.feature.trait.PacketListeningFeature;
 import dev.dfonline.flint.hypercube.Mode;
+import dev.dfonline.flint.hypercube.Plot;
 import dev.dfonline.flint.util.result.EventResult;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.ClearTitleS2CPacket;
@@ -30,11 +31,21 @@ public class ModeTrackerFeature implements PacketListeningFeature {
         if (FlintAPI.shouldConfirmLocationWithLocate() && Flint.getUser().getPlayer() != null) {
             LocateFeature.requestLocate(Flint.getUser().getPlayer().getNameForScoreboard()).thenAccept(locate -> {
                 Flint.getUser().setNode(locate.node());
-                Flint.getUser().setPlot(locate.plot());
-                if (Flint.getUser().getPlot() != null) {
-                    Flint.getUser().getPlot().setOrigin(newOrigin);
+                Plot playerPlot = Flint.getUser().getPlot();
+
+                if (locate.node() != null) {
+                    if (playerPlot == null || !playerPlot.equals(locate.plot())) {
+                        Flint.getUser().setPlot(locate.plot());
+                    }
+                    if (Flint.getUser().getPlot().getOrigin() == null && newOrigin != null) {
+                        Flint.getUser().getPlot().setOrigin(newOrigin);
+                    }
+                } else {
+                    Flint.getUser().setPlot(null);
                 }
+
                 Flint.getUser().setMode(locate.mode());
+
             });
         } else {
             Flint.getUser().setNode(null);
