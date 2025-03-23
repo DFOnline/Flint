@@ -139,7 +139,7 @@ public class LocateFeature implements PacketListeningFeature {
             plotHandle = matcher.group("plotHandle");
         }
         boolean whitelisted = matcher.group("whitelisted") != null;
-        return new Plot(plotID, plotName, plotHandle, whitelisted);
+        return new Plot(plotID, Component.text(plotName), plotHandle, whitelisted);
     }
 
     public record LocateResult(String player, Mode mode, @Nullable Plot plot, Node node) {
