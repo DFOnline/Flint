@@ -45,11 +45,11 @@ public final class User {
     @ApiStatus.Internal
     public void setPlot(Plot plot) {
         boolean shouldTriggerEvent = false;
-        if ((this.plot == null || plot == null)) {
-            if (this.plot != plot) {
-                shouldTriggerEvent = true;
-            }
+        if (!(this.plot == null == plot == null)) {
+            // Whether the current plot was null and now isn't or it wasn't null but now is
+            shouldTriggerEvent = true;
         } else {
+            // Both plots are not null, check whether they are equal
             if (!this.plot.equals(plot)) {
                 shouldTriggerEvent = true;
             }
