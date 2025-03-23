@@ -4,7 +4,6 @@ import dev.dfonline.flint.Flint;
 import dev.dfonline.flint.FlintAPI;
 import dev.dfonline.flint.feature.trait.PacketListeningFeature;
 import dev.dfonline.flint.hypercube.Mode;
-import dev.dfonline.flint.hypercube.Plot;
 import dev.dfonline.flint.util.result.EventResult;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.ClearTitleS2CPacket;
@@ -17,13 +16,14 @@ import net.minecraft.util.math.Vec3d;
 
 public class ModeTrackerFeature implements PacketListeningFeature {
 
+    private static final double DEV_SPAWN_OFFSET = 10.5;
     private PendingModeSwitchAction pendingAction = PendingModeSwitchAction.CLEAR_TITLE;
 
     private static void setMode(Mode mode) {
         final Vec3d newOrigin;
         if (mode == Mode.DEV) {
             Vec3d devPos = Flint.getUser().getPlayer().getPos();
-            newOrigin = new Vec3d(devPos.x + 10.5, 0, devPos.z - 10.5);
+            newOrigin = new Vec3d(devPos.x + DEV_SPAWN_OFFSET, 0, devPos.z - DEV_SPAWN_OFFSET);
         } else {
             newOrigin = null;
         }

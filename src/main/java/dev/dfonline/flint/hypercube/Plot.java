@@ -2,10 +2,9 @@ package dev.dfonline.flint.hypercube;
 
 import net.minecraft.util.math.Vec3d;
 
+import java.util.Objects;
+
 public class Plot {
-    public String toReadableString() {
-        return "ID " + this.id + ", name " + this.name + ", handle " + this.handle + ", whitelisted " + this.whitelisted;
-    }
 
     private final int id;
     private final String name;
@@ -18,40 +17,48 @@ public class Plot {
         this.name = name;
         this.handle = handle;
         this.whitelisted = whitelisted;
-        origin = null;
+        this.origin = null;
     }
 
     public int getId() {
-        return id;
+        return this.id;
     }
+
     public String getName() {
-        return name;
+        return this.name;
     }
+
     public String getHandle() {
-        return handle;
+        return this.handle;
     }
+
     public boolean isWhitelisted() {
-        return whitelisted;
+        return this.whitelisted;
     }
 
     public Vec3d getOrigin() {
-        return origin;
+        return this.origin;
     }
 
     public void setOrigin(Vec3d origin) {
         this.origin = origin;
     }
 
+    public String toReadableString() {
+        return "ID " + this.id + ", name " + this.name + ", handle " + this.handle + ", whitelisted " + this.whitelisted;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o instanceof Plot plot) {
-            if (handle == null && plot.getHandle() != null || plot.getHandle() == null && handle != null) {
+            if (this.handle == null && plot.getHandle() != null || plot.getHandle() == null && this.handle != null) {
                 return false;
             }
-            return id == plot.getId() &&
-                    name.equals(plot.getName()) &&
-                    ((handle == null && plot.getHandle() == null)|| handle.equals(plot.getHandle())) &&
-                    whitelisted == plot.isWhitelisted();
+
+            return this.id == plot.getId() &&
+                    this.name.equals(plot.getName()) &&
+                    (this.handle == null && plot.getHandle() == null || this.handle != null && this.handle.equals(plot.getHandle())) &&
+                    this.whitelisted == plot.isWhitelisted();
         }
         return false;
     }
