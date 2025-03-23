@@ -13,4 +13,8 @@ public class InfoMessage extends PrefixedMessage {
         super(INFO_PREFIX, Component.translatable(key, args));
     }
 
+    public InfoMessage(String key, boolean actionbar, ComponentLike... args) {
+        super(INFO_PREFIX, Component.translatable(key, args), actionbar);
+    }
+
 }

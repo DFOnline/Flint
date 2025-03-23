@@ -13,4 +13,8 @@ public class SuccessMessage extends PrefixedMessage {
         super(SUCCESS_PREFIX, Component.translatable(key, args));
     }
 
+    public SuccessMessage(String key, boolean actionbar, ComponentLike... args) {
+        super(SUCCESS_PREFIX, Component.translatable(key, args), actionbar);
+    }
+
 }
