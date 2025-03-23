@@ -34,9 +34,9 @@ public final class User {
     @ApiStatus.Internal
     public void setMode(Mode mode) {
         if (this.mode != mode) {
-            Flint.FEATURE_MANAGER.getByTrait(FeatureTraitType.SWITCH_MODE_LISTENING).forEach(feature -> {
-                ((SwitchModeListeningFeature) feature).onSwitchMode(this.mode, mode);
-            });
+            Flint.FEATURE_MANAGER.getByTrait(FeatureTraitType.SWITCH_MODE_LISTENING).forEach(feature ->
+                    ((SwitchModeListeningFeature) feature).onSwitchMode(this.mode, mode)
+            );
         }
         this.mode = mode;
     }
@@ -48,19 +48,19 @@ public final class User {
     @ApiStatus.Internal
     public void setPlot(@Nullable Plot plot) {
         boolean shouldTriggerEvent = false;
-        if ((this.plot == null || plot == null) && this.plot != plot) {
-            // Whether the current plot was null or the new plot is null, and they are not equal
-            shouldTriggerEvent = true;
+        if (this.plot == null || plot == null) {
+            if (this.plot != plot) {
+                shouldTriggerEvent = true;
+            }
         } else {
-            // Both plots are not null, check whether they are equal
             if (!this.plot.equals(plot)) {
                 shouldTriggerEvent = true;
             }
         }
         if (shouldTriggerEvent) {
-            Flint.FEATURE_MANAGER.getByTrait(FeatureTraitType.SWITCH_PLOT_LISTENING).forEach(feature -> {
-                ((SwitchPlotListeningFeature) feature).onSwitchPlot(this.plot, plot);
-            });
+            Flint.FEATURE_MANAGER.getByTrait(FeatureTraitType.SWITCH_PLOT_LISTENING).forEach(feature ->
+                    ((SwitchPlotListeningFeature) feature).onSwitchPlot(this.plot, plot)
+            );
         }
         this.plot = plot;
     }

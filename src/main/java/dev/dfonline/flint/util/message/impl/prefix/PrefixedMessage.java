@@ -8,20 +8,32 @@ public class PrefixedMessage implements Message {
 
     private final Component prefix;
     private final Component message;
+    private final boolean actionbar;
 
     public PrefixedMessage(Component prefix, Component message) {
         this.prefix = prefix;
         this.message = message;
+        this.actionbar = false;
+    }
+
+    public PrefixedMessage(Component prefix, Component message, boolean actionbar) {
+        this.prefix = prefix;
+        this.message = message;
+        this.actionbar = actionbar;
     }
 
     @Override
     public void send() {
-        Flint.getUser().getPlayer().sendMessage(
-                Component.empty()
-                        .append(this.prefix)
-                        .appendSpace()
-                        .append(this.message)
-        );
+        Component component = Component.empty()
+                .append(this.prefix)
+                .appendSpace()
+                .append(this.message);
+
+        if (this.actionbar) {
+            Flint.getUser().getPlayer().sendActionBar(component);
+        } else {
+            Flint.getUser().getPlayer().sendMessage(component);
+        }
     }
 
 }

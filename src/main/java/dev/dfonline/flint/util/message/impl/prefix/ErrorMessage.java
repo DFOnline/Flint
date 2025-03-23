@@ -13,4 +13,8 @@ public class ErrorMessage extends PrefixedMessage {
         super(ERROR_PREFIX, Component.translatable(key, args));
     }
 
+    public ErrorMessage(String key, boolean actionbar, ComponentLike... args) {
+        super(ERROR_PREFIX, Component.translatable(key, args), actionbar);
+    }
+
 }
