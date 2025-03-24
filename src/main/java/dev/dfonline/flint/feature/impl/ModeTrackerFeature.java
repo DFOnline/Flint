@@ -9,7 +9,11 @@ import dev.dfonline.flint.hypercube.Plot;
 import dev.dfonline.flint.util.Logger;
 import dev.dfonline.flint.util.result.EventResult;
 import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.s2c.play.*;
+import net.minecraft.network.packet.s2c.play.ClearTitleS2CPacket;
+import net.minecraft.network.packet.s2c.play.GameJoinS2CPacket;
+import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket;
+import net.minecraft.network.packet.s2c.play.OverlayMessageS2CPacket;
+import net.minecraft.network.packet.s2c.play.PlayerSpawnPositionS2CPacket;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.Vec3d;
 
@@ -61,22 +65,22 @@ public class ModeTrackerFeature implements PacketListeningFeature, TickedFeature
     @Override
     public EventResult onReceivePacket(Packet<?> packet) {
 
-        if (packet instanceof ClearTitleS2CPacket clear && clear.shouldReset()) {
+        if (!hasQueuedLocate && packet instanceof ClearTitleS2CPacket clear && clear.shouldReset()) {
             this.pendingAction = PendingModeSwitchAction.POSITION_CHANGE;
         }
 
-        if (packet instanceof PlayerSpawnPositionS2CPacket && this.pendingAction == PendingModeSwitchAction.POSITION_CHANGE) {
+        if (!hasQueuedLocate && packet instanceof PlayerSpawnPositionS2CPacket && this.pendingAction == PendingModeSwitchAction.POSITION_CHANGE) {
             this.pendingAction = PendingModeSwitchAction.MESSAGE;
         }
 
-        if (packet instanceof OverlayMessageS2CPacket(Text text)
+        if (!hasQueuedLocate && packet instanceof OverlayMessageS2CPacket(Text text)
                 && this.pendingAction == PendingModeSwitchAction.MESSAGE
                 && text.getString().matches("(⏵+ - )?⧈ -?\\d+ Tokens {2}ᛥ -?\\d+ Tickets {2}⚡ -?\\d+ Sparks")) {
             setMode(Mode.SPAWN);
             this.pendingAction = PendingModeSwitchAction.CLEAR_TITLE;
         }
 
-        if (packet instanceof GameMessageS2CPacket message) {
+        if (!hasQueuedLocate && packet instanceof GameMessageS2CPacket message) {
             if (this.pendingAction == PendingModeSwitchAction.MESSAGE) {
                 String content = message.content().getString();
                 if (content.equals("» You are now in dev mode.")) {
@@ -112,7 +116,6 @@ public class ModeTrackerFeature implements PacketListeningFeature, TickedFeature
             });
         }
     }
-
 
     private enum PendingModeSwitchAction {
         CLEAR_TITLE,
