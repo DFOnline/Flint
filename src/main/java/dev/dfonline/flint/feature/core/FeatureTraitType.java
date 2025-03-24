@@ -17,8 +17,8 @@ public enum FeatureTraitType {
     TOOLTIP_RENDER(7, TooltipRenderFeature.class),
     SHUTDOWN(8, ShutdownFeature.class),
     CHAT_LISTENING(9, ChatListeningFeature.class),
-    SWITCH_PLOT_LISTENING(10, SwitchPlotListeningFeature.class),
-    SWITCH_MODE_LISTENING(11, SwitchModeListeningFeature.class),
+    PLOT_SWITCH_LISTENING(10, PlotSwitchListeningFeature.class),
+    MODE_SWITCH_LISTENING(11, ModeSwitchListeningFeature.class),
     WORLD_CHANGE_LISTENING(12, WorldChangeListeningFeature.class);
 
     private final int index;

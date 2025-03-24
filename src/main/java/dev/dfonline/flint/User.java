@@ -1,8 +1,8 @@
 package dev.dfonline.flint;
 
 import dev.dfonline.flint.feature.core.FeatureTraitType;
-import dev.dfonline.flint.feature.trait.SwitchModeListeningFeature;
-import dev.dfonline.flint.feature.trait.SwitchPlotListeningFeature;
+import dev.dfonline.flint.feature.trait.ModeSwitchListeningFeature;
+import dev.dfonline.flint.feature.trait.PlotSwitchListeningFeature;
 import dev.dfonline.flint.hypercube.Mode;
 import dev.dfonline.flint.hypercube.Node;
 import dev.dfonline.flint.hypercube.Plot;
@@ -34,8 +34,8 @@ public final class User {
     @ApiStatus.Internal
     public void setMode(Mode mode) {
         if (this.mode != mode) {
-            Flint.FEATURE_MANAGER.getByTrait(FeatureTraitType.SWITCH_MODE_LISTENING).forEach(feature ->
-                    ((SwitchModeListeningFeature) feature).onSwitchMode(this.mode, mode)
+            Flint.FEATURE_MANAGER.getByTrait(FeatureTraitType.MODE_SWITCH_LISTENING).forEach(feature ->
+                    ((ModeSwitchListeningFeature) feature).onSwitchMode(this.mode, mode)
             );
         }
         this.mode = mode;
@@ -58,8 +58,8 @@ public final class User {
             }
         }
         if (shouldTriggerEvent) {
-            Flint.FEATURE_MANAGER.getByTrait(FeatureTraitType.SWITCH_PLOT_LISTENING).forEach(feature ->
-                    ((SwitchPlotListeningFeature) feature).onSwitchPlot(this.plot, plot)
+            Flint.FEATURE_MANAGER.getByTrait(FeatureTraitType.PLOT_SWITCH_LISTENING).forEach(feature ->
+                    ((PlotSwitchListeningFeature) feature).onSwitchPlot(this.plot, plot)
             );
         }
         this.plot = plot;
