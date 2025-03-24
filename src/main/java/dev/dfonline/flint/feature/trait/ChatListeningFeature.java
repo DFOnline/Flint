@@ -1,11 +1,12 @@
 package dev.dfonline.flint.feature.trait;
 
 import dev.dfonline.flint.feature.core.FeatureTrait;
-import dev.dfonline.flint.util.result.EventResult;
+import dev.dfonline.flint.util.result.ReplacementEventResult;
+import net.kyori.adventure.text.Component;
 import net.minecraft.text.Text;
 
 /**
- * A feature that listens for chat messages.
+ * A feature that listens for chat messages, allowing to cancel or replace them.
  */
 public interface ChatListeningFeature extends FeatureTrait {
 
@@ -16,6 +17,6 @@ public interface ChatListeningFeature extends FeatureTrait {
      * @param actionbar Whether the message was displayed in the action bar
      * @return The result of the event
      */
-    EventResult onChatMessage(Text text, boolean actionbar);
+    ReplacementEventResult<Component> onChatMessage(Text text, boolean actionbar);
 
 }

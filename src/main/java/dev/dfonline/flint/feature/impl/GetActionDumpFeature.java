@@ -9,7 +9,7 @@ import dev.dfonline.flint.util.file.ExternalFile;
 import dev.dfonline.flint.util.file.FileUtil;
 import dev.dfonline.flint.util.message.impl.prefix.ErrorMessage;
 import dev.dfonline.flint.util.message.impl.prefix.SuccessMessage;
-import dev.dfonline.flint.util.result.EventResult;
+import dev.dfonline.flint.util.result.ReplacementEventResult;
 import net.kyori.adventure.text.Component;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.text.Text;
@@ -55,15 +55,15 @@ public class GetActionDumpFeature implements ChatListeningFeature, PacketListeni
     }
 
     @Override
-    public EventResult onChatMessage(Text text, boolean actionbar) {
+    public ReplacementEventResult<Component> onChatMessage(Text text, boolean actionbar) {
         if (capturedData == null || !isGettingActionDump) {
-            return EventResult.PASS;
+            return ReplacementEventResult.pass();
         }
 
         if (text.getString().startsWith("Error: ")) {
             isGettingActionDump = false;
             Flint.getUser().sendMessage(new ErrorMessage("flint.command.flint.action_dump.fail.start"));
-            return EventResult.CANCEL;
+            return ReplacementEventResult.cancel();
         }
 
         ComponentUtil.textToString(text, capturedData, colorMode);
@@ -80,14 +80,14 @@ public class GetActionDumpFeature implements ChatListeningFeature, PacketListeni
                 Flint.getUser().sendMessage(new SuccessMessage("flint.command.flint.action_dump.success", Component.text((float) (System.currentTimeMillis() - startTime) / MS_IN_SEC), Component.text(lines), Component.text(length)));
             } catch (IOException e) {
                 Flint.getUser().sendMessage(new ErrorMessage("flint.command.flint.action_dump.fail.write"));
-                return EventResult.CANCEL;
+                return ReplacementEventResult.cancel();
             } finally {
                 // Let garbage collector do its job.
                 capturedData = null;
             }
         }
 
-        return EventResult.CANCEL;
+        return ReplacementEventResult.cancel();
     }
 
 }
