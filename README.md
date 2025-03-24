@@ -22,13 +22,16 @@ Mods can define features, classes that implement a **FeatureTrait**.
 
 - **ChatListeningFeature** - Listen to chat messages
 - **CommandFeature** - Register a command with aliases
+- **ModeSwitchListeningFeature** - Listen to mode switches
 - **PacketListeningFeature** - Listen to incoming and outgoing packets
+- **PlotSwitchListeningFeature** - Listen to plot switches
 - **RenderedFeature** - Run code when a frame is rendered
 - **ShutdownFeature** - Run code when the game is shutting down
 - **TickedFeature** - Run code every tick
 - **TooltipRenderFeature** - Run code when a tooltip is rendered, allowing you to modify it
 - **UserCommandListeningFeature** - Run code when the player runs a command, lets you to modify or cancel the command
 - **UserMessageListeningFeature** - Run code when the player sends a message, lets you to modify or cancel the message
+- **WorldChangeListeningFeature** - Listen to world change events
 - **WorldRenderFeature** - Listen to world render events
 
 #### Registering features
