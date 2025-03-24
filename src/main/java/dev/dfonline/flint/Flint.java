@@ -8,18 +8,14 @@ import dev.dfonline.flint.feature.impl.FlintCommandFeature;
 import dev.dfonline.flint.feature.impl.LocateFeature;
 import dev.dfonline.flint.feature.impl.ModeTrackerFeature;
 import dev.dfonline.flint.feature.impl.PacketLoggerFeature;
-import dev.dfonline.flint.feature.trait.CommandFeature;
-import dev.dfonline.flint.feature.trait.RenderedFeature;
-import dev.dfonline.flint.feature.trait.ShutdownFeature;
-import dev.dfonline.flint.feature.trait.TickedFeature;
-import dev.dfonline.flint.feature.trait.TooltipRenderFeature;
-import dev.dfonline.flint.feature.trait.WorldRenderFeature;
+import dev.dfonline.flint.feature.trait.*;
 import dev.dfonline.flint.util.Logger;
 import dev.dfonline.flint.util.result.EventResult;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientWorldEvents;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
@@ -178,6 +174,12 @@ public class Flint implements ClientModInitializer {
         ClientLifecycleEvents.CLIENT_STOPPING.register(client ->
                 FEATURE_MANAGER.getByTrait(FeatureTraitType.SHUTDOWN).forEach(feature ->
                         ((ShutdownFeature) feature).onShutdown()
+                )
+        );
+
+        ClientWorldEvents.AFTER_CLIENT_WORLD_CHANGE.register((client, world) ->
+                FEATURE_MANAGER.getByTrait(FeatureTraitType.WORLD_CHANGE_LISTENING).forEach(feature ->
+                        ((WorldChangeListeningFeature) feature).onWorldChange(world)
                 )
         );
 

@@ -5,22 +5,21 @@ import dev.dfonline.flint.FlintAPI;
 import dev.dfonline.flint.feature.trait.PacketListeningFeature;
 import dev.dfonline.flint.hypercube.Mode;
 import dev.dfonline.flint.hypercube.Plot;
+import dev.dfonline.flint.util.Logger;
 import dev.dfonline.flint.util.result.EventResult;
 import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.s2c.play.ClearTitleS2CPacket;
-import net.minecraft.network.packet.s2c.play.GameJoinS2CPacket;
-import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket;
-import net.minecraft.network.packet.s2c.play.OverlayMessageS2CPacket;
-import net.minecraft.network.packet.s2c.play.PlayerSpawnPositionS2CPacket;
+import net.minecraft.network.packet.s2c.play.*;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.Vec3d;
 
 public class ModeTrackerFeature implements PacketListeningFeature {
 
+    private static final Logger LOGGER = Logger.of(ModeTrackerFeature.class);
     private static final double DEV_SPAWN_OFFSET = 10.5;
     private PendingModeSwitchAction pendingAction = PendingModeSwitchAction.CLEAR_TITLE;
 
     private static void setMode(Mode mode) {
+        LOGGER.info("Setting to mode " + mode);
         final Vec3d newOrigin;
         if (mode == Mode.DEV) {
             Vec3d devPos = Flint.getUser().getPlayer().getPos();
@@ -90,7 +89,10 @@ public class ModeTrackerFeature implements PacketListeningFeature {
             }
         }
 
-        if (packet instanceof GameJoinS2CPacket) {
+        if (packet instanceof ServerMetadataS2CPacket) {
+            if (FlintAPI.isDebugging()) {
+                LOGGER.info("Force-setting to spawn mode due to login");
+            }
             Flint.getUser().setNode(null);
             Flint.getUser().setPlot(null);
             Flint.getUser().setMode(Mode.SPAWN);
