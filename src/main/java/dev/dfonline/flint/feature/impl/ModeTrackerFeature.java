@@ -41,7 +41,7 @@ public class ModeTrackerFeature implements PacketListeningFeature, TickedFeature
                 Flint.getUser().setNode(locate.node());
                 Plot playerPlot = Flint.getUser().getPlot();
 
-                if (locate.node() != null) {
+                if (locate.plot() != null) {
                     if (playerPlot == null || !playerPlot.equals(locate.plot())) {
                         Flint.getUser().setPlot(locate.plot());
                     }
