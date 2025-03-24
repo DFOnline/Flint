@@ -25,4 +25,12 @@ public class DebugMessage extends PrefixedMessage {
         super(DEBUG_PREFIX, Component.translatable(key, args), actionbar);
     }
 
+    public DebugMessage(String message) {
+        super(DEBUG_PREFIX, Component.text(message));
+    }
+
+    public DebugMessage(String message, boolean actionbar) {
+        super(DEBUG_PREFIX, Component.text(message), actionbar);
+    }
+
 }
