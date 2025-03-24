@@ -26,7 +26,7 @@ public class LocateFeature implements PacketListeningFeature {
     private static final Pattern LOCATE_PATTERN = Pattern.compile("\\s{39}\\n(?:You are|(?<username>[A-Za-z0-9_]+) is) currently (?<mode>playing|coding|building|at spawn|existing)(?:(?: on:\\n)?\\n)?(?:→ (?<plotName>.+) \\[(?<plotID>\\d+)](?: \\[)?(?<plotHandle>[a-z0-9_-]+)?]? ?(?:\\n→ (?<status>.++))?\\n→ Owner: (?<owner>[A-Za-z0-9_]+)(?<whitelisted> \\[Whitelisted])?)? ?\\n?→ Server: (?<node>[\\w ?]+)\\n\\s{39}", Pattern.MULTILINE);
     private static final Queue<Pair<String, CompletableFuture<LocateResult>>> locateRequests = new LinkedList<>();
     private static boolean awaitingResponse = false;
-    private static final int LOCATE_TIMEOUT_SECONDS = 1;
+    private static final int LOCATE_TIMEOUT_SECONDS = 3;
 
     public static CompletableFuture<LocateResult> requestLocate(String playerName) {
         CompletableFuture<LocateResult> locateResult = new CompletableFuture<>();
