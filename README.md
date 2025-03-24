@@ -31,7 +31,6 @@ Mods can define features, classes that implement a **FeatureTrait**.
 - **TooltipRenderFeature** - Run code when a tooltip is rendered, allowing you to modify it
 - **UserCommandListeningFeature** - Run code when the player runs a command, lets you to modify or cancel the command
 - **UserMessageListeningFeature** - Run code when the player sends a message, lets you to modify or cancel the message
-- **WorldChangeListeningFeature** - Listen to world change events
 - **WorldRenderFeature** - Listen to world render events
 
 #### Registering features
