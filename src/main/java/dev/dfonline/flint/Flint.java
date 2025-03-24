@@ -2,7 +2,7 @@ package dev.dfonline.flint;
 
 import dev.dfonline.flint.feature.core.FeatureManager;
 import dev.dfonline.flint.feature.core.FeatureTraitType;
-import dev.dfonline.flint.feature.impl.ActionDumpGetterFeature;
+import dev.dfonline.flint.feature.impl.GetActionDumpFeature;
 import dev.dfonline.flint.feature.impl.CommandSenderFeature;
 import dev.dfonline.flint.feature.impl.FlintCommandFeature;
 import dev.dfonline.flint.feature.impl.LocateFeature;
@@ -72,7 +72,7 @@ public class Flint implements ClientModInitializer {
 
                 // Functionality
                 new ModeTrackerFeature(),
-                new ActionDumpGetterFeature(),
+                new GetActionDumpFeature(),
                 new FlintCommandFeature()
 
         );

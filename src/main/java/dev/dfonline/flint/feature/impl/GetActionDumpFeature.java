@@ -16,7 +16,7 @@ import net.minecraft.text.Text;
 
 import java.io.IOException;
 
-public class ActionDumpGetterFeature implements ChatListeningFeature, PacketListeningFeature {
+public class GetActionDumpFeature implements ChatListeningFeature, PacketListeningFeature {
 
     private static final int MS_IN_SEC = 1000;
     private static StringBuilder capturedData = null;

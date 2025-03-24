@@ -78,7 +78,7 @@ public class FlintCommandFeature implements CommandFeature {
                 )
         ).then(literal("action_dump")
                 .executes(context -> {
-                    ActionDumpGetterFeature.getActionDump(ComponentUtil.ColorMode.MINI_MESSAGE, false);
+                    GetActionDumpFeature.getActionDump(ComponentUtil.ColorMode.MINI_MESSAGE, false);
                     return 1;
                 })
                 .then(argument("color_mode", StringArgumentType.word())
@@ -90,20 +90,20 @@ public class FlintCommandFeature implements CommandFeature {
                         })
                         .executes(context -> {
                             ComponentUtil.ColorMode colorMode = ComponentUtil.ColorMode.valueOf(StringArgumentType.getString(context, "color_mode").toUpperCase());
-                            ActionDumpGetterFeature.getActionDump(colorMode, false);
+                            GetActionDumpFeature.getActionDump(colorMode, false);
                             return 1;
                         })
                         .then(literal("force")
                                 .executes(context -> {
                                     ComponentUtil.ColorMode colorMode = ComponentUtil.ColorMode.valueOf(StringArgumentType.getString(context, "color_mode").toUpperCase());
-                                    ActionDumpGetterFeature.getActionDump(colorMode, true);
+                                    GetActionDumpFeature.getActionDump(colorMode, true);
                                     return 1;
                                 })
                         )
                 )
                 .then(literal("force")
                         .executes(context -> {
-                            ActionDumpGetterFeature.getActionDump(ComponentUtil.ColorMode.MINI_MESSAGE, true);
+                            GetActionDumpFeature.getActionDump(ComponentUtil.ColorMode.MINI_MESSAGE, true);
                             return 1;
                         })
                 )
