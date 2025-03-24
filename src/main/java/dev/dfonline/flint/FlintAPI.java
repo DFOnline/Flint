@@ -64,7 +64,7 @@ public final class FlintAPI {
      *
      * @param features The features to register.
      */
-    public static void registerFeatures(FeatureTrait features) {
+    public static void registerFeatures(FeatureTrait... features) {
         Flint.FEATURE_MANAGER.registerAll(features);
     }
 
