@@ -3,29 +3,37 @@ package dev.dfonline.flint.feature.impl;
 import dev.dfonline.flint.Flint;
 import dev.dfonline.flint.FlintAPI;
 import dev.dfonline.flint.feature.trait.PacketListeningFeature;
+import dev.dfonline.flint.feature.trait.WorldChangeListeningFeature;
 import dev.dfonline.flint.hypercube.Mode;
 import dev.dfonline.flint.hypercube.Plot;
 import dev.dfonline.flint.util.Logger;
 import dev.dfonline.flint.util.result.EventResult;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.s2c.play.*;
+import net.minecraft.network.packet.s2c.play.ClearTitleS2CPacket;
+import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket;
+import net.minecraft.network.packet.s2c.play.OverlayMessageS2CPacket;
+import net.minecraft.network.packet.s2c.play.PlayerSpawnPositionS2CPacket;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.Vec3d;
 
-public class ModeTrackerFeature implements PacketListeningFeature {
+public class ModeTrackerFeature implements PacketListeningFeature, WorldChangeListeningFeature {
 
     private static final Logger LOGGER = Logger.of(ModeTrackerFeature.class);
     private static final double DEV_SPAWN_OFFSET = 10.5;
     private PendingModeSwitchAction pendingAction = PendingModeSwitchAction.CLEAR_TITLE;
 
     private static void setMode(Mode mode) {
-        LOGGER.info("Setting to mode " + mode);
         final Vec3d newOrigin;
         if (mode == Mode.DEV) {
             Vec3d devPos = Flint.getUser().getPlayer().getPos();
             newOrigin = new Vec3d(devPos.x + DEV_SPAWN_OFFSET, 0, devPos.z - DEV_SPAWN_OFFSET);
         } else {
             newOrigin = null;
+        }
+        if (FlintAPI.isDebugging()) {
+            LOGGER.info("Setting to mode " + mode);
+            LOGGER.info("Player: " + Flint.getUser().getPlayer());
         }
         if (FlintAPI.shouldConfirmLocationWithLocate() && Flint.getUser().getPlayer() != null) {
             LocateFeature.requestLocate(Flint.getUser().getPlayer().getNameForScoreboard()).thenAccept(locate -> {
@@ -89,16 +97,20 @@ public class ModeTrackerFeature implements PacketListeningFeature {
             }
         }
 
-        if (packet instanceof ServerMetadataS2CPacket) {
-            if (FlintAPI.isDebugging()) {
-                LOGGER.info("Force-setting to spawn mode due to login");
-            }
-            Flint.getUser().setNode(null);
-            Flint.getUser().setPlot(null);
-            Flint.getUser().setMode(Mode.SPAWN);
+        return EventResult.PASS;
+    }
+
+    @Override
+    public void onWorldChange(ClientWorld world) {
+        if (Flint.getUser().getMode() != null && Flint.getUser().getMode() != Mode.SPAWN) {
+            return;
         }
 
-        return EventResult.PASS;
+        if (FlintAPI.isDebugging()) {
+            LOGGER.info("Force-setting to spawn mode due to world switch");
+        }
+
+        setMode(Mode.SPAWN);
     }
 
     private enum PendingModeSwitchAction {
