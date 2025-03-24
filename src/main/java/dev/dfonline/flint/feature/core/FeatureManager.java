@@ -53,11 +53,28 @@ public class FeatureManager {
     /**
      * Gets all features that implement the specified trait.
      *
+     * @param trait               The trait to look up
+     * @param onlyEnabledFeatures Whether to only return enabled features
+     * @return List of features implementing the specified trait
+     */
+    public List<FeatureTrait> getByTrait(FeatureTraitType trait, boolean onlyEnabledFeatures) {
+        List<FeatureTrait> traits = this.featureLists[trait.getIndex()];
+        if (onlyEnabledFeatures) {
+            return traits.stream().filter(FeatureTrait::isEnabled).toList();
+        } else {
+            return traits;
+        }
+    }
+
+    /**
+     * Gets all features that implement the specified trait.
+     *
      * @param trait The trait to look up
      * @return List of features implementing the specified trait
      */
     public List<FeatureTrait> getByTrait(FeatureTraitType trait) {
-        return this.featureLists[trait.getIndex()].stream().filter(FeatureTrait::isEnabled).toList();
+        return this.getByTrait(trait, true);
     }
+
 
 }

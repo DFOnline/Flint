@@ -79,7 +79,7 @@ public class Flint implements ClientModInitializer {
         );
 
         ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) ->
-                FEATURE_MANAGER.getByTrait(FeatureTraitType.COMMAND).forEach(feature ->
+                FEATURE_MANAGER.getByTrait(FeatureTraitType.COMMAND, false).forEach(feature ->
                         ((CommandFeature) feature).register(dispatcher, registryAccess)
                 )
         );
