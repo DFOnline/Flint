@@ -2,6 +2,7 @@ package dev.dfonline.flint;
 
 import dev.dfonline.flint.feature.core.FeatureTrait;
 
+@SuppressWarnings("unused") // API, we don't use all methods
 public final class FlintAPI {
 
     private static boolean confirmLocationWithLocate = false;
