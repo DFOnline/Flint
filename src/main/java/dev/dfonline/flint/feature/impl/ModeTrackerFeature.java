@@ -3,25 +3,22 @@ package dev.dfonline.flint.feature.impl;
 import dev.dfonline.flint.Flint;
 import dev.dfonline.flint.FlintAPI;
 import dev.dfonline.flint.feature.trait.PacketListeningFeature;
-import dev.dfonline.flint.feature.trait.WorldChangeListeningFeature;
+import dev.dfonline.flint.feature.trait.TickedFeature;
 import dev.dfonline.flint.hypercube.Mode;
 import dev.dfonline.flint.hypercube.Plot;
 import dev.dfonline.flint.util.Logger;
 import dev.dfonline.flint.util.result.EventResult;
-import net.minecraft.client.world.ClientWorld;
 import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.s2c.play.ClearTitleS2CPacket;
-import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket;
-import net.minecraft.network.packet.s2c.play.OverlayMessageS2CPacket;
-import net.minecraft.network.packet.s2c.play.PlayerSpawnPositionS2CPacket;
+import net.minecraft.network.packet.s2c.play.*;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.Vec3d;
 
-public class ModeTrackerFeature implements PacketListeningFeature, WorldChangeListeningFeature {
+public class ModeTrackerFeature implements PacketListeningFeature, TickedFeature {
 
     private static final Logger LOGGER = Logger.of(ModeTrackerFeature.class);
     private static final double DEV_SPAWN_OFFSET = 10.5;
     private PendingModeSwitchAction pendingAction = PendingModeSwitchAction.CLEAR_TITLE;
+    private static boolean hasQueuedLocate = false;
 
     private static void setMode(Mode mode) {
         final Vec3d newOrigin;
@@ -97,21 +94,25 @@ public class ModeTrackerFeature implements PacketListeningFeature, WorldChangeLi
             }
         }
 
+        if (packet instanceof GameJoinS2CPacket) {
+            hasQueuedLocate = true;
+        }
+
         return EventResult.PASS;
     }
 
     @Override
-    public void onWorldChange(ClientWorld world) {
-        if (Flint.getUser().getMode() != null && Flint.getUser().getMode() != Mode.SPAWN) {
-            return;
+    public void tick() {
+        if (Flint.getUser().getPlayer() != null && hasQueuedLocate) {
+            hasQueuedLocate = false;
+            LocateFeature.requestLocate(Flint.getUser().getPlayer().getNameForScoreboard()).thenAccept(locate -> {
+                Flint.getUser().setNode(locate.node());
+                Flint.getUser().setPlot(locate.plot());
+                Flint.getUser().setMode(locate.mode());
+            });
         }
-
-        if (FlintAPI.isDebugging()) {
-            LOGGER.info("Force-setting to spawn mode due to world switch");
-        }
-
-        setMode(Mode.SPAWN);
     }
+
 
     private enum PendingModeSwitchAction {
         CLEAR_TITLE,
