@@ -55,7 +55,7 @@ public class Flint implements ClientModInitializer {
     public void onInitializeClient() {
         LOGGER.info("Sparking it up");
 
-        // FlintAPI.setDebugging(true);
+         FlintAPI.setDebugging(true);
         FlintAPI.confirmLocationWithLocate();
 
         FEATURE_MANAGER.registerAll(
@@ -174,12 +174,6 @@ public class Flint implements ClientModInitializer {
         ClientLifecycleEvents.CLIENT_STOPPING.register(client ->
                 FEATURE_MANAGER.getByTrait(FeatureTraitType.SHUTDOWN).forEach(feature ->
                         ((ShutdownFeature) feature).onShutdown()
-                )
-        );
-
-        ClientWorldEvents.AFTER_CLIENT_WORLD_CHANGE.register((client, world) ->
-                FEATURE_MANAGER.getByTrait(FeatureTraitType.WORLD_CHANGE_LISTENING).forEach(feature ->
-                        ((WorldChangeListeningFeature) feature).onWorldChange(world)
                 )
         );
 

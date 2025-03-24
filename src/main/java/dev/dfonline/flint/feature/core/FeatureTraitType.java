@@ -18,8 +18,7 @@ public enum FeatureTraitType {
     SHUTDOWN(8, ShutdownFeature.class),
     CHAT_LISTENING(9, ChatListeningFeature.class),
     PLOT_SWITCH_LISTENING(10, PlotSwitchListeningFeature.class),
-    MODE_SWITCH_LISTENING(11, ModeSwitchListeningFeature.class),
-    WORLD_CHANGE_LISTENING(12, WorldChangeListeningFeature.class);
+    MODE_SWITCH_LISTENING(11, ModeSwitchListeningFeature.class);
 
     private final int index;
     private final Class<? extends FeatureTrait> featureClass;
