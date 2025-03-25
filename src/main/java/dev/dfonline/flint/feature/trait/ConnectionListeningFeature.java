@@ -7,8 +7,10 @@ import dev.dfonline.flint.feature.core.FeatureTrait;
  */
 public interface ConnectionListeningFeature extends FeatureTrait {
 
-    void onJoin();
+    default void onJoin() {
+    }
 
-    void onDisconnect();
+    default void onDisconnect() {
+    }
 
 }
