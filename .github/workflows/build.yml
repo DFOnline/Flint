@@ -50,4 +50,4 @@ jobs:
             fabric
           game-versions: |-
             1.21.3
-          files: ./build/libs/Flint.jar
+          files: ./build/libs/Flint-1.0.0.jar
