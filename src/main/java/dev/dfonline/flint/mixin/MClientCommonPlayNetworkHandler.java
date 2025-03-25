@@ -25,15 +25,21 @@ public abstract class MClientCommonPlayNetworkHandler {
     private void sendPacket(Packet<?> packet, CallbackInfo ci) {
         if (!this.sendingModifiedCommand && packet instanceof CommandExecutionC2SPacket(String command)) {
             String newCommand = null;
+            boolean shouldReturn = false;
             for (var trait : Flint.FEATURE_MANAGER.getByTrait(FeatureTraitType.USER_COMMAND_LISTENING)) {
                 var result = ((UserCommandListeningFeature) trait).sendCommand(command);
                 if (result.getType() == ReplacementEventResult.Type.CANCEL) {
-                    ci.cancel();
+                    shouldReturn = true;
                 }
                 if (result.getType() == ReplacementEventResult.Type.REPLACE) {
                     ci.cancel();
                     newCommand = result.getValue();
                 }
+            }
+
+            if (shouldReturn) {
+                ci.cancel();
+                return;
             }
 
             if (newCommand != null && Flint.getClient().getNetworkHandler() != null) {
