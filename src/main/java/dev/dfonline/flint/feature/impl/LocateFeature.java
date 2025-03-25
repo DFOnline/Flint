@@ -10,6 +10,7 @@ import it.unimi.dsi.fastutil.Pair;
 import net.kyori.adventure.text.Component;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket;
+import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import org.jetbrains.annotations.Nullable;
 
@@ -148,7 +149,7 @@ public class LocateFeature implements PacketListeningFeature {
             plotHandle = matcher.group("plotHandle");
         }
         boolean whitelisted = matcher.group("whitelisted") != null;
-        return new Plot(plotID, Component.text(plotName), plotHandle, whitelisted);
+        return new Plot(plotID, Text.literal(plotName), plotHandle, whitelisted);
     }
 
     public record LocateResult(String player, Mode mode, @Nullable Plot plot, Node node) {

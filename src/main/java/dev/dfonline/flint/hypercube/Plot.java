@@ -1,7 +1,7 @@
 package dev.dfonline.flint.hypercube;
 
-import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.Vec3d;
 
 import java.util.Objects;
@@ -9,12 +9,12 @@ import java.util.Objects;
 public class Plot {
 
     private final int id;
-    private final Component name;
+    private final Text name;
     private final String handle;
     private final boolean whitelisted;
     private Vec3d origin;
 
-    public Plot(int id, Component name, String handle, boolean whitelisted) {
+    public Plot(int id, Text name, String handle, boolean whitelisted) {
         this.id = id;
         this.name = name;
         this.handle = handle;
@@ -26,7 +26,7 @@ public class Plot {
         return this.id;
     }
 
-    public Component getName() {
+    public Text getName() {
         return this.name;
     }
 
