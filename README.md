@@ -146,6 +146,11 @@ Use the Modrinth Maven repository to depend on Flint in your project.
 Flint updates on a **rolling release** schedule, once a push is made to the main branch, a new version is released.
 The latest release will be the most recent GitHub release, or other most recent release on Modrinth.
 
+### Build Script Example
+
+> [!WARNING]
+> Don't include Flint in your mod jar, users should get Flint themselves so it can be updated independently, additionally, if you do include it your mod will have to match Flint's license.
+
 ```gradle
 repositories {
     // This is the recommended way to add the Modrinth Maven repository.
@@ -179,7 +184,3 @@ dependencies {
 
 }
 ```
-
-> [!TIP]
-> Don't include Flint in your mod jar, users should get Flint themselves so it can be updated independently.
-
