@@ -1,4 +1,4 @@
-name: Build
+name: Build and Publish
 
 on:
   push:
@@ -33,3 +33,21 @@ jobs:
           automatic_release_tag: "v${{ github.run_number }}"
           files: |
             ./build/libs/
+      - name: Publish to Modrinth
+        uses: cloudnode-pro/modrinth-publish@v2
+        with:
+          token: ${{ secrets.MODRINTH_TOKEN }}
+          project: dBv9so2c
+          name: "Flint v${{ github.run_number }}"
+          version: "v${{ github.run_number }}"
+          changelog: "${{ github.event.head_commit.message }}"
+          dependencies: |-
+            [{
+              "project_id": "P7dR8mSH",
+              "dependency_type": "required"
+            }]
+          loaders: |-
+            fabric
+          game-versions: |-
+            1.21.3
+          files: ./build/libs/Flint.jar
