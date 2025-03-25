@@ -29,7 +29,6 @@ public abstract class MClientCommonPlayNetworkHandler {
                 var result = ((UserCommandListeningFeature) trait).sendCommand(command);
                 if (result.getType() == ReplacementEventResult.Type.CANCEL) {
                     ci.cancel();
-                    return;
                 }
                 if (result.getType() == ReplacementEventResult.Type.REPLACE) {
                     ci.cancel();
