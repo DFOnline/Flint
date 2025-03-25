@@ -6,7 +6,6 @@ import dev.dfonline.flint.feature.trait.ChatListeningFeature;
 import dev.dfonline.flint.feature.trait.PacketListeningFeature;
 import dev.dfonline.flint.util.result.EventResult;
 import dev.dfonline.flint.util.result.ReplacementEventResult;
-import net.kyori.adventure.text.Component;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.network.listener.PacketListener;
 import net.minecraft.network.packet.Packet;
@@ -24,7 +23,7 @@ public class MClientConnection {
     private static <T extends PacketListener> void handlePacket(Packet<T> packet, PacketListener listener, CallbackInfo ci) {
         if (packet instanceof GameMessageS2CPacket(Text content, boolean overlay)) {
             boolean shouldReturn = false;
-            Component newMessage = null;
+            Text newMessage = null;
 
             for (var feature : Flint.FEATURE_MANAGER.getByTrait(FeatureTraitType.CHAT_LISTENING)) {
                 var result = ((ChatListeningFeature) feature).onChatMessage(content, overlay);
@@ -45,7 +44,7 @@ public class MClientConnection {
 
             if (newMessage != null) {
                 ci.cancel();
-                Flint.getUser().getPlayer().sendMessage(newMessage);
+                Flint.getUser().getPlayer().sendMessage(newMessage, false);
                 return;
             }
         }
