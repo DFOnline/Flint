@@ -9,6 +9,7 @@ import dev.dfonline.flint.feature.impl.LocateFeature;
 import dev.dfonline.flint.feature.impl.ModeTrackerFeature;
 import dev.dfonline.flint.feature.impl.PacketLoggerFeature;
 import dev.dfonline.flint.feature.trait.CommandFeature;
+import dev.dfonline.flint.feature.trait.ConnectionListeningFeature;
 import dev.dfonline.flint.feature.trait.RenderedFeature;
 import dev.dfonline.flint.feature.trait.ShutdownFeature;
 import dev.dfonline.flint.feature.trait.TickedFeature;
@@ -21,6 +22,7 @@ import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallba
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import net.kyori.adventure.platform.modcommon.MinecraftAudiences;
@@ -172,6 +174,17 @@ public class Flint implements ClientModInitializer {
                 )
         );
 
+        ClientPlayConnectionEvents.DISCONNECT.register((handler, client) ->
+                FEATURE_MANAGER.getByTrait(FeatureTraitType.CONNECTION_LISTENING).forEach(feature ->
+                        ((ConnectionListeningFeature) feature).onDisconnect()
+                )
+        );
+
+        ClientPlayConnectionEvents.JOIN.register((handler, sender, client) ->
+                FEATURE_MANAGER.getByTrait(FeatureTraitType.CONNECTION_LISTENING).forEach(feature ->
+                        ((ConnectionListeningFeature) feature).onJoin()
+                )
+        );
     }
 
 }
