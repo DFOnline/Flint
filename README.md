@@ -132,18 +132,16 @@ A rate limiter that can be used to limit the rate at which code is executed.
 
 ## How to install
 
-> [!NOTE]  
-> This is not possible currently as the mod does not have neither a workflow nor a Modrinth page.
+> [!NOTE]
+> We are planning to switch to rolling releases on all platforms.
 
 Either grab the latest release from [the releases page](https://github.com/dFOnline/flint/releases/latest) or
 on [Modrinth](https://modrinth.com/mod/flint).
 
 ## Depending on Flint
 
-> [!NOTE]  
-> This is not possible currently as the mod has not been uploaded the Modrinth.
-
 Use the Modrinth Maven repository to depend on Flint in your project.
+**Current Modrinth version:** 0.1.0
 
 ```gradle
 repositories {
