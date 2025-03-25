@@ -31,6 +31,11 @@ public class LocateFeature implements PacketListeningFeature {
     private static boolean awaitingResponse = false;
     private static final int LOCATE_TIMEOUT_SECONDS = 3;
 
+    @Override
+    public boolean alwaysOn() {
+        return true;
+    }
+
     public static CompletableFuture<LocateResult> requestLocate(String playerName) {
         CompletableFuture<LocateResult> locateResult = new CompletableFuture<>();
         Pair<String, CompletableFuture<LocateResult>> requestPair = Pair.of(playerName, locateResult);
@@ -114,6 +119,7 @@ public class LocateFeature implements PacketListeningFeature {
 
         Mode mode;
         switch (matcher.group("mode")) {
+            case "at spawn" -> mode = Mode.SPAWN;
             case "playing" -> mode = Mode.PLAY;
             case "coding" -> mode = Mode.DEV;
             case "building" -> mode = Mode.BUILD;

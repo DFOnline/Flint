@@ -12,4 +12,12 @@ public interface FeatureTrait {
         return true;
     }
 
+    /**
+     * @return Whether the feature should always be enabled,
+     * regardless of whether the user is on DiamondFire or not.
+     */
+    default boolean alwaysOn() {
+        return false;
+    }
+
 }

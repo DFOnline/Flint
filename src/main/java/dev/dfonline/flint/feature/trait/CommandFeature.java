@@ -15,6 +15,11 @@ import static com.mojang.brigadier.builder.LiteralArgumentBuilder.literal;
  */
 public interface CommandFeature extends FeatureTrait {
 
+    @Override
+    default boolean alwaysOn() {
+        return true;
+    }
+
     /**
      * Returns a set of command aliases.
      *

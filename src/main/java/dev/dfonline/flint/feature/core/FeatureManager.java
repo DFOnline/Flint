@@ -1,5 +1,8 @@
 package dev.dfonline.flint.feature.core;
 
+import dev.dfonline.flint.Flint;
+import dev.dfonline.flint.hypercube.Mode;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,7 +61,14 @@ public class FeatureManager {
      * @return List of features implementing the specified trait
      */
     public List<FeatureTrait> getByTrait(FeatureTraitType trait, boolean onlyEnabledFeatures) {
+
         List<FeatureTrait> traits = this.featureLists[trait.getIndex()];
+
+        // When the player is not on DiamondFire, only return always-on features
+        if (Flint.getUser().getMode() == Mode.NONE) {
+            traits = traits.stream().filter(FeatureTrait::alwaysOn).toList();
+        }
+
         if (onlyEnabledFeatures) {
             return traits.stream().filter(FeatureTrait::isEnabled).toList();
         } else {
