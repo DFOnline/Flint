@@ -107,7 +107,7 @@ public class ModeTrackerFeature implements PacketListeningFeature, TickedFeature
 
     @Override
     public void tick() {
-        if (Flint.getUser().getPlayer() != null && hasQueuedLocate) {
+        if (Flint.getClient().player != null && hasQueuedLocate) {
             hasQueuedLocate = false;
             LocateFeature.requestLocate(Flint.getUser().getPlayer().getNameForScoreboard()).thenAccept(locate -> {
                 Flint.getUser().setNode(locate.node());
