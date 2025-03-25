@@ -161,7 +161,7 @@ repositories {
 
 dependencies {
     // Use modApi to gain access to Flint's classes.
-    modApi("maven.modrinth:flint:${project.flint_version}")}
+    modApi("maven.modrinth:flint:${project.flint_version}")
 }
 ```
 
