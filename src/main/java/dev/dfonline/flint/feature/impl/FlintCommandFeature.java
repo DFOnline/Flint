@@ -47,16 +47,12 @@ public class FlintCommandFeature implements CommandFeature {
                     if (plot != null) {
                         plotString = plot.toReadableString();
                     }
-                    String modeString = "null";
-                    if (Flint.getUser().getMode() != null) {
-                        modeString = Flint.getUser().getMode().getName();
-                    }
                     String nodeString = "null";
                     if (Flint.getUser().getNode() != null) {
                         nodeString = Flint.getUser().getNode().getName();
                     }
 
-                    Flint.getUser().sendMessage(new CompoundMessage(new InfoMessage("flint.command.flint.mode", Component.text(modeString), Component.text(plotString), Component.text(nodeString))));
+                    Flint.getUser().sendMessage(new CompoundMessage(new InfoMessage("flint.command.flint.mode", Component.text(Flint.getUser().getMode().getName()), Component.text(plotString), Component.text(nodeString))));
                     return 1;
                 })
         ).then(literal("clear_queue")
