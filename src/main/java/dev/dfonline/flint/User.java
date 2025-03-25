@@ -23,7 +23,9 @@ public final class User {
     public ClientPlayerEntity getPlayer() {
         ClientPlayerEntity player = Flint.getClient().player;
 
-        assert player != null : "Player is null";
+        if (player == null) {
+            throw new NullPointerException("Player is null, User#getPlayer should only be used as a shorthand when it is known that the player is not null.");
+        }
         return player;
     }
 
