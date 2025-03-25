@@ -9,6 +9,7 @@ import dev.dfonline.flint.hypercube.Plot;
 import dev.dfonline.flint.util.message.Message;
 import net.minecraft.client.network.ClientPlayerEntity;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -16,7 +17,7 @@ import org.jetbrains.annotations.Nullable;
  */
 public final class User {
 
-    private Mode mode;
+    private @NotNull Mode mode = Mode.NONE;
     private @Nullable Plot plot;
     private @Nullable Node node;
 
@@ -29,12 +30,12 @@ public final class User {
         return player;
     }
 
-    public Mode getMode() {
+    public @NotNull Mode getMode() {
         return this.mode;
     }
 
     @ApiStatus.Internal
-    public void setMode(Mode mode) {
+    public void setMode(@NotNull Mode mode) {
         if (this.mode != mode) {
             Flint.FEATURE_MANAGER.getByTrait(FeatureTraitType.MODE_SWITCH_LISTENING).forEach(feature ->
                     ((ModeSwitchListeningFeature) feature).onSwitchMode(this.mode, mode)
