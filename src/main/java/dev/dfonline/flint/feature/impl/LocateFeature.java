@@ -21,6 +21,9 @@ import java.util.concurrent.TimeoutException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Handles requesting locate commands and serving their responses in a structured manner.
+ */
 public class LocateFeature implements PacketListeningFeature {
 
     private static final Pattern LOCATE_PATTERN = Pattern.compile("\\s{39}\\n(?:You are|(?<username>[A-Za-z0-9_]+) is) currently (?<mode>playing|coding|building|at spawn|existing)(?:(?: on:\\n)?\\n)?(?:→ (?<plotName>.+) \\[(?<plotID>\\d+)](?: \\[)?(?<plotHandle>[a-z0-9_-]+)?]? ?(?:\\n→ (?<status>.++))?\\n→ Owner: (?<owner>[A-Za-z0-9_]+)(?<whitelisted> \\[Whitelisted])?)? ?\\n?→ Server: (?<node>[\\w ?]+)\\n\\s{39}", Pattern.MULTILINE);
@@ -117,7 +120,7 @@ public class LocateFeature implements PacketListeningFeature {
             // we assume 'existing' can only be achieved with code spectating.
             case "existing" -> mode = Mode.CODE_SPECTATE;
             // this is an impossible case.
-            default -> mode = Mode.SPAWN;
+            default -> mode = Mode.NONE;
         }
 
         Plot plot = parsePlot(matcher);
