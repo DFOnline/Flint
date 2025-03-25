@@ -85,8 +85,8 @@ public void error() {
 
 ### Mode Tracking
 
-Flint tracks the user's current mode and optionally the plot they are on, you can access this info using *
-*Flint.getUser().getMode()** and **Flint.getUser().getPlot()**.
+Flint tracks the user's current mode and optionally the plot and node they are on, you can access this info using
+**Flint.getUser().getMode()**, **Flint.getUser().getPlot()**, and **Flint.getUser().getNode()**.
 
 ```java
 public boolean shouldShowPlotOverlay() {
@@ -141,7 +141,10 @@ on [Modrinth](https://modrinth.com/mod/flint).
 ## Depending on Flint
 
 Use the Modrinth Maven repository to depend on Flint in your project.
-**Current Modrinth version:** 0.1.0
+
+### What version?
+Flint updates on a **rolling release** schedule, once a push is made to the main branch, a new version is released.
+The latest release will be the most recent GitHub release, or other most recent release on Modrinth.
 
 ```gradle
 repositories {
@@ -161,7 +164,19 @@ repositories {
 
 dependencies {
     // Use modApi to gain access to Flint's classes.
+
+    // Flint
     modApi("maven.modrinth:flint:${project.flint_version}")
+
+    // Flint depends on Adventure,
+    // loom doesn't resolve dependencies of dependencies
+    // so you need to include it in your project yourself.
+
+    // Adventure
+    modImplementation include("net.kyori:adventure-platform-fabric:${project.adventure_fabric_version}") {
+        exclude group: "net.fabricmc.fabric-api"
+    }
+
 }
 ```
 
