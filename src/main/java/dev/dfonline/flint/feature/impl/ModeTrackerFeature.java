@@ -56,7 +56,8 @@ public class ModeTrackerFeature
         }
 
         if (FlintAPI.shouldConfirmLocationWithLocate() && mode != Mode.NONE) {
-            LocateFeature.requestLocate("").thenAccept(locate -> {
+            String name = Flint.getUser().getPlayer().getNameForScoreboard();
+            LocateFeature.requestLocate(name).thenAccept(locate -> {
                 Flint.getUser().setNode(locate.node());
                 Plot currentPlot = Flint.getUser().getPlot();
 
