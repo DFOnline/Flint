@@ -35,6 +35,11 @@ public final class CommandSenderFeature implements PacketListeningFeature, Ticke
     }
 
     @Override
+    public boolean alwaysOn() {
+        return true;
+    }
+
+    @Override
     public void tick() {
         rateLimiter.tick();
         ClientPlayNetworkHandler networkHandler = Flint.getClient().getNetworkHandler();

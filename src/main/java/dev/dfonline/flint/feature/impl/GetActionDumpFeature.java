@@ -55,7 +55,7 @@ public class GetActionDumpFeature implements ChatListeningFeature, PacketListeni
     }
 
     @Override
-    public ReplacementEventResult<Component> onChatMessage(Text text, boolean actionbar) {
+    public ReplacementEventResult<Text> onChatMessage(Text text, boolean actionbar) {
         if (capturedData == null || !isGettingActionDump) {
             return ReplacementEventResult.pass();
         }

@@ -2,7 +2,6 @@ package dev.dfonline.flint.feature.trait;
 
 import dev.dfonline.flint.feature.core.FeatureTrait;
 import dev.dfonline.flint.util.result.ReplacementEventResult;
-import net.kyori.adventure.text.Component;
 import net.minecraft.text.Text;
 
 /**
@@ -17,6 +16,6 @@ public interface ChatListeningFeature extends FeatureTrait {
      * @param actionbar Whether the message was displayed in the action bar
      * @return The result of the event
      */
-    ReplacementEventResult<Component> onChatMessage(Text text, boolean actionbar);
+    ReplacementEventResult<Text> onChatMessage(Text text, boolean actionbar);
 
 }

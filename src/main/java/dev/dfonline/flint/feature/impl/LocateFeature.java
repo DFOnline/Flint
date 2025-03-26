@@ -10,6 +10,7 @@ import it.unimi.dsi.fastutil.Pair;
 import net.kyori.adventure.text.Component;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket;
+import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import org.jetbrains.annotations.Nullable;
 
@@ -21,12 +22,20 @@ import java.util.concurrent.TimeoutException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Handles requesting locate commands and serving their responses in a structured manner.
+ */
 public class LocateFeature implements PacketListeningFeature {
 
     private static final Pattern LOCATE_PATTERN = Pattern.compile("\\s{39}\\n(?:You are|(?<username>[A-Za-z0-9_]+) is) currently (?<mode>playing|coding|building|at spawn|existing)(?:(?: on:\\n)?\\n)?(?:→ (?<plotName>.+) \\[(?<plotID>\\d+)](?: \\[)?(?<plotHandle>[a-z0-9_-]+)?]? ?(?:\\n→ (?<status>.++))?\\n→ Owner: (?<owner>[A-Za-z0-9_]+)(?<whitelisted> \\[Whitelisted])?)? ?\\n?→ Server: (?<node>[\\w ?]+)\\n\\s{39}", Pattern.MULTILINE);
     private static final Queue<Pair<String, CompletableFuture<LocateResult>>> locateRequests = new LinkedList<>();
     private static boolean awaitingResponse = false;
     private static final int LOCATE_TIMEOUT_SECONDS = 3;
+
+    @Override
+    public boolean alwaysOn() {
+        return true;
+    }
 
     public static CompletableFuture<LocateResult> requestLocate(String playerName) {
         CompletableFuture<LocateResult> locateResult = new CompletableFuture<>();
@@ -111,13 +120,14 @@ public class LocateFeature implements PacketListeningFeature {
 
         Mode mode;
         switch (matcher.group("mode")) {
+            case "at spawn" -> mode = Mode.SPAWN;
             case "playing" -> mode = Mode.PLAY;
             case "coding" -> mode = Mode.DEV;
             case "building" -> mode = Mode.BUILD;
             // we assume 'existing' can only be achieved with code spectating.
             case "existing" -> mode = Mode.CODE_SPECTATE;
             // this is an impossible case.
-            default -> mode = Mode.SPAWN;
+            default -> mode = Mode.NONE;
         }
 
         Plot plot = parsePlot(matcher);
@@ -139,7 +149,7 @@ public class LocateFeature implements PacketListeningFeature {
             plotHandle = matcher.group("plotHandle");
         }
         boolean whitelisted = matcher.group("whitelisted") != null;
-        return new Plot(plotID, Component.text(plotName), plotHandle, whitelisted);
+        return new Plot(plotID, Text.literal(plotName), plotHandle, whitelisted);
     }
 
     public record LocateResult(String player, Mode mode, @Nullable Plot plot, Node node) {
