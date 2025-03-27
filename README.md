@@ -132,9 +132,6 @@ A rate limiter that can be used to limit the rate at which code is executed.
 
 ## How to install
 
-> [!NOTE]
-> We are planning to switch to rolling releases on all platforms.
-
 Either grab the latest release from [the releases page](https://github.com/dFOnline/flint/releases/latest) or
 on [Modrinth](https://modrinth.com/mod/flint).
 
