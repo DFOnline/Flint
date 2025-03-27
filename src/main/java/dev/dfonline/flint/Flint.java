@@ -2,7 +2,13 @@ package dev.dfonline.flint;
 
 import dev.dfonline.flint.feature.core.FeatureManager;
 import dev.dfonline.flint.feature.core.FeatureTraitType;
-import dev.dfonline.flint.feature.impl.*;
+import dev.dfonline.flint.feature.impl.CommandSenderFeature;
+import dev.dfonline.flint.feature.impl.FlintCommandFeature;
+import dev.dfonline.flint.feature.impl.GetActionDumpFeature;
+import dev.dfonline.flint.feature.impl.LocateFeature;
+import dev.dfonline.flint.feature.impl.ModeTrackerFeature;
+import dev.dfonline.flint.feature.impl.PacketLoggerFeature;
+import dev.dfonline.flint.feature.impl.StateDebugDisplayFeature;
 import dev.dfonline.flint.feature.trait.CommandFeature;
 import dev.dfonline.flint.feature.trait.ConnectionListeningFeature;
 import dev.dfonline.flint.feature.trait.RenderedFeature;
@@ -20,6 +26,7 @@ import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
+import net.fabricmc.loader.api.FabricLoader;
 import net.kyori.adventure.platform.modcommon.MinecraftAudiences;
 import net.kyori.adventure.platform.modcommon.MinecraftClientAudiences;
 import net.minecraft.client.MinecraftClient;
@@ -47,8 +54,10 @@ public class Flint implements ClientModInitializer {
     public void onInitializeClient() {
         LOGGER.info("Sparking it up");
 
-        //FlintAPI.setDebugging(true);
-        //FlintAPI.confirmLocationWithLocate();
+        if (FabricLoader.getInstance().isDevelopmentEnvironment()) {
+            FlintAPI.setDebugging(true);
+            FlintAPI.confirmLocationWithLocate();
+        }
 
         FEATURE_MANAGER.registerAll(
                 // Debug

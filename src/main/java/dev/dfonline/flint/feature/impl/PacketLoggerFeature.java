@@ -1,6 +1,5 @@
 package dev.dfonline.flint.feature.impl;
 
-import dev.dfonline.flint.FlintAPI;
 import dev.dfonline.flint.feature.trait.PacketListeningFeature;
 import dev.dfonline.flint.util.Logger;
 import dev.dfonline.flint.util.result.EventResult;
@@ -14,7 +13,8 @@ public class PacketLoggerFeature implements PacketListeningFeature {
 
     @Override
     public boolean isEnabled() {
-        return FlintAPI.isDebugging();
+        // Should be enabled manually in the code when needed.
+        return false;
     }
 
     @Override

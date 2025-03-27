@@ -19,8 +19,6 @@ import net.minecraft.util.math.Vec3d;
 
 import java.util.regex.Pattern;
 
-import static net.minecraft.text.Text.literal;
-
 /**
  * Handles tracking the player's mode and updating it accordingly.
  */
@@ -99,7 +97,6 @@ public class ModeTrackerFeature
     public void tick() {
         if (Flint.getClient().player != null) {
             if (hasQueuedLocate) {
-                //Flint.getClient().player.sendMessage(literal("Queued Locate Be Getting Processed dayum"), false);
                 hasQueuedLocate = false;
                 Vec3d newOrigin;
                 if (Flint.getUser().getMode() == Mode.DEV) {
