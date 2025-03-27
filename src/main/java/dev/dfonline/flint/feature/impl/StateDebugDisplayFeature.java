@@ -3,7 +3,9 @@ package dev.dfonline.flint.feature.impl;
 import dev.dfonline.flint.Flint;
 import dev.dfonline.flint.FlintAPI;
 import dev.dfonline.flint.User;
+import dev.dfonline.flint.feature.trait.ModeSwitchListeningFeature;
 import dev.dfonline.flint.feature.trait.RenderedFeature;
+import dev.dfonline.flint.hypercube.Mode;
 import dev.dfonline.flint.util.PaletteColor;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderTickCounter;
@@ -13,7 +15,7 @@ import java.util.ArrayList;
 
 import static net.minecraft.text.Text.literal;
 
-public class StateDebugDisplayFeature implements RenderedFeature {
+public class StateDebugDisplayFeature implements RenderedFeature, ModeSwitchListeningFeature {
     private int y;
 
     @Override
@@ -50,6 +52,18 @@ public class StateDebugDisplayFeature implements RenderedFeature {
     @Override
     public boolean isEnabled() {
         return FlintAPI.isDebugging();
+    }
+
+    @Override
+    public void onSwitchMode(Mode oldMode, Mode newMode) {
+        if (Flint.getClient().player == null) {
+            System.out.println("NULL PLAYER WHAHAHAA");
+            return;
+        }
+
+        Flint.getUser().getPlayer().sendMessage(literal("Old: " + oldMode.getName() + " -> New: " + newMode.getName()), false);
+        Flint.getUser().getPlayer().sendMessage(literal((Flint.getUser().getPlot() == null) ? "No Plot" : Flint.getUser().getPlot().toReadableString()), false);
+
     }
 }
 

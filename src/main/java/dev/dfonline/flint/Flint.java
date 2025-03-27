@@ -47,7 +47,7 @@ public class Flint implements ClientModInitializer {
     public void onInitializeClient() {
         LOGGER.info("Sparking it up");
 
-        //FlintAPI.setDebugging(true);
+        FlintAPI.setDebugging(true);
         FlintAPI.confirmLocationWithLocate();
 
         FEATURE_MANAGER.registerAll(
