@@ -11,20 +11,6 @@ import static dev.dfonline.flint.templates.Template.print;
 
 public abstract class CodeBlock {
     public static @Nullable CodeBlock fromJson(JsonObject json) {
-        CodeBlock block = blockWithoutArgumentsFromJson(json);
-        if (block == null) {
-            return null;
-        }
-
-        if (block instanceof CodeBlockWithArguments blockWithArguments) {
-            blockWithArguments.setArguments(Arguments.fromJson(json.getAsJsonObject("args")));
-            return blockWithArguments;
-        } else {
-            return block;
-        }
-    }
-
-    private static @Nullable CodeBlock blockWithoutArgumentsFromJson(JsonObject json) {
         String id = json.get("id").getAsString();
         if (id.equals("block")) {
             return switch (json.get("block").getAsString()) {

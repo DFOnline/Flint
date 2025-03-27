@@ -7,11 +7,8 @@ import dev.dfonline.flint.templates.CodeBlock;
 public abstract class CodeBlockWithArguments extends CodeBlock {
     protected Arguments arguments;
     protected CodeBlockWithArguments(JsonObject json) {
-        //TODO: Parse Arguments
-    }
-
-    public void setArguments(Arguments args) {
-        this.arguments = args;
+        JsonObject args = json.get("args").getAsJsonObject();
+        arguments = Arguments.fromJson(json.getAsJsonObject("args").getAsJsonArray("items"));
     }
 
     public Arguments getArguments() {
