@@ -15,6 +15,7 @@ import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket;
 import net.minecraft.network.packet.s2c.play.OverlayMessageS2CPacket;
 import net.minecraft.network.packet.s2c.play.PlayerSpawnPositionS2CPacket;
 import net.minecraft.text.Text;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 
 import java.util.regex.Pattern;
@@ -26,12 +27,13 @@ public class ModeTrackerFeature
         implements PacketListeningFeature, TickedFeature, ConnectionListeningFeature {
 
     private static final Logger LOGGER = Logger.of(ModeTrackerFeature.class);
-    private static final double DEV_SPAWN_OFFSET = 10.5;
     private static final Pattern SPAWN_ACTION_BAR_PATTERN =
             Pattern.compile("(⏵+ - )?⧈ -?\\d+ Tokens {2}ᛥ -?\\d+ Tickets {2}⚡ -?\\d+ Sparks");
     private static final String DEV_MODE_MESSAGE = "» You are now in dev mode.";
     private static final String BUILD_MODE_MESSAGE = "» You are now in build mode.";
     private static final String JOINED_GAME_PREFIX = "» Joined game: ";
+    private static final double DEV_SPAWN_OFFSET = 10.5;
+    private static final int GROUND_LEVEL = 49;
 
     private PendingModeSwitchAction pendingAction = PendingModeSwitchAction.CLEAR_TITLE;
     private static boolean hasQueuedLocate = false;
@@ -98,16 +100,18 @@ public class ModeTrackerFeature
         if (Flint.getClient().player != null) {
             if (hasQueuedLocate) {
                 hasQueuedLocate = false;
-                Vec3d newOrigin;
-                if (Flint.getUser().getMode() == Mode.DEV) {
-                    Vec3d playerPos = Flint.getUser().getPlayer().getPos();
-                    newOrigin = new Vec3d(playerPos.x + DEV_SPAWN_OFFSET, 0, playerPos.z - DEV_SPAWN_OFFSET);
-                } else {
-                    newOrigin = null;
-                }
                 String name = Flint.getUser().getPlayer().getNameForScoreboard();
                 LocateFeature.requestLocate(name).thenAccept(locate -> {
                     Flint.getUser().setNode(locate.node());
+
+                    Vec3d newOrigin;
+                    if (locate.mode() == Mode.DEV) {
+                        BlockPos blockpos = Flint.getUser().getPlayer().getBlockPos();
+                        newOrigin = new Vec3d(blockpos.getX() + DEV_SPAWN_OFFSET, GROUND_LEVEL, blockpos.getZ() - DEV_SPAWN_OFFSET);
+                    } else {
+                        newOrigin = null;
+                    }
+
                     Plot currentPlot = Flint.getUser().getPlot();
 
                     if (locate.plot() != null) {
