@@ -12,4 +12,9 @@ public class EntityEvent extends CodeBlockEvent {
     public String toString() {
         return "EntityEvent [" + super.toString() + "]";
     }
+
+    @Override
+    public String getBlock() {
+        return "entity_event";
+    }
 }

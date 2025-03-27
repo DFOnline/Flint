@@ -15,4 +15,16 @@ public class Function extends CodeBlockWithArguments {
     public String toString() {
         return "Function [functionName=" + functionName + "]";
     }
+
+    @Override
+    public JsonObject toJSON() {
+        JsonObject json = new JsonObject();
+        json.addProperty("data", functionName);
+        return super.toJSON(json);
+    }
+
+    @Override
+    public String getBlock() {
+        return "func";
+    }
 }

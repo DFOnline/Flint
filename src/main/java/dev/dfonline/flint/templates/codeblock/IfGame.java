@@ -12,4 +12,9 @@ public class IfGame extends CodeBlockIfStatement {
     public String toString() {
         return "IfGame [" + super.toString() + "]";
     }
+
+    @Override
+    public String getBlock() {
+        return "if_game";
+    }
 }

@@ -22,4 +22,23 @@ public class LocationArgument extends Argument {
     public String toString() {
         return "Location [x=" + x + ", y=" + y + ", z=" + z + ", pitch=" + pitch + ", yaw=" + yaw + ", isBlock=" + isBlock + " " + super.toString() +"]";
     }
+
+    @Override
+    protected JsonObject getData() {
+        JsonObject data = new JsonObject();
+        data.addProperty("isBlock", isBlock);
+        JsonObject loc = new JsonObject();
+        loc.addProperty("x", x);
+        loc.addProperty("y", y);
+        loc.addProperty("z", z);
+        loc.addProperty("pitch", pitch);
+        loc.addProperty("yaw", yaw);
+        data.add("loc", loc);
+        return data;
+    }
+
+    @Override
+    public String getID() {
+        return "loc";
+    }
 }

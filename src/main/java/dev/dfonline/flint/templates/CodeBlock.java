@@ -1,5 +1,6 @@
 package dev.dfonline.flint.templates;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import dev.dfonline.flint.templates.codeblock.*;
 import dev.dfonline.flint.templates.codeblock.Process;
@@ -9,7 +10,7 @@ import org.jetbrains.annotations.Nullable;
 
 import static dev.dfonline.flint.templates.Template.print;
 
-public abstract class CodeBlock {
+public abstract class CodeBlock implements JSONable {
     public static @Nullable CodeBlock fromJson(JsonObject json) {
         String id = json.get("id").getAsString();
         if (id.equals("block")) {
@@ -47,4 +48,22 @@ public abstract class CodeBlock {
             codeBlockWithArguments.getArguments().printToChat();
         }
     }
+
+    public JsonObject toJSON(JsonObject current) {
+        current.addProperty("id", getID());
+        if (getID().equals("block")) {
+            current.addProperty("block", getBlock());
+        }
+        if (!current.has("args") && !(this instanceof Bracket) && !(this instanceof Else)) {
+            JsonObject args = new JsonObject();
+            args.add("items", new JsonArray());
+            current.add("args", args);
+        }
+        return current;
+    }
+
+    public String getID() {
+        return "block";
+    }
+    public abstract String getBlock();
 }

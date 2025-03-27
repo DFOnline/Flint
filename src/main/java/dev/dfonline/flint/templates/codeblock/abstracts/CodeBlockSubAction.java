@@ -2,7 +2,7 @@ package dev.dfonline.flint.templates.codeblock.abstracts;
 
 import com.google.gson.JsonObject;
 
-public class CodeBlockSubAction extends CodeBlockAction{
+public abstract class CodeBlockSubAction extends CodeBlockAction{
     protected boolean not = false;
     protected String subAction = null;
 
@@ -20,5 +20,17 @@ public class CodeBlockSubAction extends CodeBlockAction{
     @Override
     public String toString() {
         return "not=" + not + ", action=" + action + ", subAction=" + subAction;
+    }
+
+    @Override
+    public JsonObject toJSON() {
+        JsonObject json = super.toJSON();
+        if (not) {
+            json.addProperty("attribute", "NOT");
+        }
+        if (subAction != null) {
+            json.addProperty("subAction", subAction);
+        }
+        return json;
     }
 }

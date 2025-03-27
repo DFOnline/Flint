@@ -12,4 +12,9 @@ public class PlayerEvent extends CodeBlockEvent {
     public String toString() {
         return "PlayerEvent [" + super.toString() + "]";
     }
+
+    @Override
+    public String getBlock() {
+        return "event";
+    }
 }

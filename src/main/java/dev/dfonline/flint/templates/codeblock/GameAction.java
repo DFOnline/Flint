@@ -12,4 +12,9 @@ public class GameAction extends CodeBlockAction {
     public String toString() {
         return "GameAction [" + super.toString() + "]";
     }
+
+    @Override
+    public String getBlock() {
+        return "game_action";
+    }
 }

@@ -19,4 +19,18 @@ public class EntityAction extends CodeBlockAction {
     public String toString() {
         return "EntityAction [target=" + target + " " + super.toString() + "]";
     }
+
+    @Override
+    public String getBlock() {
+        return "entity_action";
+    }
+
+    @Override
+    public JsonObject toJSON() {
+        JsonObject json = super.toJSON();
+        if (target != EntityTarget.NONE) {
+            json.addProperty("target", target.name);
+        }
+        return json;
+    }
 }

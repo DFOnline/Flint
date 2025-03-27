@@ -1,33 +1,31 @@
 package dev.dfonline.flint.templates.codeblock.target;
 
 public enum EntityTarget {
-    SELECTION,
-    DEFAULT,
-    KILLER,
-    DAMAGER,
-    VICTIM,
-    SHOOTER,
-    PROJECTILE,
-    ALL_ENTITIES,
-    ALL_MOBS,
-    LAST_ENTITY,
+    SELECTION("Selection"),
+    DEFAULT("Default"),
+    KILLER("Killer"),
+    DAMAGER("Damage"),
+    VICTIM("Victim"),
+    SHOOTER("Shooter"),
+    PROJECTILE("Projectile"),
+    ALL_ENTITIES("AllEntities"),
+    ALL_MOBS("AllMobs"),
+    LAST_ENTITY("LastEntity"),
 
-    NONE,
+    NONE(""),
     ;
 
+    public final String name;
+    EntityTarget(String name) {
+        this.name = name;
+    }
 
     public static EntityTarget fromString(String target) {
-        return switch (target) {
-            case "Selection" -> SELECTION;
-            case "Default" -> DEFAULT;
-            case "Killer" -> KILLER;
-            case "Damage" -> DAMAGER;
-            case "Shooter" -> SHOOTER;
-            case "Victim" -> VICTIM;
-            case "AllEntities" -> ALL_ENTITIES;
-            case "AllMobs" -> ALL_MOBS;
-            case "LastEntity" -> LAST_ENTITY;
-            default -> NONE;
-        };
+        for (EntityTarget e : EntityTarget.values()) {
+            if (e.name.equals(target)) {
+                return e;
+            }
+        }
+        return NONE;
     }
 }

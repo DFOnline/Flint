@@ -18,4 +18,9 @@ public class IfPlayer extends CodeBlockIfStatement {
     public String toString() {
         return "IfPlayer [target=" + target + " " + super.toString() + "]";
     }
+
+    @Override
+    public String getBlock() {
+        return "if_player";
+    }
 }

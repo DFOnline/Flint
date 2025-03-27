@@ -12,4 +12,9 @@ public class StartProcess extends CodeBlockCaller {
     public String toString() {
         return "StartProcess [" + super.toString() + "]";
     }
+
+    @Override
+    public String getBlock() {
+        return "start_process";
+    }
 }

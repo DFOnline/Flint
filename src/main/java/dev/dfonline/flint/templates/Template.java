@@ -1,25 +1,28 @@
 package dev.dfonline.flint.templates;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import dev.dfonline.flint.Flint;
 import dev.dfonline.flint.data.DFItem;
 import dev.dfonline.flint.data.PublicBukkitValues;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.text.Text;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
+
+import static net.minecraft.text.Text.literal;
 
 public class Template {
     private String name;
     private String author;
     private String version;
     private CodeBlocks blocks;
+    private Item material;
 
     public static @Nullable Template fromItem(ItemStack item) {
         DFItem dfItem = new DFItem(item);
-
         PublicBukkitValues pbvs = dfItem.getPublicBukkitValues();
 
         if (!pbvs.hasHypercubeKey("codetemplatedata")) {
@@ -28,11 +31,20 @@ public class Template {
 
         JsonObject data = JsonParser.parseString(pbvs.getHypercubeStringValue("codetemplatedata")).getAsJsonObject();
 
-        return fromJson(data);
+        return fromJson(data, item.getItem());
     }
-    public static @Nullable Template fromJson(JsonObject data) {
-        Template template = new Template();
 
+    public ItemStack toItem() {
+        ItemStack item = new ItemStack(material);
+        DFItem dfItem = new DFItem(item);
+        dfItem.getPublicBukkitValues().setHypercubeStringValue("codetemplatedata", toJson().toString());
+        dfItem.setName(literal(name));
+        return dfItem.getItemStack();
+    }
+
+    public static @Nullable Template fromJson(JsonObject data, Item item) {
+        Template template = new Template();
+        template.material = item;
         if (!data.has("name") || !data.has("author") || !data.has("version") || !data.has("code")) {
             return null;
         }
@@ -53,6 +65,33 @@ public class Template {
             return null;
         }
     }
+    public JsonObject toJson() {
+        JsonObject template = new JsonObject();
+        template.addProperty("name", name);
+        template.addProperty("author", author);
+        template.addProperty("version", version);
+        template.addProperty("code", getEncodedCode());
+
+        return template;
+    }
+
+    private String getEncodedCode() {
+        JsonObject code = getCodeJson();
+        try {
+            return new String(Compression.toBase64(Compression.toGZIP(code.toString().getBytes())));
+        } catch (IOException e) {
+            return null;
+        }
+    }
+
+    private JsonObject getCodeJson() {
+        JsonObject code = new JsonObject();
+        JsonArray blocks = this.blocks.getJson();
+
+        code.add("blocks", blocks);
+        return code;
+    }
+
     public void printToChat() {
         print("Template: ");
         print("Name: " + name);
@@ -62,11 +101,15 @@ public class Template {
     }
 
     static void print(String string) {
-        Flint.getUser().getPlayer().sendMessage(Text.literal(string), false);
+        Flint.getUser().getPlayer().sendMessage(literal(string), false);
     }
 
     @Override
     public String toString() {
         return "Template [ name = " + name + ", author = " + author + ", version = " + version + ", blocks = " + blocks + "]";
+    }
+
+    public String toReadableJson() {
+        return getCodeJson().toString();
     }
 }

@@ -12,4 +12,9 @@ public class SelectObject extends CodeBlockSubAction {
     public String toString() {
         return "SelectObject [" + super.toString() + "]";
     }
+
+    @Override
+    public String getBlock() {
+        return "select_obj";
+    }
 }

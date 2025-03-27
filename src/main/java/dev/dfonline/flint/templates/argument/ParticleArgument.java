@@ -14,4 +14,14 @@ public class ParticleArgument extends Argument {
     public String toString() {
         return "Particle [" + super.toString() + " data=" + data + "]";
     }
+
+    @Override
+    protected JsonObject getData() {
+        return data;
+    }
+
+    @Override
+    public String getID() {
+        return "part";
+    }
 }

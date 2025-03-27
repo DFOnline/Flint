@@ -2,7 +2,7 @@ package dev.dfonline.flint.templates.codeblock.abstracts;
 
 import com.google.gson.JsonObject;
 
-public class CodeBlockCaller extends CodeBlockWithArguments {
+public abstract class CodeBlockCaller extends CodeBlockWithArguments {
     protected String data;
 
     protected CodeBlockCaller(JsonObject json) {
@@ -13,5 +13,12 @@ public class CodeBlockCaller extends CodeBlockWithArguments {
     @Override
     public String toString() {
         return "data='" + data + "'";
+    }
+
+    @Override
+    public JsonObject toJSON() {
+        JsonObject json = new JsonObject();
+        json.addProperty("data", data);
+        return super.toJSON(json);
     }
 }

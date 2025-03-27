@@ -16,4 +16,17 @@ public class GameValueArgument extends Argument {
     public String toString() {
         return "GameValue [target=" + target + ", type=" + type + " " + super.toString() + "]";
     }
+
+    @Override
+    protected JsonObject getData() {
+        JsonObject data = new JsonObject();
+        data.addProperty("target", target);
+        data.addProperty("type", type);
+        return data;
+    }
+
+    @Override
+    public String getID() {
+        return "g_val";
+    }
 }

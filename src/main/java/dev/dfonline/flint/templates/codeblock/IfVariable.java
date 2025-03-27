@@ -12,4 +12,9 @@ public class IfVariable extends CodeBlockIfStatement {
     public String toString() {
         return "If Variable [" + super.toString() + "]";
     }
+
+    @Override
+    public String getBlock() {
+        return "if_var";
+    }
 }

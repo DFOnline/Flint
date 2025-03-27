@@ -3,7 +3,6 @@ package dev.dfonline.flint.templates.argument;
 import com.google.gson.JsonObject;
 import dev.dfonline.flint.templates.VariableScope;
 import dev.dfonline.flint.templates.argument.abstracts.Argument;
-import net.minecraft.command.argument.ItemStackArgument;
 
 public class VariableArgument extends Argument {
     private String name;
@@ -18,5 +17,18 @@ public class VariableArgument extends Argument {
     @Override
     public String toString() {
         return "Variable [name=" + name + ", scope=" + scope + " " + super.toString() + "]";
+    }
+
+    @Override
+    protected JsonObject getData() {
+        JsonObject data = new JsonObject();
+        data.addProperty("name", name);
+        data.addProperty("scope", scope.internalName);
+        return data;
+    }
+
+    @Override
+    public String getID() {
+        return "var";
     }
 }

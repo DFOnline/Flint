@@ -1,19 +1,39 @@
 package dev.dfonline.flint.templates.argument;
 
 import com.google.gson.JsonObject;
+import dev.dfonline.flint.Flint;
 import dev.dfonline.flint.templates.argument.abstracts.Argument;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.StringNbtReader;
 
 public class ItemArgument extends Argument {
     private ItemStack item;
-    private String nbt; //Temporary but yeah
     public ItemArgument(JsonObject json, JsonObject data) {
         super(json);
-        nbt = data.get("item").getAsString();
+        var nbt = data.get("item").getAsString();
+        try {
+            assert Flint.getClient().world != null;
+            item = ItemStack.fromNbt(Flint.getClient().world.getRegistryManager(), StringNbtReader.parse(nbt)).get();
+        } catch (Exception e) {
+            item = null;
+        }
     }
 
     @Override
     public String toString() {
-        return "Item [nbt=" + nbt + ", item=" + item + " " + super.toString() + "]";
+        return "Item [item=" + item + " " + super.toString() + "]";
+    }
+
+    @Override
+    protected JsonObject getData() {
+        JsonObject data = new JsonObject();
+        assert Flint.getClient().world != null;
+        data.addProperty("item", this.item.toNbt(Flint.getClient().world.getRegistryManager()).asString());
+        return data;
+    }
+
+    @Override
+    public String getID() {
+        return "item";
     }
 }

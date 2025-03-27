@@ -19,4 +19,18 @@ public class PlayerAction extends CodeBlockAction {
     public String toString() {
         return "PlayerAction [target=" + target + " " + super.toString() + "]";
     }
+
+    @Override
+    public String getBlock() {
+        return "player_action";
+    }
+
+    @Override
+    public JsonObject toJSON() {
+        JsonObject json = super.toJSON();
+        if (target != PlayerTarget.NONE) {
+            json.addProperty("target", target.name);
+        }
+        return json;
+    }
 }

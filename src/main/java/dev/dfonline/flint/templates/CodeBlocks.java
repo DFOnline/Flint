@@ -42,4 +42,12 @@ public class CodeBlocks {
             }
         }
     }
+
+    public JsonArray getJson() {
+        JsonArray blocks = new JsonArray();
+        for (var block : this.blocks) {
+            blocks.add(block.toJSON());
+        }
+        return blocks;
+    }
 }

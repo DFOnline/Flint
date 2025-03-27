@@ -16,4 +16,18 @@ public class VectorArgument extends Argument {
     public String toString() {
         return "Vector [x=" + x + ", y=" + y + ", z=" + z + " " + super.toString() + "]";
     }
+
+    @Override
+    protected JsonObject getData() {
+        JsonObject data = new JsonObject();
+        data.addProperty("x", x);
+        data.addProperty("y", y);
+        data.addProperty("z", z);
+        return data;
+    }
+
+    @Override
+    public String getID() {
+        return "vec";
+    }
 }

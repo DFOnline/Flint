@@ -15,4 +15,16 @@ public class Process extends CodeBlockWithArguments {
     public String toString() {
         return "Process [processName=" + processName + "]";
     }
+
+    @Override
+    public String getBlock() {
+        return "process";
+    }
+
+    @Override
+    public JsonObject toJSON() {
+        JsonObject json = new JsonObject();
+        json.addProperty("data", processName);
+        return super.toJSON(json);
+    }
 }

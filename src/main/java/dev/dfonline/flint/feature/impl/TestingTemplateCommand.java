@@ -30,6 +30,11 @@ public class TestingTemplateCommand implements CommandFeature {
 
         if (template != null) {
             template.printToChat();
+
+            Flint.getUser().getPlayer().sendMessage(literal("JSONified: "), false);
+            Flint.getUser().getPlayer().sendMessage(literal(template.toReadableJson().toString()), false);
+
+            Flint.getUser().getPlayer().giveItemStack(template.toItem());
         }
 
         return 0;

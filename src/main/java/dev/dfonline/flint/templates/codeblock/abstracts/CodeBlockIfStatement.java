@@ -15,4 +15,13 @@ public abstract class CodeBlockIfStatement extends CodeBlockAction {
     public String toString() {
         return "not=" + not + " " + super.toString();
     }
+
+    @Override
+    public JsonObject toJSON() {
+        JsonObject json = super.toJSON();
+        if (not) {
+            json.addProperty("attribute", "NOT");
+        }
+        return json;
+    }
 }

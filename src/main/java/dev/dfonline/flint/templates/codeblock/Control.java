@@ -12,4 +12,9 @@ public class Control extends CodeBlockAction {
     public String toString() {
         return "Control [" + super.toString() + "]";
     }
+
+    @Override
+    public String getBlock() {
+        return "control";
+    }
 }

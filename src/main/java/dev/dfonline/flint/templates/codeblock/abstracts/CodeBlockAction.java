@@ -15,4 +15,11 @@ public abstract class CodeBlockAction extends CodeBlockWithArguments {
     public String toString() {
         return "action='" + action + "' ";
     }
+
+    @Override
+    public JsonObject toJSON() {
+        JsonObject json = new JsonObject();
+        json.addProperty("action", action);
+        return super.toJSON(json);
+    }
 }

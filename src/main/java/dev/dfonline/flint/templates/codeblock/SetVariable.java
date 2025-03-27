@@ -12,4 +12,9 @@ public class SetVariable extends CodeBlockAction {
     public String toString() {
         return "SetVariable [" + super.toString() + "]";
     }
+
+    @Override
+    public String getBlock() {
+        return "set_var";
+    }
 }

@@ -12,4 +12,9 @@ public class CallFunction extends CodeBlockCaller {
     public String toString() {
         return "CallFunction [" + super.toString() + "]";
     }
+
+    @Override
+    public String getBlock() {
+        return "call_func";
+    }
 }

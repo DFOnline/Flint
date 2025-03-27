@@ -13,4 +13,11 @@ public abstract class GenericStringArgument extends Argument {
     public String toString() {
         return "value=" + value + " " + super.toString();
     }
+
+    @Override
+    protected JsonObject getData() {
+        JsonObject data = new JsonObject();
+        data.addProperty("name", value);
+        return data;
+    }
 }

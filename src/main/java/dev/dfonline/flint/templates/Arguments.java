@@ -31,6 +31,19 @@ public class Arguments {
         }
     }
 
+    public JsonObject toJson() {
+        JsonObject json = new JsonObject();
+        JsonArray items = new JsonArray();
+
+        for (Argument argument : arguments) {
+            JsonObject argumentJson = argument.toJSON();
+            items.add(argumentJson);
+        }
+
+        json.add("items", items);
+        return json;
+    }
+
     @Override
     public String toString() {
         return "Arguments []";

@@ -12,4 +12,9 @@ public class Repeat extends CodeBlockSubAction {
     public String toString() {
         return "Repeat [" + super.toString() + "]";
     }
+
+    @Override
+    public String getBlock() {
+        return "repeat";
+    }
 }

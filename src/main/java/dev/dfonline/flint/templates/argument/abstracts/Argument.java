@@ -1,10 +1,11 @@
 package dev.dfonline.flint.templates.argument.abstracts;
 
 import com.google.gson.JsonObject;
+import dev.dfonline.flint.templates.JSONable;
 import dev.dfonline.flint.templates.argument.*;
 
-public abstract class Argument {
-    private int slot;
+public abstract class Argument implements JSONable {
+    protected int slot;
 
     protected Argument(JsonObject json) {
         this.slot = json.get("slot").getAsInt();
@@ -26,6 +27,8 @@ public abstract class Argument {
             case "hint" -> new HintArgument(json, data);
             case "item" -> new ItemArgument(json, data);
             case "bl_tag" -> new TagArgument(json, data);
+            case "pn_el" -> new ParameterArgument(json, data);
+            case "pot" -> new PotionArgument(json, data);
             default -> null;
         };
     }
@@ -34,4 +37,19 @@ public abstract class Argument {
     public String toString() {
         return "slot=" + slot;
     }
+
+    @Override
+    public JsonObject toJSON() {
+        JsonObject json = new JsonObject();
+        json.addProperty("slot", slot);
+        JsonObject item = new JsonObject();
+        JsonObject data = getData();
+        item.add("data", data);
+        item.addProperty("id", getID());
+        json.add("item", item);
+        return json;
+    }
+
+    protected abstract JsonObject getData();
+    public abstract String getID();
 }

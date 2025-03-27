@@ -4,13 +4,33 @@ import com.google.gson.JsonObject;
 import dev.dfonline.flint.templates.CodeBlock;
 
 public class Bracket extends CodeBlock {
+    @Override
+    public String getID() {
+        return "bracket";
+    }
+
+    @Override
+    public String getBlock() {
+        return null;
+    }
+
     public enum Direction {
-        OPEN,
-        CLOSE,
+        OPEN("open"),
+        CLOSE("close");
+
+        public final String name;
+        Direction(String name) {
+            this.name = name;
+        }
     }
     public enum Type {
-        NORMAL,
-        REPEAT
+        NORMAL("norm"),
+        REPEAT("repeat");
+
+        public final String name;
+        Type(String name) {
+            this.name = name;
+        }
     }
 
     private Type type;
@@ -28,6 +48,14 @@ public class Bracket extends CodeBlock {
         } else {
             type = Type.REPEAT;
         }
+    }
+
+    @Override
+    public JsonObject toJSON() {
+        JsonObject json = new JsonObject();
+        json.addProperty("type", type.name);
+        json.addProperty("direct", direction.name);
+        return super.toJSON(json);
     }
 
     @Override

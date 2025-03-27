@@ -12,4 +12,9 @@ public class StringArgument extends GenericStringArgument {
     public String toString() {
         return "String [" + super.toString() + "]";
     }
+
+    @Override
+    public String getID() {
+        return "txt";
+    }
 }

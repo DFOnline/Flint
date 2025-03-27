@@ -19,4 +19,9 @@ public class IfEntity extends CodeBlockIfStatement {
     public String toString() {
         return "IfEntity [target=" + target + " " + super.toString() + "]";
     }
+
+    @Override
+    public String getBlock() {
+        return "if_entity";
+    }
 }

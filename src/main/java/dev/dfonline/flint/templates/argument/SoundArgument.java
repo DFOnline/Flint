@@ -21,4 +21,21 @@ public class SoundArgument extends Argument {
     public String toString() {
         return "Sound [sound=" + sound + ", pitch=" + pitch + ", volume=" + volume + ", variant" + variant + " " + super.toString() + "]";
     }
+
+    @Override
+    protected JsonObject getData() {
+        JsonObject data = new JsonObject();
+        data.addProperty("pitch", pitch);
+        data.addProperty("vol", volume);
+        data.addProperty("sound", sound);
+        if (variant != null) {
+            data.addProperty("variant", variant);
+        }
+        return data;
+    }
+
+    @Override
+    public String getID() {
+        return "snd";
+    }
 }
