@@ -26,6 +26,7 @@ public class StateDebugDisplayFeature implements RenderedFeature, ModeSwitchList
         texts.add(fancy("Node = ", (user.getNode() == null) ? "null" : user.getNode().getName()));
         texts.add(fancy("Plot = ", (user.getPlot() == null) ? "null" : (user.getPlot().getId() + "")));
         texts.add(fancy("Mode = ", (user.getMode() == null) ? "null" : (user.getMode().getName())));
+        texts.add(fancy("Dev Origin Location = ", ((user.getPlot() == null || user.getPlot().getOrigin() == null) ? "null" : user.getPlot().getOrigin().toString())));
 
         render(texts, draw);
     }

@@ -19,6 +19,8 @@ import net.minecraft.util.math.Vec3d;
 
 import java.util.regex.Pattern;
 
+import static net.minecraft.text.Text.literal;
+
 /**
  * Handles tracking the player's mode and updating it accordingly.
  */
@@ -37,13 +39,14 @@ public class ModeTrackerFeature
     private static boolean hasQueuedLocate = false;
     private static Mode queuedMode = null;
 
+    private static Vec3d newOrigin = null;
+
     @Override
     public boolean alwaysOn() {
         return true;
     }
 
     private static void setMode(Mode mode) {
-        final Vec3d newOrigin;
         if (mode == Mode.DEV) {
             Vec3d playerPos = Flint.getUser().getPlayer().getPos();
             newOrigin = new Vec3d(playerPos.x + DEV_SPAWN_OFFSET, 0, playerPos.z - DEV_SPAWN_OFFSET);
@@ -56,23 +59,7 @@ public class ModeTrackerFeature
         }
 
         if (FlintAPI.shouldConfirmLocationWithLocate() && mode != Mode.NONE) {
-            String name = Flint.getUser().getPlayer().getNameForScoreboard();
-            LocateFeature.requestLocate(name).thenAccept(locate -> {
-                Flint.getUser().setNode(locate.node());
-                Plot currentPlot = Flint.getUser().getPlot();
-
-                if (locate.plot() != null) {
-                    if (currentPlot == null || !currentPlot.equals(locate.plot())) {
-                        Flint.getUser().setPlot(locate.plot());
-                    }
-                    if (Flint.getUser().getPlot().getOrigin() == null && newOrigin != null) {
-                        Flint.getUser().getPlot().setOrigin(newOrigin);
-                    }
-                } else {
-                    Flint.getUser().setPlot(null);
-                }
-                Flint.getUser().setMode(locate.mode());
-            });
+            hasQueuedLocate = true;
         } else {
             Flint.getUser().setNode(null);
             Flint.getUser().setPlot(null);
@@ -95,7 +82,7 @@ public class ModeTrackerFeature
                 this.pendingAction == PendingModeSwitchAction.MESSAGE &&
                 SPAWN_ACTION_BAR_PATTERN.matcher(text.getString()).matches();
 
-        if (hasQueuedLocate || overlayMatches) {
+        if (overlayMatches) {
             queuedMode = Mode.SPAWN;
             this.pendingAction = PendingModeSwitchAction.CLEAR_TITLE;
         }
@@ -121,12 +108,23 @@ public class ModeTrackerFeature
     public void tick() {
         if (Flint.getClient().player != null) {
             if (hasQueuedLocate) {
+                //Flint.getClient().player.sendMessage(literal("Queued Locate Be Getting Processed dayum"), false);
                 hasQueuedLocate = false;
-                String playerName =
-                        Flint.getUser().getPlayer().getNameForScoreboard();
-                LocateFeature.requestLocate(playerName).thenAccept(locate -> {
+                String name = Flint.getUser().getPlayer().getNameForScoreboard();
+                LocateFeature.requestLocate(name).thenAccept(locate -> {
                     Flint.getUser().setNode(locate.node());
-                    Flint.getUser().setPlot(locate.plot());
+                    Plot currentPlot = Flint.getUser().getPlot();
+
+                    if (locate.plot() != null) {
+                        if (currentPlot == null || !currentPlot.equals(locate.plot())) {
+                            Flint.getUser().setPlot(locate.plot());
+                        }
+                        if (Flint.getUser().getPlot().getOrigin() == null && newOrigin != null) {
+                            Flint.getUser().getPlot().setOrigin(newOrigin);
+                        }
+                    } else {
+                        Flint.getUser().setPlot(null);
+                    }
                     Flint.getUser().setMode(locate.mode());
                 });
             }
