@@ -39,21 +39,12 @@ public class ModeTrackerFeature
     private static boolean hasQueuedLocate = false;
     private static Mode queuedMode = null;
 
-    private static Vec3d newOrigin = null;
-
     @Override
     public boolean alwaysOn() {
         return true;
     }
 
     private static void setMode(Mode mode) {
-        if (mode == Mode.DEV) {
-            Vec3d playerPos = Flint.getUser().getPlayer().getPos();
-            newOrigin = new Vec3d(playerPos.x + DEV_SPAWN_OFFSET, 0, playerPos.z - DEV_SPAWN_OFFSET);
-        } else {
-            newOrigin = null;
-        }
-
         if (FlintAPI.isDebugging()) {
             LOGGER.info("Setting to mode " + mode);
         }
@@ -110,6 +101,13 @@ public class ModeTrackerFeature
             if (hasQueuedLocate) {
                 //Flint.getClient().player.sendMessage(literal("Queued Locate Be Getting Processed dayum"), false);
                 hasQueuedLocate = false;
+                Vec3d newOrigin;
+                if (Flint.getUser().getMode() == Mode.DEV) {
+                    Vec3d playerPos = Flint.getUser().getPlayer().getPos();
+                    newOrigin = new Vec3d(playerPos.x + DEV_SPAWN_OFFSET, 0, playerPos.z - DEV_SPAWN_OFFSET);
+                } else {
+                    newOrigin = null;
+                }
                 String name = Flint.getUser().getPlayer().getNameForScoreboard();
                 LocateFeature.requestLocate(name).thenAccept(locate -> {
                     Flint.getUser().setNode(locate.node());
