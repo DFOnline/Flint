@@ -1,0 +1,15 @@
+package dev.dfonline.flint.templates.codeblock;
+
+import com.google.gson.JsonObject;
+import dev.dfonline.flint.templates.codeblock.abstracts.CodeBlockCaller;
+
+public class CallFunction extends CodeBlockCaller {
+    public CallFunction(JsonObject json) {
+        super(json);
+    }
+
+    @Override
+    public String toString() {
+        return "CallFunction [" + super.toString() + "]";
+    }
+}

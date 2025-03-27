@@ -2,9 +2,11 @@ package dev.dfonline.flint.templates;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import dev.dfonline.flint.Flint;
 import dev.dfonline.flint.data.DFItem;
 import dev.dfonline.flint.data.PublicBukkitValues;
 import net.minecraft.item.ItemStack;
+import net.minecraft.text.Text;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
@@ -43,13 +45,24 @@ public class Template {
 
         try {
             byte[] blocksBytes = Compression.fromGZIP(Compression.fromBase64(blocksEncoded.getBytes()));
-            JsonObject blocks = JsonParser.parseString(new String(blocksBytes)).getAsJsonObject();
+            var blocks = JsonParser.parseString(new String(blocksBytes)).getAsJsonObject().getAsJsonArray("blocks");
             template.blocks = CodeBlocks.fromJson(blocks);
 
             return template;
         } catch (IOException e) {
             return null;
         }
+    }
+    public void printToChat() {
+        print("Template: ");
+        print("Name: " + name);
+        print("Author: " + author);
+        print("Version: " + version);
+        blocks.printToChat();
+    }
+
+    static void print(String string) {
+        Flint.getUser().getPlayer().sendMessage(Text.literal(string), false);
     }
 
     @Override

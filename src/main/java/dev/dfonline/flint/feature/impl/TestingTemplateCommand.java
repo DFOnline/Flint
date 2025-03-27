@@ -28,10 +28,8 @@ public class TestingTemplateCommand implements CommandFeature {
         ItemStack mainHandItem = player.getMainHandStack();
         Template template = Template.fromItem(mainHandItem);
 
-        if (template == null) {
-            player.sendMessage(literal("NULL"), false);
-        } else {
-            player.sendMessage(literal(template.toString()), false);
+        if (template != null) {
+            template.printToChat();
         }
 
         return 0;
