@@ -37,11 +37,11 @@ public class Plot {
         return this.whitelisted;
     }
 
-    public Vec3d getOrigin() {
+    public Vec3d getDevOrigin() {
         return this.origin;
     }
 
-    public void setOrigin(Vec3d origin) {
+    public void setDevOrigin(Vec3d origin) {
         this.origin = origin;
     }
 

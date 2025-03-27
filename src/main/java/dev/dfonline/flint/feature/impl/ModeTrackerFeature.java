@@ -118,8 +118,8 @@ public class ModeTrackerFeature
                         if (currentPlot == null || !currentPlot.equals(locate.plot())) {
                             Flint.getUser().setPlot(locate.plot());
                         }
-                        if (Flint.getUser().getPlot().getOrigin() == null && newOrigin != null) {
-                            Flint.getUser().getPlot().setOrigin(newOrigin);
+                        if (Flint.getUser().getPlot().getDevOrigin() == null && newOrigin != null) {
+                            Flint.getUser().getPlot().setDevOrigin(newOrigin);
                         }
                     } else {
                         Flint.getUser().setPlot(null);
