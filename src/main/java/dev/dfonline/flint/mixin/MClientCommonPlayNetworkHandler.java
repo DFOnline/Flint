@@ -39,14 +39,12 @@ public abstract class MClientCommonPlayNetworkHandler {
 
             if (shouldReturn) {
                 ci.cancel();
-                return;
             }
 
             if (newCommand != null && Flint.getClient().getNetworkHandler() != null) {
                 this.sendingModifiedCommand = true;
                 Flint.getClient().getNetworkHandler().sendPacket(new CommandExecutionC2SPacket(newCommand));
                 this.sendingModifiedCommand = false;
-                return;
             }
         }
 

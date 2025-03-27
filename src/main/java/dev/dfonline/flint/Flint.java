@@ -2,12 +2,7 @@ package dev.dfonline.flint;
 
 import dev.dfonline.flint.feature.core.FeatureManager;
 import dev.dfonline.flint.feature.core.FeatureTraitType;
-import dev.dfonline.flint.feature.impl.CommandSenderFeature;
-import dev.dfonline.flint.feature.impl.FlintCommandFeature;
-import dev.dfonline.flint.feature.impl.GetActionDumpFeature;
-import dev.dfonline.flint.feature.impl.LocateFeature;
-import dev.dfonline.flint.feature.impl.ModeTrackerFeature;
-import dev.dfonline.flint.feature.impl.PacketLoggerFeature;
+import dev.dfonline.flint.feature.impl.*;
 import dev.dfonline.flint.feature.trait.CommandFeature;
 import dev.dfonline.flint.feature.trait.ConnectionListeningFeature;
 import dev.dfonline.flint.feature.trait.RenderedFeature;
@@ -52,11 +47,12 @@ public class Flint implements ClientModInitializer {
     public void onInitializeClient() {
         LOGGER.info("Sparking it up");
 
-        // FlintAPI.setDebugging(true);
+        FlintAPI.setDebugging(true);
         FlintAPI.confirmLocationWithLocate();
 
         FEATURE_MANAGER.registerAll(
                 // Debug
+                new StateDebugDisplayFeature(),
                 new PacketLoggerFeature(),
 
                 // Systems
