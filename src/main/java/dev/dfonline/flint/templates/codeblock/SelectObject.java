@@ -8,6 +8,10 @@ public class SelectObject extends CodeBlockSubAction {
         super(json);
     }
 
+    public SelectObject(String action, String subAction, boolean not) {
+        super(action, subAction, not);
+    }
+
     @Override
     public String toString() {
         return "SelectObject [" + super.toString() + "]";

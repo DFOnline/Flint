@@ -8,6 +8,10 @@ public class Control extends CodeBlockAction {
         super(json);
     }
 
+    public Control(String action) {
+        super(action);
+    }
+
     @Override
     public String toString() {
         return "Control [" + super.toString() + "]";

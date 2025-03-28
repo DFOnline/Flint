@@ -8,6 +8,10 @@ public class CallFunction extends CodeBlockCaller {
         super(json);
     }
 
+    public CallFunction(String data) {
+        super(data);
+    }
+
     @Override
     public String toString() {
         return "CallFunction [" + super.toString() + "]";

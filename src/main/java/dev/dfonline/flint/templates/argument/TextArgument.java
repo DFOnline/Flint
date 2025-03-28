@@ -8,6 +8,10 @@ public class TextArgument extends GenericStringArgument {
         super(json, data);
     }
 
+    public TextArgument(int slot, String value) {
+        super(slot, value);
+    }
+
     @Override
     public String toString() {
         return "Text [" + super.toString() + "]";

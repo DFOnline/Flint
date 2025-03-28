@@ -14,6 +14,11 @@ public class IfPlayer extends CodeBlockIfStatement {
         }
     }
 
+    public IfPlayer(String action, PlayerTarget target, boolean not) {
+        super(action, not);
+        this.target = target;
+    }
+
     @Override
     public String toString() {
         return "IfPlayer [target=" + target + " " + super.toString() + "]";
@@ -22,5 +27,13 @@ public class IfPlayer extends CodeBlockIfStatement {
     @Override
     public String getBlock() {
         return "if_player";
+    }
+
+    public PlayerTarget getTarget() {
+        return target;
+    }
+
+    public void setTarget(PlayerTarget target) {
+        this.target = target;
     }
 }

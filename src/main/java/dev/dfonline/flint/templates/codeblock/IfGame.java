@@ -8,6 +8,10 @@ public class IfGame extends CodeBlockIfStatement {
         super(json);
     }
 
+    public IfGame(String action, boolean not) {
+        super(action, not);
+    }
+
     @Override
     public String toString() {
         return "IfGame [" + super.toString() + "]";

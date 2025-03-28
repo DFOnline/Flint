@@ -10,6 +10,9 @@ public abstract class Argument implements JSONable {
     protected Argument(JsonObject json) {
         this.slot = json.get("slot").getAsInt();
     }
+    protected Argument(int slot) {
+        this.slot = slot;
+    }
 
     public static Argument fromJson(JsonObject json) {
         JsonObject item = json.get("item").getAsJsonObject();
@@ -52,4 +55,11 @@ public abstract class Argument implements JSONable {
 
     protected abstract JsonObject getData();
     public abstract String getID();
+
+    public int getSlot() {
+        return slot;
+    }
+    public void setSlot(int slot) {
+        this.slot = slot;
+    }
 }

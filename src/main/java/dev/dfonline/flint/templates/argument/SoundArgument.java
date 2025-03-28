@@ -17,6 +17,14 @@ public class SoundArgument extends Argument {
         }
     }
 
+    public SoundArgument(int slot, String sound, double pitch, double volume, String variant) {
+        super(slot);
+        this.sound = sound;
+        this.pitch = pitch;
+        this.volume = volume;
+        this.variant = variant;
+    }
+
     @Override
     public String toString() {
         return "Sound [sound=" + sound + ", pitch=" + pitch + ", volume=" + volume + ", variant" + variant + " " + super.toString() + "]";
@@ -37,5 +45,37 @@ public class SoundArgument extends Argument {
     @Override
     public String getID() {
         return "snd";
+    }
+
+    public String getSound() {
+        return sound;
+    }
+
+    public void setSound(String sound) {
+        this.sound = sound;
+    }
+
+    public double getPitch() {
+        return pitch;
+    }
+
+    public void setPitch(double pitch) {
+        this.pitch = pitch;
+    }
+
+    public double getVolume() {
+        return volume;
+    }
+
+    public void setVolume(double volume) {
+        this.volume = volume;
+    }
+
+    public String getVariant() {
+        return variant;
+    }
+
+    public void setVariant(String variant) {
+        this.variant = variant;
     }
 }

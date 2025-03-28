@@ -11,6 +11,10 @@ public class Process extends CodeBlockWithArguments {
         processName = json.get("data").getAsString();
     }
 
+    public Process(String processName) {
+        this.processName = processName;
+    }
+
     @Override
     public String toString() {
         return "Process [processName=" + processName + "]";
@@ -26,5 +30,13 @@ public class Process extends CodeBlockWithArguments {
         JsonObject json = new JsonObject();
         json.addProperty("data", processName);
         return super.toJSON(json);
+    }
+
+    public String getProcessName() {
+        return processName;
+    }
+
+    public void setProcessName(String processName) {
+        this.processName = processName;
     }
 }

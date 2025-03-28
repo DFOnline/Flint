@@ -48,4 +48,8 @@ public class Arguments {
     public String toString() {
         return "Arguments []";
     }
+
+    public void add(Argument argument) {
+        arguments.add(argument);
+    }
 }

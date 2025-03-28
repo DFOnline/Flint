@@ -71,6 +71,31 @@ public class PotionArgument extends Argument {
     }
 
     private PotionType type;
+
+    public PotionType getType() {
+        return type;
+    }
+
+    public void setType(PotionType type) {
+        this.type = type;
+    }
+
+    public int getTicks() {
+        return ticks;
+    }
+
+    public void setTicks(int ticks) {
+        this.ticks = ticks;
+    }
+
+    public int getAmplifier() {
+        return amplifier;
+    }
+
+    public void setAmplifier(int amplifier) {
+        this.amplifier = amplifier;
+    }
+
     private int ticks; // In Ticks
     private int amplifier;
 
@@ -79,6 +104,13 @@ public class PotionArgument extends Argument {
         type = PotionType.getFromString(data.get("pot").getAsString());
         ticks = data.get("dur").getAsInt();
         amplifier = data.get("amp").getAsInt() + 1;
+    }
+
+    public PotionArgument(int slot, PotionType type, int amplifier, int ticks) {
+        super(slot);
+        this.type = type;
+        this.amplifier = amplifier;
+        this.ticks = ticks;
     }
 
     @Override

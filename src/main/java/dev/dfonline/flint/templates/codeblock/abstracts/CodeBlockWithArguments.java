@@ -10,6 +10,9 @@ public abstract class CodeBlockWithArguments extends CodeBlock {
         JsonObject args = json.get("args").getAsJsonObject();
         arguments = Arguments.fromJson(json.getAsJsonObject("args").getAsJsonArray("items"));
     }
+    protected CodeBlockWithArguments() {
+        arguments = new Arguments();
+    }
 
     public Arguments getArguments() {
         return arguments;

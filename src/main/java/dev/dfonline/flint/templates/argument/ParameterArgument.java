@@ -2,6 +2,7 @@ package dev.dfonline.flint.templates.argument;
 
 import com.google.gson.JsonObject;
 import dev.dfonline.flint.templates.argument.abstracts.Argument;
+import org.jetbrains.annotations.Nullable;
 
 public class ParameterArgument extends Argument {
     public enum ParameterType {
@@ -54,6 +55,15 @@ public class ParameterArgument extends Argument {
         }
     }
 
+    public ParameterArgument(int slot, String name, ParameterType type, boolean optional, boolean plural, @Nullable Argument default_value) {
+        super(slot);
+        this.name = name;
+        this.type = type;
+        this.optional = optional;
+        this.plural = plural;
+        this.default_value = default_value;
+    }
+
     @Override
     protected JsonObject getData() {
         JsonObject data = new JsonObject();
@@ -75,5 +85,45 @@ public class ParameterArgument extends Argument {
     @Override
     public String toString() {
         return "Paramter [name=" + name + ", type=" + type + ", optional=" + optional + ", plural=" + plural + ", default_value=" + default_value + " " + super.toString() + "]";
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public ParameterType getType() {
+        return type;
+    }
+
+    public void setType(ParameterType type) {
+        this.type = type;
+    }
+
+    public boolean isOptional() {
+        return optional;
+    }
+
+    public void setOptional(boolean optional) {
+        this.optional = optional;
+    }
+
+    public boolean isPlural() {
+        return plural;
+    }
+
+    public void setPlural(boolean plural) {
+        this.plural = plural;
+    }
+
+    public Argument getDefault_value() {
+        return default_value;
+    }
+
+    public void setDefault_value(Argument default_value) {
+        this.default_value = default_value;
     }
 }

@@ -11,6 +11,10 @@ public class Function extends CodeBlockWithArguments {
         functionName = json.get("data").getAsString();
     }
 
+    public Function(String functionName) {
+        this.functionName = functionName;
+    }
+
     @Override
     public String toString() {
         return "Function [functionName=" + functionName + "]";
@@ -26,5 +30,13 @@ public class Function extends CodeBlockWithArguments {
     @Override
     public String getBlock() {
         return "func";
+    }
+
+    public String getFunctionName() {
+        return functionName;
+    }
+
+    public void setFunctionName(String functionName) {
+        this.functionName = functionName;
     }
 }

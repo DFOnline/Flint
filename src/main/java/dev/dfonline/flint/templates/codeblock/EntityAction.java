@@ -15,6 +15,11 @@ public class EntityAction extends CodeBlockAction {
         }
     }
 
+    public EntityAction(EntityTarget target, String action) {
+        super(action);
+        this.target = target;
+    }
+
     @Override
     public String toString() {
         return "EntityAction [target=" + target + " " + super.toString() + "]";
@@ -32,5 +37,13 @@ public class EntityAction extends CodeBlockAction {
             json.addProperty("target", target.name);
         }
         return json;
+    }
+
+    public EntityTarget getTarget() {
+        return target;
+    }
+
+    public void setTarget(EntityTarget target) {
+        this.target = target;
     }
 }

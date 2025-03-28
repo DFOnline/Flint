@@ -29,6 +29,11 @@ public class HintArgument extends Argument {
         type = fromType(data.get("id").getAsString());
     }
 
+    public HintArgument(int slot, HintType type) {
+        super(slot);
+        this.type = type;
+    }
+
     @Override
     public String toString() {
         return "Hint [type=" + type + " " + super.toString() + "]";
@@ -44,5 +49,13 @@ public class HintArgument extends Argument {
     @Override
     public String getID() {
         return "hint";
+    }
+
+    public HintType getType() {
+        return type;
+    }
+
+    public void setType(HintType type) {
+        this.type = type;
     }
 }

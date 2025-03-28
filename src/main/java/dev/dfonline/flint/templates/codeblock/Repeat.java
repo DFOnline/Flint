@@ -8,6 +8,10 @@ public class Repeat extends CodeBlockSubAction {
         super(json);
     }
 
+    public Repeat(String action, String subAction, boolean not) {
+        super(action, subAction, not);
+    }
+
     @Override
     public String toString() {
         return "Repeat [" + super.toString() + "]";

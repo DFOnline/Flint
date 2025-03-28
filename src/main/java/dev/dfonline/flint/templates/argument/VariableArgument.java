@@ -14,6 +14,12 @@ public class VariableArgument extends Argument {
         name = data.get("name").getAsString();
     }
 
+    public VariableArgument(int slot, String name, VariableScope scope) {
+        super(slot);
+        this.name = name;
+        this.scope = scope;
+    }
+
     @Override
     public String toString() {
         return "Variable [name=" + name + ", scope=" + scope + " " + super.toString() + "]";
@@ -30,5 +36,21 @@ public class VariableArgument extends Argument {
     @Override
     public String getID() {
         return "var";
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public VariableScope getScope() {
+        return scope;
+    }
+
+    public void setScope(VariableScope scope) {
+        this.scope = scope;
     }
 }

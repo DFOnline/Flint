@@ -15,6 +15,11 @@ public class PlayerAction extends CodeBlockAction {
         }
     }
 
+    public PlayerAction(String action, PlayerTarget target) {
+        super(action);
+        this.target = target;
+    }
+
     @Override
     public String toString() {
         return "PlayerAction [target=" + target + " " + super.toString() + "]";
@@ -32,5 +37,13 @@ public class PlayerAction extends CodeBlockAction {
             json.addProperty("target", target.name);
         }
         return json;
+    }
+
+    public PlayerTarget getTarget() {
+        return target;
+    }
+
+    public void setTarget(PlayerTarget target) {
+        this.target = target;
     }
 }

@@ -8,6 +8,10 @@ public class SetVariable extends CodeBlockAction {
         super(json);
     }
 
+    public SetVariable(String action) {
+        super(action);
+    }
+
     @Override
     public String toString() {
         return "SetVariable [" + super.toString() + "]";

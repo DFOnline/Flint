@@ -36,6 +36,11 @@ public class Bracket extends CodeBlock {
     private Type type;
     private Direction direction;
 
+    public Bracket(Type type, Direction direction) {
+        this.type = type;
+        this.direction = direction;
+    }
+
     public Bracket(JsonObject json) {
         if (json.get("direct").getAsString().equals("open")) {
             direction = Direction.OPEN;
@@ -61,5 +66,21 @@ public class Bracket extends CodeBlock {
     @Override
     public String toString() {
         return "Bracket[type=" + type + ", direction=" + direction + "]";
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
+
+    public Direction getDirection() {
+        return direction;
+    }
+
+    public void setDirection(Direction direction) {
+        this.direction = direction;
     }
 }

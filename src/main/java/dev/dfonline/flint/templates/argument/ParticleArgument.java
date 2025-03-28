@@ -24,4 +24,10 @@ public class ParticleArgument extends Argument {
     public String getID() {
         return "part";
     }
+    public JsonObject getValues() {
+        return data;
+    }
+    public void setValues(JsonObject data) {
+        this.data = data;
+    }
 }

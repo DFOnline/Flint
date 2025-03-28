@@ -8,6 +8,10 @@ public class PlayerEvent extends CodeBlockEvent {
         super(json);
     }
 
+    public PlayerEvent(String name, boolean lagslayCancelled) {
+        super(name, lagslayCancelled);
+    }
+
     @Override
     public String toString() {
         return "PlayerEvent [" + super.toString() + "]";

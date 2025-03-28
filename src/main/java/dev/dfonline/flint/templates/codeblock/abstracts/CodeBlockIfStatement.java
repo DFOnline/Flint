@@ -11,6 +11,11 @@ public abstract class CodeBlockIfStatement extends CodeBlockAction {
         }
     }
 
+    protected CodeBlockIfStatement(String action, boolean not) {
+        super(action);
+        this.not = not;
+    }
+
     @Override
     public String toString() {
         return "not=" + not + " " + super.toString();
@@ -23,5 +28,13 @@ public abstract class CodeBlockIfStatement extends CodeBlockAction {
             json.addProperty("attribute", "NOT");
         }
         return json;
+    }
+
+    public boolean isNot() {
+        return not;
+    }
+
+    public void setNot(boolean not) {
+        this.not = not;
     }
 }

@@ -8,6 +8,10 @@ public class EntityEvent extends CodeBlockEvent {
         super(json);
     }
 
+    public EntityEvent(String name, boolean lagslayCancelled) {
+        super(name, lagslayCancelled);
+    }
+
     @Override
     public String toString() {
         return "EntityEvent [" + super.toString() + "]";

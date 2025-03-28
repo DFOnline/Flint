@@ -17,6 +17,12 @@ public abstract class CodeBlockSubAction extends CodeBlockAction{
         }
     }
 
+    protected CodeBlockSubAction(String action, String subAction, boolean not) {
+        super(action);
+        this.subAction = subAction;
+        this.not = not;
+    }
+
     @Override
     public String toString() {
         return "not=" + not + ", action=" + action + ", subAction=" + subAction;
@@ -32,5 +38,21 @@ public abstract class CodeBlockSubAction extends CodeBlockAction{
             json.addProperty("subAction", subAction);
         }
         return json;
+    }
+
+    public boolean isNot() {
+        return not;
+    }
+
+    public void setNot(boolean not) {
+        this.not = not;
+    }
+
+    public String getSubAction() {
+        return subAction;
+    }
+
+    public void setSubAction(String subAction) {
+        this.subAction = subAction;
     }
 }

@@ -15,6 +15,11 @@ public class IfEntity extends CodeBlockIfStatement {
         }
     }
 
+    public IfEntity(String action, EntityTarget target, boolean not) {
+        super(action, not);
+        this.target = target;
+    }
+
     @Override
     public String toString() {
         return "IfEntity [target=" + target + " " + super.toString() + "]";

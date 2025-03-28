@@ -19,6 +19,11 @@ public class ItemArgument extends Argument {
         }
     }
 
+    public ItemArgument(int slot, ItemStack item) {
+        super(slot);
+        this.item = item;
+    }
+
     @Override
     public String toString() {
         return "Item [item=" + item + " " + super.toString() + "]";
@@ -35,5 +40,13 @@ public class ItemArgument extends Argument {
     @Override
     public String getID() {
         return "item";
+    }
+
+    public ItemStack getItem() {
+        return item;
+    }
+
+    public void setItem(ItemStack item) {
+        this.item = item;
     }
 }

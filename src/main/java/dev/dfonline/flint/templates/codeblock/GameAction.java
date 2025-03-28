@@ -8,6 +8,10 @@ public class GameAction extends CodeBlockAction {
         super(json);
     }
 
+    public GameAction(String action) {
+        super(action);
+    }
+
     @Override
     public String toString() {
         return "GameAction [" + super.toString() + "]";

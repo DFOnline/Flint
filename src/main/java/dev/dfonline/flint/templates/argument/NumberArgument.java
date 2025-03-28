@@ -10,6 +10,11 @@ public class NumberArgument extends Argument {
         this.number = data.get("name").getAsDouble();
     }
 
+    public NumberArgument(int slot, double number) {
+        super(slot);
+        this.number = number;
+    }
+
     @Override
     public String toString() {
         return "Number [value=" + number + " " + super.toString() + "]";
@@ -25,5 +30,13 @@ public class NumberArgument extends Argument {
     @Override
     public String getID() {
         return "num";
+    }
+
+    public double getNumber() {
+        return number;
+    }
+
+    public void setNumber(double number) {
+        this.number = number;
     }
 }

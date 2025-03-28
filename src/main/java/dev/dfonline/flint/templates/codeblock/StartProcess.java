@@ -8,6 +8,10 @@ public class StartProcess extends CodeBlockCaller {
         super(json);
     }
 
+    public StartProcess(String name) {
+        super(name);
+    }
+
     @Override
     public String toString() {
         return "StartProcess [" + super.toString() + "]";
