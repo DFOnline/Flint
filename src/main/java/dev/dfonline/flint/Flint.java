@@ -54,7 +54,6 @@ public class Flint implements ClientModInitializer {
                 // Debug
                 new StateDebugDisplayFeature(),
                 new PacketLoggerFeature(),
-                new TestingTemplateCommand(),
 
                 // Systems
                 new CommandSenderFeature(),
