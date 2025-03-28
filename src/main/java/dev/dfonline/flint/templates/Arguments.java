@@ -5,12 +5,13 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import dev.dfonline.flint.templates.argument.abstracts.Argument;
 
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import static dev.dfonline.flint.templates.Template.print;
 
 public class Arguments {
-    private final ArrayList<Argument> arguments = new ArrayList<>();
+    private final Set<Argument> arguments = new HashSet<>();
     public static Arguments fromJson(JsonArray args) {
         Arguments arguments = new Arguments();
         for (JsonElement arg : args) {

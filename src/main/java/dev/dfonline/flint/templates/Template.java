@@ -8,6 +8,7 @@ import dev.dfonline.flint.data.DFItem;
 import dev.dfonline.flint.data.PublicBukkitValues;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
@@ -15,11 +16,11 @@ import java.io.IOException;
 import static net.minecraft.text.Text.literal;
 
 public class Template {
-    private String name;
-    private String author;
-    private String version;
-    private CodeBlocks blocks;
-    private Item material;
+    private String name = "null";
+    private String author = "null";
+    private String version = "1";
+    private CodeBlocks blocks = new CodeBlocks();
+    private Item material = Items.ENDER_CHEST;
 
     public static @Nullable Template fromItem(ItemStack item) {
         DFItem dfItem = new DFItem(item);
@@ -111,5 +112,45 @@ public class Template {
 
     public String toReadableJson() {
         return getCodeJson().toString();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
+    public CodeBlocks getBlocks() {
+        return blocks;
+    }
+
+    public void setBlocks(CodeBlocks blocks) {
+        this.blocks = blocks;
+    }
+
+    public Item getMaterial() {
+        return material;
+    }
+
+    public void setMaterial(Item material) {
+        this.material = material;
     }
 }

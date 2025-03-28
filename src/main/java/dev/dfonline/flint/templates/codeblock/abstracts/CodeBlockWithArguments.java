@@ -22,4 +22,9 @@ public abstract class CodeBlockWithArguments extends CodeBlock {
         current.add("args", arguments.toJson());
         return super.toJSON(current);
     }
+
+    public CodeBlock setArguments(Arguments arguments) {
+        this.arguments = arguments;
+        return this;
+    }
 }

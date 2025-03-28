@@ -4,6 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import dev.dfonline.flint.Flint;
+import dev.dfonline.flint.FlintAPI;
 
 import java.util.ArrayList;
 
@@ -11,12 +12,14 @@ import static dev.dfonline.flint.templates.Template.print;
 import static net.minecraft.text.Text.literal;
 
 public class CodeBlocks {
-    private ArrayList<CodeBlock> blocks;
+    private ArrayList<CodeBlock> blocks = new ArrayList<>();
 
     public static CodeBlocks fromJson(JsonArray blocks) {
         CodeBlocks codeBlocks = new CodeBlocks();
 
-        Flint.getUser().getPlayer().sendMessage(literal(blocks.toString()), false);
+        if (FlintAPI.isDebugging()) {
+            Flint.getUser().getPlayer().sendMessage(literal(blocks.toString()), false);
+        }
 
         codeBlocks.blocks = new ArrayList<>();
         for (JsonElement block : blocks) {
@@ -49,5 +52,17 @@ public class CodeBlocks {
             blocks.add(block.toJSON());
         }
         return blocks;
+    }
+
+    public void add(CodeBlock block) {
+        blocks.add(block);
+    }
+
+    public ArrayList<CodeBlock> getBlocks() {
+        return blocks;
+    }
+
+    public void setBlocks(ArrayList<CodeBlock> blocks) {
+        this.blocks = blocks;
     }
 }
