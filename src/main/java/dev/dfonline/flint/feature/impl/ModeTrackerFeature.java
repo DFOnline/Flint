@@ -19,8 +19,6 @@ import net.minecraft.util.math.Vec3d;
 
 import java.util.regex.Pattern;
 
-import static net.minecraft.text.Text.literal;
-
 /**
  * Handles tracking the player's mode and updating it accordingly.
  */

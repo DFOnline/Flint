@@ -86,5 +86,4 @@ public class FeatureManager {
         return this.getByTrait(trait, true);
     }
 
-
 }
