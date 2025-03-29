@@ -51,3 +51,4 @@ jobs:
           game-versions: |-
             1.21.3
           files: '["./build/libs/Flint-1.0.0.jar", "./build/libs/Flint-1.0.0-sources.jar"]'
+          primary-file: "Flint-1.0.0.jar
