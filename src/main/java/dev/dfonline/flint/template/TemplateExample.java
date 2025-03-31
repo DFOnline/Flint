@@ -3,13 +3,7 @@ package dev.dfonline.flint.template;
 import dev.dfonline.flint.Flint;
 import dev.dfonline.flint.template.block.Attribute;
 import dev.dfonline.flint.template.block.CodeBlock;
-import dev.dfonline.flint.template.block.impl.Bracket;
-import dev.dfonline.flint.template.block.impl.CallFunction;
-import dev.dfonline.flint.template.block.impl.IfPlayer;
-import dev.dfonline.flint.template.block.impl.PlayerAction;
-import dev.dfonline.flint.template.block.impl.Repeat;
-import dev.dfonline.flint.template.block.impl.SelectObject;
-import dev.dfonline.flint.template.block.impl.StartProcess;
+import dev.dfonline.flint.template.block.impl.*;
 import dev.dfonline.flint.template.value.impl.NumberValue;
 import dev.dfonline.flint.template.value.impl.StringValue;
 import dev.dfonline.flint.template.value.impl.TextValue;
@@ -30,7 +24,6 @@ public final class TemplateExample {
     }
 
     public static void test() {
-
 //        blocks.add(new PlayerEvent("Join", Attribute.LS_CANCEL));
 //
 //        TagValue alignmentMode = new TagValue();
@@ -55,33 +48,30 @@ public final class TemplateExample {
 //
 //        blocks.add(new Function("hello"));
 
-        List<CodeBlock> blocks = new ArrayList<>();
+        Template template = new Template("Example Template", "Developer");
 
-        ArgumentContainer args = new ArgumentContainer();
-        args.set(0, new TextValue("<green>Hello people"));
-        args.set(3, new StringValue("This is a string!!"));
-        args.set(8, new NumberValue(5));
-        args.set(1, new VectorValue(5, 5, 5));
+        var blocks = CodeBuilder.create()
+            .add(new PlayerAction("SendMessage", ArgumentBuilder.create()
+                .set(0, new TextValue("<green>Hello people"))
+                .set(3, new StringValue("This is a string!!"))
+                .set(8, new NumberValue(5))
+                .set(1, new VectorValue(5, 5, 5))
+                .build()))
+            .add(new CallFunction("real"))
+            .add(new StartProcess("real"))
+            .add(new SelectObject("a"))
+            .add(new SelectObject("a", "b"))
+            .add(new SelectObject("a", "b", Attribute.NOT))
+            .add(new IfPlayer("Doin", Attribute.NOT))
+//        .add(new Bracket(Bracket.Direction.OPEN, Bracket.Type.NORMAL));
+//        .add(new Bracket(Bracket.Direction.CLOSE, Bracket.Type.NORMAL));
+//        .add(new Else());
+//        .add(new Bracket(Bracket.Direction.OPEN, Bracket.Type.NORMAL));
+//        .add(new Bracket(Bracket.Direction.CLOSE, Bracket.Type.NORMAL));
+            .add(new Repeat("Forever"))
+            .build();
 
-        blocks.add(new PlayerAction("SendMessage", args));
-        blocks.add(new CallFunction("real"));
-        blocks.add(new StartProcess("real"));
-        blocks.add(new SelectObject("a"));
-        blocks.add(new SelectObject("a", "b"));
-        blocks.add(new SelectObject("a", "b", Attribute.NOT));
-        blocks.add(new IfPlayer("Doin", Attribute.NOT));
-//        blocks.add(new Bracket(Bracket.Direction.OPEN, Bracket.Type.NORMAL));
-//        blocks.add(new Bracket(Bracket.Direction.CLOSE, Bracket.Type.NORMAL));
-//        blocks.add(new Else());
-//        blocks.add(new Bracket(Bracket.Direction.OPEN, Bracket.Type.NORMAL));
-//        blocks.add(new Bracket(Bracket.Direction.CLOSE, Bracket.Type.NORMAL));
-        blocks.add(
-                new Repeat("Forever")
-//                        new Bracket(Bracket.Direction.OPEN, Bracket.Type.REPEAT),
-//                        new Bracket(Bracket.Direction.CLOSE, Bracket.Type.REPEAT)
-        );
-
-        Template template = new Template("Example Template", "Developer", blocks);
+        template.setBlocks(blocks);
 
         String json = template.toJson();
         System.out.println(json);
@@ -106,10 +96,10 @@ public final class TemplateExample {
         }
 
         List<CodeBlock> testBlocks = List.of(
-                new Bracket(Bracket.Direction.OPEN, Bracket.Type.NORMAL),
-                new Bracket(Bracket.Direction.CLOSE, Bracket.Type.NORMAL),
-                new Bracket(Bracket.Direction.OPEN, Bracket.Type.REPEAT),
-                new Bracket(Bracket.Direction.CLOSE, Bracket.Type.REPEAT)
+            new Bracket(Bracket.Direction.OPEN, Bracket.Type.NORMAL),
+            new Bracket(Bracket.Direction.CLOSE, Bracket.Type.NORMAL),
+            new Bracket(Bracket.Direction.OPEN, Bracket.Type.REPEAT),
+            new Bracket(Bracket.Direction.CLOSE, Bracket.Type.REPEAT)
         );
         Template template2 = new Template("a", "B", testBlocks);
 
