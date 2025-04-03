@@ -13,7 +13,7 @@ public abstract class BaseBlock extends CodeBlock {
     private ArgumentContainer args = new ArgumentContainer();
 
     public BaseBlock(String block) {
-        this.setId("block");
+        setId("block");
         this.block = block;
     }
 
@@ -25,6 +25,7 @@ public abstract class BaseBlock extends CodeBlock {
         this.block = block;
     }
 
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     public String getAction() {
         return this.action;
     }
@@ -58,4 +59,3 @@ public abstract class BaseBlock extends CodeBlock {
     }
 
 }
-

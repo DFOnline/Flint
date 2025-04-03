@@ -2,11 +2,11 @@ package dev.dfonline.flint.template.block.impl;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import dev.dfonline.flint.template.ArgumentContainer;
-import dev.dfonline.flint.template.block.Attribute;
 import dev.dfonline.flint.template.block.BaseBlock;
 
 public class SelectObject extends BaseBlock {
 
+    public static final String NOT = "NOT";
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String subAction;
     @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -26,13 +26,9 @@ public class SelectObject extends BaseBlock {
         this.subAction = subAction;
     }
 
-    public SelectObject(String action, Attribute attribute) {
+    public SelectObject(String action, boolean not) {
         this(action);
-        if (attribute != null) {
-            this.attribute = attribute.getValue();
-        } else {
-            this.attribute = null;
-        }
+        this.attribute = not ? NOT : null;
     }
 
     public SelectObject(String action, ArgumentContainer args) {
@@ -40,13 +36,9 @@ public class SelectObject extends BaseBlock {
         this.getArguments().setItems(args.getItems());
     }
 
-    public SelectObject(String action, String subAction, Attribute attribute) {
+    public SelectObject(String action, String subAction, boolean not) {
         this(action, subAction);
-        if (attribute != null) {
-            this.attribute = attribute.getValue();
-        } else {
-            this.attribute = null;
-        }
+        this.attribute = not ? NOT : null;
     }
 
     public SelectObject(String action, String subAction, ArgumentContainer args) {
@@ -54,14 +46,13 @@ public class SelectObject extends BaseBlock {
         this.getArguments().setItems(args.getItems());
     }
 
-    public SelectObject(String action, Attribute attribute, ArgumentContainer args) {
-        this(action, attribute);
+    public SelectObject(String action, boolean not, ArgumentContainer args) {
+        this(action, not);
         this.getArguments().setItems(args.getItems());
     }
 
-    public SelectObject(String action, String subAction, Attribute attribute,
-                        ArgumentContainer args) {
-        this(action, subAction, attribute);
+    public SelectObject(String action, String subAction, boolean not, ArgumentContainer args) {
+        this(action, subAction, not);
         this.getArguments().setItems(args.getItems());
     }
 
@@ -77,12 +68,8 @@ public class SelectObject extends BaseBlock {
         return this.attribute;
     }
 
-    public void setAttribute(Attribute attribute) {
-        if (attribute != null) {
-            this.attribute = attribute.getValue();
-        } else {
-            this.attribute = null;
-        }
+    public void setAttribute(String attribute) {
+        this.attribute = attribute;
     }
 
 }

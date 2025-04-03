@@ -1,7 +1,6 @@
 package dev.dfonline.flint.template;
 
 import dev.dfonline.flint.Flint;
-import dev.dfonline.flint.template.block.Attribute;
 import dev.dfonline.flint.template.block.CodeBlock;
 import dev.dfonline.flint.template.block.impl.*;
 import dev.dfonline.flint.template.value.impl.NumberValue;
@@ -23,7 +22,12 @@ public final class TemplateExample {
     private TemplateExample() {
     }
 
-    public static void test() {
+    public static void main(String[] args) {
+        test(false);
+    }
+
+    public static void test(boolean ingame) {
+
 //        blocks.add(new PlayerEvent("Join", Attribute.LS_CANCEL));
 //
 //        TagValue alignmentMode = new TagValue();
@@ -48,30 +52,58 @@ public final class TemplateExample {
 //
 //        blocks.add(new Function("hello"));
 
-        Template template = new Template("Example Template", "Developer");
+        List<CodeBlock> blocks = new ArrayList<>();
 
-        var blocks = CodeBuilder.create()
-            .add(new PlayerAction("SendMessage", ArgumentBuilder.create()
-                .set(0, new TextValue("<green>Hello people"))
-                .set(3, new StringValue("This is a string!!"))
-                .set(8, new NumberValue(5))
-                .set(1, new VectorValue(5, 5, 5))
-                .build()))
-            .add(new CallFunction("real"))
-            .add(new StartProcess("real"))
-            .add(new SelectObject("a"))
-            .add(new SelectObject("a", "b"))
-            .add(new SelectObject("a", "b", Attribute.NOT))
-            .add(new IfPlayer("Doin", Attribute.NOT))
-//        .add(new Bracket(Bracket.Direction.OPEN, Bracket.Type.NORMAL));
-//        .add(new Bracket(Bracket.Direction.CLOSE, Bracket.Type.NORMAL));
-//        .add(new Else());
-//        .add(new Bracket(Bracket.Direction.OPEN, Bracket.Type.NORMAL));
-//        .add(new Bracket(Bracket.Direction.CLOSE, Bracket.Type.NORMAL));
-            .add(new Repeat("Forever"))
-            .build();
+        blocks.add(new PlayerEvent("Hello!"));
 
-        template.setBlocks(blocks);
+        ArgumentContainer args = new ArgumentContainer();
+        args.set(0, new TextValue("<green>Hello people"));
+        args.set(3, new StringValue("This is a string!!"));
+        args.set(8, new NumberValue(5));
+        args.set(1, new VectorValue(5, 5, 5));
+
+        blocks.add(new PlayerAction("SendMessage", args));
+        blocks.add(new CallFunction("real"));
+        blocks.add(new StartProcess("real"));
+        blocks.add(new SelectObject("a"));
+        blocks.add(new SelectObject("a", "b"));
+        blocks.add(new SelectObject("a", "b", true));
+        blocks.add(new IfPlayer("Doin", true));
+        blocks.add(new Bracket(Bracket.Direction.OPEN, Bracket.Type.NORMAL));
+        blocks.add(new Bracket(Bracket.Direction.CLOSE, Bracket.Type.NORMAL));
+        blocks.add(new Else());
+        blocks.add(new Bracket(Bracket.Direction.OPEN, Bracket.Type.NORMAL));
+        blocks.add(new Bracket(Bracket.Direction.CLOSE, Bracket.Type.NORMAL));
+        blocks.addAll(
+                List.of(
+                        new Repeat("Forever"),
+                        new Bracket(Bracket.Direction.OPEN, Bracket.Type.REPEAT),
+                        new Bracket(Bracket.Direction.CLOSE, Bracket.Type.REPEAT)
+                )
+        );
+
+        Template template = new Template("Example Template", "Developer", blocks);
+
+        Template builtTemplate = new Template("Example Template", "Developer", CodeBuilder.create()
+                .add(new PlayerAction("SendMessage", ArgumentBuilder.create()
+                        .set(0, new TextValue("<green>Hello people"))
+                        .set(3, new StringValue("This is a string!!"))
+                        .set(8, new NumberValue(5))
+                        .set(1, new VectorValue(5, 5, 5))
+                        .build()))
+                .add(new CallFunction("real"))
+                .add(new StartProcess("real"))
+                .add(new SelectObject("a"))
+                .add(new SelectObject("a", "b"))
+                .add(new SelectObject("a", "b", true))
+                .add(new IfPlayer("Doin", true))
+                .add(new Bracket(Bracket.Direction.OPEN, Bracket.Type.NORMAL))
+                .add(new Bracket(Bracket.Direction.CLOSE, Bracket.Type.NORMAL))
+                .add(new Else())
+                .add(new Bracket(Bracket.Direction.OPEN, Bracket.Type.NORMAL))
+                .add(new Bracket(Bracket.Direction.CLOSE, Bracket.Type.NORMAL))
+                .add(new Repeat("Forever"))
+                .build());
 
         String json = template.toJson();
         System.out.println(json);
@@ -96,24 +128,32 @@ public final class TemplateExample {
         }
 
         List<CodeBlock> testBlocks = List.of(
-            new Bracket(Bracket.Direction.OPEN, Bracket.Type.NORMAL),
-            new Bracket(Bracket.Direction.CLOSE, Bracket.Type.NORMAL),
-            new Bracket(Bracket.Direction.OPEN, Bracket.Type.REPEAT),
-            new Bracket(Bracket.Direction.CLOSE, Bracket.Type.REPEAT)
+                new Else(),
+                new PlayerAction("test"),
+//                new Bracket(Bracket.Direction.OPEN, Bracket.Type.NORMAL),
+//                new Bracket(Bracket.Direction.CLOSE, Bracket.Type.NORMAL),
+//                new Bracket(Bracket.Direction.OPEN, Bracket.Type.REPEAT),
+                new Bracket(Bracket.Direction.CLOSE, Bracket.Type.REPEAT)
         );
         Template template2 = new Template("a", "B", testBlocks);
 
         Template template3 = Template.fromJson(template2.toJson());
 
 
-        Flint.getUser().getPlayer().giveItemStack(template.toItem(Text.literal("Template"), Items.GLOWSTONE));
-        Flint.getUser().getPlayer().giveItemStack(loadedTemplate.toItem(Text.literal("Template reserialized"), Items.GLOWSTONE));
-        Flint.getUser().getPlayer().giveItemStack(template2.toItem(Text.literal("Template 2"), Items.GLOWSTONE));
-        Flint.getUser().getPlayer().giveItemStack(template3.toItem(Text.literal("Template 2 reserialized"), Items.GLOWSTONE));
+        if (ingame) {
+            Flint.getUser().getPlayer().giveItemStack(template.toItem(Text.literal("Template"), Items.GLOWSTONE));
+            Flint.getUser().getPlayer().giveItemStack(loadedTemplate.toItem(Text.literal("Template reserialized"), Items.GLOWSTONE));
+            Flint.getUser().getPlayer().giveItemStack(template2.toItem(Text.literal("Template 2"), Items.GLOWSTONE));
+            Flint.getUser().getPlayer().giveItemStack(template3.toItem(Text.literal("Template 2 reserialized"), Items.GLOWSTONE));
+        }
 
         System.out.println("Template Code: " + template.getCode());
-        System.out.println("Template2 Code: " + template2.getCode()); // correct
-        System.out.println("Template3 Code: " + template3.getCode()); // incorrect
+        try {
+            System.out.println("Template2 Code: " + template2.getCode()); // correct
+            System.out.println("Template3 Code: " + template3.getCode()); // incorrect
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

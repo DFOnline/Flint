@@ -5,35 +5,27 @@ import dev.dfonline.flint.template.ArgumentContainer;
 
 public abstract class EventBlock extends BaseBlock {
 
+    public static final String LS_CANCEL = "LS-CANCEL";
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String attribute;
 
-    public EventBlock() {
-        super(null);
-        throw new UnsupportedOperationException("EventBlock is an abstract class and cannot be instantiated directly.");
-    }
-
-    public EventBlock(String action) {
-        this();
+    protected EventBlock(String block, String action) {
+        super(block);
         this.setAction(action);
     }
 
-    public EventBlock(String action, Attribute attribute) {
-        this(action);
-        if (attribute != null) {
-            this.attribute = attribute.getValue();
-        } else {
-            this.attribute = null;
-        }
+    public EventBlock(String block, String action, boolean lsCancel) {
+        this(block, action);
+        this.attribute = lsCancel ? LS_CANCEL : null;
     }
 
-    public EventBlock(String action, ArgumentContainer args) {
-        this(action);
+    public EventBlock(String block, String action, ArgumentContainer args) {
+        this(block, action);
         this.getArguments().setItems(args.getItems());
     }
 
-    public EventBlock(String action, Attribute attribute, ArgumentContainer args) {
-        this(action, attribute);
+    public EventBlock(String block, String action, boolean lsCancel, ArgumentContainer args) {
+        this(block, action, lsCancel);
         this.getArguments().setItems(args.getItems());
     }
 
@@ -41,13 +33,8 @@ public abstract class EventBlock extends BaseBlock {
         return this.attribute;
     }
 
-    public void setAttribute(Attribute attribute) {
-        if (attribute != null) {
-            this.attribute = attribute.getValue();
-        } else {
-            this.attribute = null;
-        }
+    public void setAttribute(String attribute) {
+        this.attribute = attribute;
     }
 
 }
-

@@ -36,7 +36,7 @@ public class TestingTemplateCommand implements CommandFeature {
 //
 //            Flint.getUser().getPlayer().giveItemStack(template.toItem());
 //        }
-        TemplateExample.test();
+        TemplateExample.test(true);
         return 0;
     }
 

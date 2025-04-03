@@ -2,11 +2,11 @@ package dev.dfonline.flint.template.block.impl;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import dev.dfonline.flint.template.ArgumentContainer;
-import dev.dfonline.flint.template.block.Attribute;
 import dev.dfonline.flint.template.block.BaseBlock;
 
 public class IfPlayer extends BaseBlock {
 
+    public static final String NOT = "NOT";
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String attribute;
 
@@ -19,13 +19,9 @@ public class IfPlayer extends BaseBlock {
         this.setAction(action);
     }
 
-    public IfPlayer(String action, Attribute attribute) {
+    public IfPlayer(String action, boolean not) {
         this(action);
-        if (attribute != null) {
-            this.attribute = attribute.getValue();
-        } else {
-            this.attribute = null;
-        }
+        this.attribute = not ? NOT : null;
     }
 
     public IfPlayer(String action, ArgumentContainer args) {
@@ -33,8 +29,8 @@ public class IfPlayer extends BaseBlock {
         this.getArguments().setItems(args.getItems());
     }
 
-    public IfPlayer(String action, Attribute attribute, ArgumentContainer args) {
-        this(action, attribute);
+    public IfPlayer(String action, boolean not, ArgumentContainer args) {
+        this(action, not);
         this.getArguments().setItems(args.getItems());
     }
 
@@ -42,12 +38,8 @@ public class IfPlayer extends BaseBlock {
         return this.attribute;
     }
 
-    public void setAttribute(Attribute attribute) {
-        if (attribute != null) {
-            this.attribute = attribute.getValue();
-        } else {
-            this.attribute = null;
-        }
+    public void setAttribute(String attribute) {
+        this.attribute = attribute;
     }
 
 }
