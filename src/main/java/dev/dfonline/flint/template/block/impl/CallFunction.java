@@ -3,6 +3,16 @@ package dev.dfonline.flint.template.block.impl;
 import dev.dfonline.flint.template.ArgumentContainer;
 import dev.dfonline.flint.template.block.BaseBlock;
 
+/**
+ * {
+ * "id": "block",
+ * "block": "call_func",
+ * "data": "<function name>",
+ * "args": { // may be empty, always exists
+ * "items": []
+ * }
+ * }
+ */
 public class CallFunction extends BaseBlock {
 
     private String data;

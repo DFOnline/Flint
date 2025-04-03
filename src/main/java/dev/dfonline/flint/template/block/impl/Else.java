@@ -1,8 +1,14 @@
 package dev.dfonline.flint.template.block.impl;
 
-import dev.dfonline.flint.template.block.NoArgsBlock;
+import dev.dfonline.flint.template.block.ForceNoArgsBlock;
 
-public class Else extends NoArgsBlock {
+/**
+ * {
+ * "id": "block",
+ * "block": "else"
+ * }
+ */
+public class Else extends ForceNoArgsBlock {
 
     public Else() {
         super("else");

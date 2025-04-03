@@ -3,9 +3,9 @@ package dev.dfonline.flint.template.block;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import dev.dfonline.flint.template.ArgumentContainer;
 
-public abstract class NoArgsBlock extends BaseBlock {
+public abstract class ForceNoArgsBlock extends BaseBlock {
 
-    public NoArgsBlock(String block) {
+    public ForceNoArgsBlock(String block) {
         super(block);
     }
 

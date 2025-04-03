@@ -6,6 +6,16 @@ import dev.dfonline.flint.template.block.BaseBlock;
 import dev.dfonline.flint.template.value.impl.HintValue;
 import dev.dfonline.flint.template.value.impl.TagValue;
 
+/**
+ * {
+ * "id": "block",
+ * "block": "func",
+ * "data": "<function name>",
+ * "args": { // may be empty, always exists
+ * "items": []
+ * }
+ * }
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Function extends BaseBlock {
 

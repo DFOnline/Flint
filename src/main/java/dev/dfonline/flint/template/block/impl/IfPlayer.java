@@ -4,6 +4,18 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import dev.dfonline.flint.template.ArgumentContainer;
 import dev.dfonline.flint.template.block.BaseBlock;
 
+/**
+ * {
+ * id: "block",
+ * block: "if_player",
+ * args: { // might be empty, always exists
+ * items: []
+ * },
+ * action: "<action name or empty string>",
+ * attribute: "<either NOT or field is not set>",
+ * target: "<some string or field is not set>",
+ * }
+ */
 public class IfPlayer extends BaseBlock {
 
     public static final String NOT = "NOT";

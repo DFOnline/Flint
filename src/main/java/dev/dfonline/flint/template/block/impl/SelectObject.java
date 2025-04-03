@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import dev.dfonline.flint.template.ArgumentContainer;
 import dev.dfonline.flint.template.block.BaseBlock;
 
+// Same as Repeat
 public class SelectObject extends BaseBlock {
 
     public static final String NOT = "NOT";

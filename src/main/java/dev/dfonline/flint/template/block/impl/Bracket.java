@@ -2,9 +2,16 @@ package dev.dfonline.flint.template.block.impl;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
-import dev.dfonline.flint.template.block.NoArgsNoBlockBlock;
+import dev.dfonline.flint.template.block.ForceNoArgsNoBlockBlock;
 
-public class Bracket extends NoArgsNoBlockBlock {
+/**
+ * {
+ * "id": "bracket",
+ * "direct": "open",
+ * "type": "norm"
+ * }
+ */
+public class Bracket extends ForceNoArgsNoBlockBlock {
 
     public enum Direction {
         OPEN("open"),
