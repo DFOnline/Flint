@@ -31,6 +31,7 @@ jobs:
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           automatic_release_tag: "v${{ github.run_number }}"
+          prerelease: false
           files: |
             ./build/libs/
       - name: Publish to Modrinth
