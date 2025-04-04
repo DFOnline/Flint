@@ -6,12 +6,9 @@ import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.jsontype.impl.TypeIdResolverBase;
 import dev.dfonline.flint.template.block.BaseBlock;
 import dev.dfonline.flint.template.block.CodeBlock;
-import dev.dfonline.flint.template.block.impl.Bracket;
-import dev.dfonline.flint.template.block.impl.CallFunction;
-import dev.dfonline.flint.template.block.impl.Else;
-import dev.dfonline.flint.template.block.impl.Function;
-import dev.dfonline.flint.template.block.impl.PlayerAction;
-import dev.dfonline.flint.template.block.impl.SelectObject;
+import dev.dfonline.flint.template.block.ForceNoArgsNoBlockBlock;
+import dev.dfonline.flint.template.block.impl.*;
+import dev.dfonline.flint.template.block.impl.Process;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -24,11 +21,23 @@ public class BlockTypeIdResolver extends TypeIdResolverBase {
 
     public BlockTypeIdResolver() {
         this.typeMap = new HashMap<>();
-        this.typeMap.put("select_obj", SelectObject.class);
-        this.typeMap.put("call_function", CallFunction.class);
-        this.typeMap.put("else", Else.class);
-        this.typeMap.put("player_action", PlayerAction.class);
         this.typeMap.put("bracket", Bracket.class);
+        this.typeMap.put("call_function", CallFunction.class);
+        this.typeMap.put("control", Control.class);
+        this.typeMap.put("else", Else.class);
+        this.typeMap.put("entity_event", EntityEvent.class);
+        this.typeMap.put("function", Function.class);
+        this.typeMap.put("game_action", GameAction.class);
+        this.typeMap.put("if_entity", IfEntity.class);
+        this.typeMap.put("if_game", IfGame.class);
+        this.typeMap.put("if_player", IfPlayer.class);
+        this.typeMap.put("player_action", PlayerAction.class);
+        this.typeMap.put("event", PlayerEvent.class);
+        this.typeMap.put("process", Process.class);
+        this.typeMap.put("repeat", Repeat.class);
+        this.typeMap.put("select_obj", SelectObject.class);
+        this.typeMap.put("set_var", SetVariable.class);
+        this.typeMap.put("start_process", StartProcess.class);
     }
 
     @Override
@@ -38,10 +47,11 @@ public class BlockTypeIdResolver extends TypeIdResolverBase {
 
     @Override
     public String idFromValue(Object value) {
-        if (value instanceof BaseBlock) {
-            return ((BaseBlock) value).getBlock();
-        } else if (value instanceof Bracket) {
-            return "bracket";
+        if (value instanceof BaseBlock base) {
+            if (base instanceof ForceNoArgsNoBlockBlock noBlock) {
+                return noBlock.getId();
+            }
+            return base.getBlock();
         }
         return null;
     }

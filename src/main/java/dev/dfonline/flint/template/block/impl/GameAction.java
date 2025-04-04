@@ -6,24 +6,24 @@ import dev.dfonline.flint.template.block.BaseBlock;
 /**
  * {
  * "id": "block",
- * "block": "control",
+ * "block": "game_action",
  * "args": { // might be empty, always exists
  * "items": []
  * }
  * }
  */
-public class Control extends BaseBlock {
+public class GameAction extends BaseBlock {
 
-    public Control() {
-        super("control");
+    public GameAction() {
+        super("game_action");
     }
 
-    public Control(String action) {
+    public GameAction(String action) {
         this();
         this.setAction(action);
     }
 
-    public Control(String action, ArgumentContainer args) {
+    public GameAction(String action, ArgumentContainer args) {
         this(action);
         this.getArguments().setItems(args.getItems());
     }

@@ -6,24 +6,24 @@ import dev.dfonline.flint.template.block.BaseBlock;
 /**
  * {
  * "id": "block",
- * "block": "control",
+ * "block": "set_var",
  * "args": { // might be empty, always exists
  * "items": []
  * }
  * }
  */
-public class Control extends BaseBlock {
+public class SetVariable extends BaseBlock {
 
-    public Control() {
-        super("control");
+    public SetVariable() {
+        super("set_var");
     }
 
-    public Control(String action) {
+    public SetVariable(String action) {
         this();
         this.setAction(action);
     }
 
-    public Control(String action, ArgumentContainer args) {
+    public SetVariable(String action, ArgumentContainer args) {
         this(action);
         this.getArguments().setItems(args.getItems());
     }

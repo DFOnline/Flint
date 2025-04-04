@@ -2,6 +2,7 @@ package dev.dfonline.flint.template;
 
 import dev.dfonline.flint.Flint;
 import dev.dfonline.flint.template.block.CodeBlock;
+import dev.dfonline.flint.template.block.ConditionBlock;
 import dev.dfonline.flint.template.block.impl.*;
 import dev.dfonline.flint.template.value.impl.NumberValue;
 import dev.dfonline.flint.template.value.impl.StringValue;
@@ -96,7 +97,7 @@ public final class TemplateExample {
                 .add(new SelectObject("a"))
                 .add(new SelectObject("a", "b"))
                 .add(new SelectObject("a", "b", true))
-                .add(new IfPlayer("Doin", true))
+                .add(new ConditionBlock("Doin", true))
                 .add(new Bracket(Bracket.Direction.OPEN, Bracket.Type.NORMAL))
                 .add(new Bracket(Bracket.Direction.CLOSE, Bracket.Type.NORMAL))
                 .add(new Else())
