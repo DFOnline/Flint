@@ -1,6 +1,7 @@
 package dev.dfonline.flint.mixin;
 
 import dev.dfonline.flint.Flint;
+import dev.dfonline.flint.feature.core.FeatureTrait;
 import dev.dfonline.flint.feature.core.FeatureTraitType;
 import dev.dfonline.flint.feature.trait.UserMessageListeningFeature;
 import dev.dfonline.flint.util.result.ReplacementEventResult;
@@ -25,8 +26,8 @@ public class MClientPlayNetworkHandler {
 
         String newMessage = null;
 
-        for (var trait : Flint.FEATURE_MANAGER.getByTrait(FeatureTraitType.USER_MESSAGE_LISTENING)) {
-            var result = ((UserMessageListeningFeature) trait).sendMessage(message);
+        for (FeatureTrait trait : Flint.FEATURE_MANAGER.getByTrait(FeatureTraitType.USER_MESSAGE_LISTENING)) {
+            ReplacementEventResult<String> result = ((UserMessageListeningFeature) trait).sendMessage(message);
             if (result.getType() == ReplacementEventResult.Type.CANCEL) {
                 ci.cancel();
             }

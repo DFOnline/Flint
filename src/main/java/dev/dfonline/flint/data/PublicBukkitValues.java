@@ -35,11 +35,11 @@ public final class PublicBukkitValues {
      */
     @Nullable
     public static PublicBukkitValues fromItemData(ItemData data) {
-        var customData = data.getNbt();
+        NbtCompound customData = data.getNbt();
         if (customData == null) {
             return null;
         }
-        var publicBukkitValues = customData.getCompound(PUBLIC_BUKKIT_VALUES_KEY);
+        NbtCompound publicBukkitValues = customData.getCompound(PUBLIC_BUKKIT_VALUES_KEY);
         if (publicBukkitValues == null) {
             return null;
         }
@@ -52,7 +52,7 @@ public final class PublicBukkitValues {
      * @return The new empty PublicBukkitValues.
      */
     public static PublicBukkitValues getEmpty() {
-        var empty = new NbtCompound();
+        NbtCompound empty = new NbtCompound();
         empty.put(PUBLIC_BUKKIT_VALUES_KEY, new NbtCompound());
         return new PublicBukkitValues(empty);
     }

@@ -90,7 +90,7 @@ public class DFItem {
      * @return The value of the key, or an empty string if it doesn't exist.
      */
     public String getHypercubeStringValue(String key) {
-        var itemData = this.getItemData();
+        ItemData itemData = this.getItemData();
         if (itemData == null) {
             return "";
         }
@@ -104,7 +104,7 @@ public class DFItem {
      * @return Whether the key exists.
      */
     public boolean hasHypercubeKey(String key) {
-        var itemData = this.getItemData();
+        ItemData itemData = this.getItemData();
         if (itemData == null) {
             return false;
         }

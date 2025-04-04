@@ -1,6 +1,7 @@
 package dev.dfonline.flint.mixin;
 
 import dev.dfonline.flint.Flint;
+import dev.dfonline.flint.feature.core.FeatureTrait;
 import dev.dfonline.flint.feature.core.FeatureTraitType;
 import dev.dfonline.flint.feature.trait.ChatListeningFeature;
 import dev.dfonline.flint.feature.trait.PacketListeningFeature;
@@ -25,8 +26,8 @@ public class MClientConnection {
             boolean shouldReturn = false;
             Text newMessage = null;
 
-            for (var feature : Flint.FEATURE_MANAGER.getByTrait(FeatureTraitType.CHAT_LISTENING)) {
-                var result = ((ChatListeningFeature) feature).onChatMessage(content, overlay);
+            for (FeatureTrait feature : Flint.FEATURE_MANAGER.getByTrait(FeatureTraitType.CHAT_LISTENING)) {
+                ReplacementEventResult<Text> result = ((ChatListeningFeature) feature).onChatMessage(content, overlay);
 
                 if (result.getType() == ReplacementEventResult.Type.CANCEL) {
                     shouldReturn = true;
@@ -48,7 +49,7 @@ public class MClientConnection {
         }
 
         Flint.FEATURE_MANAGER.getByTrait(FeatureTraitType.PACKET_LISTENING).forEach(feature -> {
-            var result = ((PacketListeningFeature) feature).onReceivePacket(packet);
+            EventResult result = ((PacketListeningFeature) feature).onReceivePacket(packet);
 
             if (result == EventResult.CANCEL) {
                 ci.cancel();

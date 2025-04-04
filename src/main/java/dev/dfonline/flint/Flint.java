@@ -1,6 +1,7 @@
 package dev.dfonline.flint;
 
 import dev.dfonline.flint.feature.core.FeatureManager;
+import dev.dfonline.flint.feature.core.FeatureTrait;
 import dev.dfonline.flint.feature.core.FeatureTraitType;
 import dev.dfonline.flint.feature.impl.CommandSenderFeature;
 import dev.dfonline.flint.feature.impl.FlintCommandFeature;
@@ -26,7 +27,6 @@ import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
-import net.fabricmc.loader.api.FabricLoader;
 import net.kyori.adventure.platform.modcommon.MinecraftAudiences;
 import net.kyori.adventure.platform.modcommon.MinecraftClientAudiences;
 import net.minecraft.client.MinecraftClient;
@@ -115,7 +115,7 @@ public class Flint implements ClientModInitializer {
 
         WorldRenderEvents.BEFORE_BLOCK_OUTLINE.register((worldRenderContext, hitResult) -> {
             boolean shouldRender = true;
-            for (var feature : FEATURE_MANAGER.getByTrait(FeatureTraitType.WORLD_RENDER)) {
+            for (FeatureTrait feature : FEATURE_MANAGER.getByTrait(FeatureTraitType.WORLD_RENDER)) {
                 if (((WorldRenderFeature) feature).worldRenderBeforeBlockOutline(worldRenderContext, hitResult) == EventResult.CANCEL) {
                     shouldRender = false;
                 }
@@ -156,7 +156,7 @@ public class Flint implements ClientModInitializer {
 
         WorldRenderEvents.BLOCK_OUTLINE.register((worldRenderContext, blockOutlineContext) -> {
             boolean shouldRender = true;
-            for (var feature : FEATURE_MANAGER.getByTrait(FeatureTraitType.WORLD_RENDER)) {
+            for (FeatureTrait feature : FEATURE_MANAGER.getByTrait(FeatureTraitType.WORLD_RENDER)) {
                 if (((WorldRenderFeature) feature).worldRenderBlockOutline(worldRenderContext, blockOutlineContext) == EventResult.CANCEL) {
                     shouldRender = false;
                 }

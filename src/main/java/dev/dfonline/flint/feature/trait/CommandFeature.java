@@ -54,7 +54,7 @@ public interface CommandFeature extends FeatureTrait {
     default void register(CommandDispatcher<FabricClientCommandSource> dispatcher, CommandRegistryAccess registryAccess) {
         dispatcher.register(this.createCommand(literal(this.commandName()), registryAccess));
 
-        for (var alias : this.aliases()) {
+        for (String alias : this.aliases()) {
             dispatcher.register(this.createCommand(literal(alias), registryAccess));
         }
     }

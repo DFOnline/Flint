@@ -18,7 +18,7 @@ public class ItemData {
      * @implNote Most operations won't work if the item doesn't have custom data.
      */
     public ItemData(ItemStack item) {
-        var customDataComponent = item.get(DataComponentTypes.CUSTOM_DATA);
+        NbtComponent customDataComponent = item.get(DataComponentTypes.CUSTOM_DATA);
         if (customDataComponent != null) {
             this.customData = customDataComponent.copyNbt();
         }
@@ -132,7 +132,7 @@ public class ItemData {
      * @return The value of the key, or an empty string if it doesn't exist.
      */
     public String getHypercubeStringValue(String key) {
-        var pbv = this.getPublicBukkitValues();
+        PublicBukkitValues pbv = this.getPublicBukkitValues();
         if (pbv == null) {
             return "";
         }
@@ -146,7 +146,7 @@ public class ItemData {
      * @param value The value to set.
      */
     public void setHypercubeStringValue(String key, String value) {
-        var pbv = this.getPublicBukkitValues();
+        PublicBukkitValues pbv = this.getPublicBukkitValues();
         if (pbv == null) {
             pbv = PublicBukkitValues.getEmpty();
         }
@@ -160,7 +160,7 @@ public class ItemData {
      * @return Whether the key exists.
      */
     public boolean hasHypercubeKey(String key) {
-        var bpv = this.getPublicBukkitValues();
+        PublicBukkitValues bpv = this.getPublicBukkitValues();
         if (bpv == null) {
             return false;
         }

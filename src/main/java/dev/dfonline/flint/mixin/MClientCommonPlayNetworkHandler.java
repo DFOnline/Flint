@@ -1,6 +1,7 @@
 package dev.dfonline.flint.mixin;
 
 import dev.dfonline.flint.Flint;
+import dev.dfonline.flint.feature.core.FeatureTrait;
 import dev.dfonline.flint.feature.core.FeatureTraitType;
 import dev.dfonline.flint.feature.trait.PacketListeningFeature;
 import dev.dfonline.flint.feature.trait.UserCommandListeningFeature;
@@ -26,8 +27,8 @@ public abstract class MClientCommonPlayNetworkHandler {
         if (!this.sendingModifiedCommand && packet instanceof CommandExecutionC2SPacket(String command)) {
             String newCommand = null;
             boolean shouldReturn = false;
-            for (var trait : Flint.FEATURE_MANAGER.getByTrait(FeatureTraitType.USER_COMMAND_LISTENING)) {
-                var result = ((UserCommandListeningFeature) trait).sendCommand(command);
+            for (FeatureTrait trait : Flint.FEATURE_MANAGER.getByTrait(FeatureTraitType.USER_COMMAND_LISTENING)) {
+                ReplacementEventResult<String> result = ((UserCommandListeningFeature) trait).sendCommand(command);
                 if (result.getType() == ReplacementEventResult.Type.CANCEL) {
                     shouldReturn = true;
                 }
@@ -49,7 +50,7 @@ public abstract class MClientCommonPlayNetworkHandler {
         }
 
         Flint.FEATURE_MANAGER.getByTrait(FeatureTraitType.PACKET_LISTENING).forEach(feature -> {
-            var result = ((PacketListeningFeature) feature).onSendPacket(packet);
+            EventResult result = ((PacketListeningFeature) feature).onSendPacket(packet);
 
             if (result == EventResult.CANCEL) {
                 ci.cancel();
