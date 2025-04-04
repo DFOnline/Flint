@@ -102,6 +102,8 @@ public final class Template {
                 ObjectMapper mapper = createObjectMapper();
                 String json = mapper.writeValueAsString(templateData);
 
+                System.out.println("json: " + json);
+
                 // Compress using GZip
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                 try (GZIPOutputStream gzipOutputStream = new GZIPOutputStream(byteArrayOutputStream)) {

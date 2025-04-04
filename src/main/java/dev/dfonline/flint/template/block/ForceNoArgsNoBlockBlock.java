@@ -21,4 +21,10 @@ public abstract class ForceNoArgsNoBlockBlock extends BaseBlock {
     public String getBlock() {
         return super.getBlock();
     }
+
+    @Override
+    @JsonProperty
+    public String getId() {
+        return super.getBlock();
+    }
 }

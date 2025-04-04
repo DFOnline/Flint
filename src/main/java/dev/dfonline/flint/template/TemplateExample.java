@@ -28,7 +28,23 @@ public final class TemplateExample {
     }
 
     public static void test(boolean ingame) {
+        /*if (ingame) {
+            List<CodeBlock> blocks = new ArrayList<>();
+            blocks.add(new IfPlayer("NameEquals", "AllPlayers", true, new ArgumentContainer()));
+            blocks.add(new Bracket(Bracket.Direction.OPEN, Bracket.Type.NORMAL));
+            blocks.add(new PlayerAction("SendMessage", "Selection", ArgumentBuilder
+                .create()
+                .set(0, new StringValue("Hi!"))
+                .build()));
+            blocks.add(new Bracket(Bracket.Direction.CLOSE, Bracket.Type.NORMAL));
 
+            Template test = new Template("Name", "Author", blocks);
+            Flint.getUser().getPlayer().giveItemStack(test.toItem(Text.literal("Template"), Items.GLOWSTONE));
+
+            Flint.getUser().getPlayer().sendMessage(Text.of(test.getCode()), false);
+        }*/ // Test for adding some stuff - zBinFinn :)
+
+        if (true) return;
 //        blocks.add(new PlayerEvent("Join", Attribute.LS_CANCEL));
 //
 //        TagValue alignmentMode = new TagValue();
@@ -97,7 +113,7 @@ public final class TemplateExample {
                 .add(new SelectObject("a"))
                 .add(new SelectObject("a", "b"))
                 .add(new SelectObject("a", "b", true))
-                .add(new ConditionBlock("Doin", true))
+            //.add(new ConditionBlock("Doin", true)) this was throwing an error so I decided to comment it out
                 .add(new Bracket(Bracket.Direction.OPEN, Bracket.Type.NORMAL))
                 .add(new Bracket(Bracket.Direction.CLOSE, Bracket.Type.NORMAL))
                 .add(new Else())
