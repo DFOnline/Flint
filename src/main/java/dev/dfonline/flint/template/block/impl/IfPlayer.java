@@ -1,6 +1,7 @@
 package dev.dfonline.flint.template.block.impl;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import dev.dfonline.flint.template.ArgumentContainer;
@@ -8,15 +9,15 @@ import dev.dfonline.flint.template.block.ConditionBlock;
 
 public class IfPlayer extends ConditionBlock {
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String target;
 
-    @JsonGetter
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonIgnore
     public String getTarget() {
         return this.target;
     }
 
-    @JsonSetter
+    @JsonIgnore
     public void setTarget(String target) {
         this.target = target;
     }
