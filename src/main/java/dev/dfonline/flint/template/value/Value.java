@@ -1,5 +1,6 @@
 package dev.dfonline.flint.template.value;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import dev.dfonline.flint.template.value.impl.*;
@@ -29,6 +30,7 @@ import java.util.Objects;
 })
 public abstract class Value {
 
+    @JsonIgnore
     private String id;
 
     public String getId() {
