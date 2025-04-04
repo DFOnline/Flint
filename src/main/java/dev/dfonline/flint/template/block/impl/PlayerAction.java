@@ -18,6 +18,7 @@ public class PlayerAction extends BaseBlock {
     }
 
     @JsonSetter
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     public void setTarget(String target) {
         this.target = target;
     }

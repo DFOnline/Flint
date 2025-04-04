@@ -17,6 +17,7 @@ public class IfEntity extends ConditionBlock {
     }
 
     @JsonSetter
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     public void setTarget(String target) {
         this.target = target;
     }
