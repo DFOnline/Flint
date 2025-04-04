@@ -156,6 +156,14 @@ public final class Template {
         }
     }
 
+    public static Template fromItem(ItemStack item) throws RuntimeException {
+        DFItem dfItem = new DFItem(item);
+        if (!dfItem.hasHypercubeKey("codetemplatedata")) {
+            throw new RuntimeException("Item doesnt have templatedata");
+        }
+        return fromJson(dfItem.getHypercubeStringValue("codetemplatedata"));
+    }
+
     public static Template fromJson(String json) {
         try {
             ObjectMapper mapper = createObjectMapper();
