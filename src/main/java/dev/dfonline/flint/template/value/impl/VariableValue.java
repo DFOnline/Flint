@@ -22,6 +22,7 @@ public class VariableValue extends Value {
     public VariableValue(String variableName, VariableScope scope) {
         this();
         this.data.put("name", variableName);
+        this.data.put("scope", scope.getId());
         this.scope = scope;
     }
 

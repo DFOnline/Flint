@@ -30,7 +30,7 @@ public final class TemplateExample {
     public static void test(boolean ingame) {
         /*if (ingame) {
             List<CodeBlock> blocks = new ArrayList<>();
-            blocks.add(new IfPlayer("NameEquals", "AllPlayers", true, new ArgumentContainer()));
+            blocks.add(new Else());
             blocks.add(new Bracket(Bracket.Direction.OPEN, Bracket.Type.NORMAL));
             blocks.add(new PlayerAction("SendMessage", "Selection", ArgumentBuilder
                 .create()
