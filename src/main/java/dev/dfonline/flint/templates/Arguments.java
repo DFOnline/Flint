@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import dev.dfonline.flint.templates.argument.abstracts.Argument;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -20,6 +21,20 @@ public class Arguments {
             arguments.arguments.add(Argument.fromJson(argObj));
         }
         return arguments;
+    }
+
+    public List<Argument> getOrderedListWithEmpties() {
+        List<Argument> list = new ArrayList<>();
+        List<Argument> temp = getOrderedList();
+        int empties = 0;
+        for (int i = 0; i < 27; i++) {
+            if (temp.getFirst().getSlot() == i) {
+                list.add(temp.removeFirst());
+            } else {
+                list.add(null);
+            }
+        }
+        return list;
     }
 
     public List<Argument> getOrderedList() {

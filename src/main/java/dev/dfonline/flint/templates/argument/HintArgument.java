@@ -8,25 +8,31 @@ public class HintArgument extends Argument {
         FUNCTION("function"),
         UNKNOWN("");
 
-        final String id;
+        public final String id;
         HintType(String id) {
             this.id = id;
         }
+
+        public String getID() {
+            return id;
+        }
+
+        public static HintType fromType(String type) {
+            for (var t : HintType.values()) {
+                if (t.id.equals(type)) {
+                    return t;
+                }
+            }
+            return HintType.UNKNOWN;
+        }
     }
 
-    private HintType fromType(String type) {
-        for (var t : HintType.values()) {
-            if (t.id.equals(type)) {
-                return t;
-            }
-        }
-        return HintType.UNKNOWN;
-    }
+
 
     private HintType type;
     public HintArgument(JsonObject json, JsonObject data) {
         super(json);
-        type = fromType(data.get("id").getAsString());
+        type = HintType.fromType(data.get("id").getAsString());
     }
 
     public HintArgument(int slot, HintType type) {
