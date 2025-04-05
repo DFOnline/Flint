@@ -35,6 +35,10 @@ public class Template {
         return fromJson(data, item.getItem());
     }
 
+    public void addBlock(CodeBlock block) {
+        blocks.add(block);
+    }
+
     public ItemStack toItem() {
         ItemStack item = new ItemStack(material);
         DFItem dfItem = new DFItem(item);

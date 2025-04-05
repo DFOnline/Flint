@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import dev.dfonline.flint.templates.argument.abstracts.Argument;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static dev.dfonline.flint.templates.Template.print;
@@ -19,6 +20,19 @@ public class Arguments {
             arguments.arguments.add(Argument.fromJson(argObj));
         }
         return arguments;
+    }
+
+    public List<Argument> getOrderedList() {
+        return
+            arguments
+                .stream()
+                .sorted((arg1, arg2) -> {
+                    if (arg1.getSlot() == arg2.getSlot()) {
+                        return 0;
+                    }
+                    return arg1.getSlot() - arg2.getSlot();
+                })
+                .toList();
     }
 
     public void printToChat() {
@@ -36,7 +50,7 @@ public class Arguments {
         JsonObject json = new JsonObject();
         JsonArray items = new JsonArray();
 
-        for (Argument argument : arguments) {
+        for (Argument argument : getOrderedList()) {
             JsonObject argumentJson = argument.toJSON();
             items.add(argumentJson);
         }
