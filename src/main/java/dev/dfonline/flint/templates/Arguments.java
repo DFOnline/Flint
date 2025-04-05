@@ -26,10 +26,12 @@ public class Arguments {
     public List<Argument> getOrderedListWithEmpties() {
         List<Argument> list = new ArrayList<>();
         List<Argument> temp = getOrderedList();
+        int tempIndex = 0;
         int empties = 0;
         for (int i = 0; i < 27; i++) {
             if (temp.getFirst().getSlot() == i) {
-                list.add(temp.removeFirst());
+                list.add(temp.get(tempIndex));
+                tempIndex++;
             } else {
                 list.add(null);
             }
