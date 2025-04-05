@@ -29,7 +29,7 @@ public class Arguments {
         int tempIndex = 0;
         int empties = 0;
         for (int i = 0; i < 27; i++) {
-            if (temp.get(tempIndex).getSlot() == i) {
+            if (tempIndex < temp.size() && temp.get(tempIndex).getSlot() == i) {
                 list.add(temp.get(tempIndex));
                 tempIndex++;
             } else {
