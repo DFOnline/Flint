@@ -20,6 +20,10 @@ public class IfEntity extends CodeBlockIfStatement {
         this.target = target;
     }
 
+    public EntityTarget getTarget() {
+        return target;
+    }
+
     @Override
     public String toString() {
         return "IfEntity [target=" + target + " " + super.toString() + "]";
