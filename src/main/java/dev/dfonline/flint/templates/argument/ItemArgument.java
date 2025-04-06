@@ -19,6 +19,18 @@ public class ItemArgument extends Argument {
         }
     }
 
+    public String getNBT() {
+        return this.item.toNbt(Flint.getClient().world.getRegistryManager()).asString();
+    }
+
+    public void setNBT(String nbt) {
+        try {
+            item = ItemStack.fromNbt(Flint.getClient().world.getRegistryManager(), StringNbtReader.parse(nbt)).get();
+        } catch (Exception e) {
+            item = null;
+        }
+    }
+
     public ItemArgument(int slot, ItemStack item) {
         super(slot);
         this.item = item;
