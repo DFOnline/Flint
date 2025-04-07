@@ -27,41 +27,43 @@ public class ParameterArgument extends Argument {
         ParameterType(String name) {
             this.name = name;
         }
+
+        public static ParameterType fromName(String name) {
+            for (ParameterType type : ParameterType.values()) {
+                if (type.name.equals(name)) {
+                    return type;
+                }
+            }
+            return null;
+        }
     }
 
-    private ParameterType fromName(String name) {
-        for (ParameterType type : ParameterType.values()) {
-            if (type.name.equals(name)) {
-                return type;
-            }
-        }
-        return null;
-    }
+
 
     private String name;
     private ParameterType type;
     private boolean optional;
     private boolean plural;
-    private Argument default_value;
+    private Argument defaultValue;
 
     public ParameterArgument(JsonObject json, JsonObject data) {
         super(json);
         name = data.get("name").getAsString();
-        type = fromName(data.get("type").getAsString());
+        type = ParameterType.fromName(data.get("type").getAsString());
         optional = data.get("optional").getAsBoolean();
         plural = data.get("plural").getAsBoolean();
         if (data.has("default_value")) {
-            default_value = Argument.fromJson(data.get("default_value").getAsJsonObject());
+            defaultValue = Argument.fromJson(data.get("default_value").getAsJsonObject());
         }
     }
 
-    public ParameterArgument(int slot, String name, ParameterType type, boolean optional, boolean plural, @Nullable Argument default_value) {
+    public ParameterArgument(int slot, String name, ParameterType type, boolean optional, boolean plural, @Nullable Argument defaultValue) {
         super(slot);
         this.name = name;
         this.type = type;
         this.optional = optional;
         this.plural = plural;
-        this.default_value = default_value;
+        this.defaultValue = defaultValue;
     }
 
     @Override
@@ -71,8 +73,8 @@ public class ParameterArgument extends Argument {
         data.addProperty("type", type.name);
         data.addProperty("optional", optional);
         data.addProperty("plural", plural);
-        if (default_value != null) {
-            data.add("default_value", default_value.toJSON());
+        if (defaultValue != null) {
+            data.add("default_value", defaultValue.toJSON());
         }
         return data;
     }
@@ -84,7 +86,7 @@ public class ParameterArgument extends Argument {
 
     @Override
     public String toString() {
-        return "Paramter [name=" + name + ", type=" + type + ", optional=" + optional + ", plural=" + plural + ", default_value=" + default_value + " " + super.toString() + "]";
+        return "Paramter [name=" + name + ", type=" + type + ", optional=" + optional + ", plural=" + plural + ", default_value=" + defaultValue + " " + super.toString() + "]";
     }
 
     public String getName() {
@@ -119,11 +121,11 @@ public class ParameterArgument extends Argument {
         this.plural = plural;
     }
 
-    public Argument getDefault_value() {
-        return default_value;
+    public Argument getDefaultValue() {
+        return defaultValue;
     }
 
-    public void setDefault_value(Argument default_value) {
-        this.default_value = default_value;
+    public void setDefaultValue(Argument defaultValue) {
+        this.defaultValue = defaultValue;
     }
 }
