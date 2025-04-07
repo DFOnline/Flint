@@ -10,6 +10,11 @@ public class ParticleArgument extends Argument {
         this.data = data.deepCopy();
     }
 
+    public ParticleArgument(int slot, JsonObject data) {
+        super(slot);
+        this.data = data;
+    }
+
     @Override
     public String toString() {
         return "Particle [" + super.toString() + " data=" + data + "]";
