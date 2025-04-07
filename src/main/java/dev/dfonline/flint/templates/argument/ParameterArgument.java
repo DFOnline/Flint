@@ -78,7 +78,8 @@ public class ParameterArgument extends Argument {
         data.addProperty("optional", optional);
         data.addProperty("plural", plural);
         if (defaultValue != null) {
-            data.add("default_value", defaultValue.toJSON());
+            JsonObject defaultData = defaultValue.toJSON();
+            data.add("default_value", defaultData.get("item"));
         }
         return data;
     }
