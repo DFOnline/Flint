@@ -36,6 +36,13 @@ public abstract class Argument implements JSONable {
         };
     }
 
+    public static Argument fromJson(JsonObject json, int slot) {
+        JsonObject data = new JsonObject();
+        data.addProperty("slot", slot);
+        data.add("item", json);
+        return fromJson(data);
+    }
+
     @Override
     public String toString() {
         return "slot=" + slot;

@@ -49,11 +49,15 @@ public class ParameterArgument extends Argument {
     public ParameterArgument(JsonObject json, JsonObject data) {
         super(json);
         name = data.get("name").getAsString();
+
         type = ParameterType.fromName(data.get("type").getAsString());
+
         optional = data.get("optional").getAsBoolean();
+
         plural = data.get("plural").getAsBoolean();
+
         if (data.has("default_value")) {
-            defaultValue = Argument.fromJson(data.get("default_value").getAsJsonObject());
+            defaultValue = Argument.fromJson(data.get("default_value").getAsJsonObject(), -1);
         }
     }
 
