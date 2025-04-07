@@ -45,6 +45,14 @@ public class GameValueArgument extends Argument {
         this.type = type;
     }
 
+    public GameValueTarget getTarget() {
+        return target;
+    }
+
+    public String getType() {
+        return type;
+    }
+
     @Override
     public String toString() {
         return "GameValue [target=" + target + ", type=" + type + " " + super.toString() + "]";
