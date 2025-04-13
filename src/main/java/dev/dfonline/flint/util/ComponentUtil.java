@@ -1,6 +1,7 @@
 package dev.dfonline.flint.util;
 
 import dev.dfonline.flint.Flint;
+import dev.dfonline.flint.util.file.FlintFile;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -75,20 +76,27 @@ public final class ComponentUtil {
     }
 
     public enum ColorMode {
-        SECTION("§"),
-        AMPERSAND("&"),
-        MINI_MESSAGE(null),
-        NONE(null);
+        SECTION("§", FlintFile.ACTION_DUMP_SECTION),
+        AMPERSAND("&", FlintFile.ACTION_DUMP_AMPERSAND),
+        MINI_MESSAGE(null, FlintFile.ACTION_DUMP_MINI_MESSAGE),
+        NONE(null, FlintFile.ACTION_DUMP_PLAIN);
 
+        private final FlintFile file;
         private final String prefix;
 
-        ColorMode(String prefix) {
+        ColorMode(String prefix, FlintFile file) {
             this.prefix = prefix;
+            this.file = file;
         }
 
         public String getPrefix() {
             return this.prefix;
         }
+
+        public FlintFile getFile() {
+            return this.file;
+        }
+
     }
 
 }

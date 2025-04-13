@@ -5,7 +5,6 @@ import dev.dfonline.flint.feature.trait.ChatListeningFeature;
 import dev.dfonline.flint.feature.trait.PacketListeningFeature;
 import dev.dfonline.flint.hypercube.Node;
 import dev.dfonline.flint.util.ComponentUtil;
-import dev.dfonline.flint.util.file.ExternalFile;
 import dev.dfonline.flint.util.file.FileUtil;
 import dev.dfonline.flint.util.message.impl.prefix.ErrorMessage;
 import dev.dfonline.flint.util.message.impl.prefix.SuccessMessage;
@@ -76,7 +75,7 @@ public class GetActionDumpFeature implements ChatListeningFeature, PacketListeni
         if (text.getString().equals("}")) {
             isGettingActionDump = false;
             try {
-                FileUtil.writeFile(ExternalFile.ACTION_DUMP.getPath(), capturedData.toString());
+                FileUtil.writeFile(colorMode.getFile().getPath(), capturedData.toString());
                 Flint.getUser().sendMessage(new SuccessMessage("flint.command.flint.action_dump.success", Component.text((float) (System.currentTimeMillis() - startTime) / MS_IN_SEC), Component.text(lines), Component.text(length)));
             } catch (IOException e) {
                 Flint.getUser().sendMessage(new ErrorMessage("flint.command.flint.action_dump.fail.write"));
