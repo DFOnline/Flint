@@ -101,6 +101,13 @@ public boolean shouldShowPlotOverlay() {
 > This makes Flint run /locate every time a suspected mode change occurs.
 > Not only does this give you access to the plot the user is on, but it also makes mode tracking more accurate.
 
+## ActionDump
+
+The actiondump is stored in separate files for each color mode access them in the flint files,
+for a & color syntax actiondump you would use `FlintFile.ACTION_DUMP_AMPERSAND.getPath()`,
+you need to read the files on your own.
+To receive each version log into Node Beta and run `/getactiondump <color mode>`.
+
 ### DFItem
 
 TODO
