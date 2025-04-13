@@ -32,6 +32,7 @@ public abstract class Argument implements JSONable {
             case "bl_tag" -> new TagArgument(json, data);
             case "pn_el" -> new ParameterArgument(json, data);
             case "pot" -> new PotionArgument(json, data);
+            case "expr" -> new ExpressionArgument(json, data);
             default -> null;
         };
     }
