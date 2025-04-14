@@ -36,11 +36,9 @@ public final class User {
 
     @ApiStatus.Internal
     public void setMode(@NotNull Mode mode) {
-        if (this.mode != mode) {
-            Flint.FEATURE_MANAGER.getByTrait(FeatureTraitType.MODE_SWITCH_LISTENING).forEach(feature ->
-                    ((ModeSwitchListeningFeature) feature).onSwitchMode(this.mode, mode)
-            );
-        }
+        Flint.FEATURE_MANAGER.getByTrait(FeatureTraitType.MODE_SWITCH_LISTENING).forEach(feature ->
+                ((ModeSwitchListeningFeature) feature).onSwitchMode(this.mode, mode)
+        );
         this.mode = mode;
     }
 
