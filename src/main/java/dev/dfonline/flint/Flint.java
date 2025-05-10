@@ -17,6 +17,7 @@ import dev.dfonline.flint.feature.trait.ShutdownFeature;
 import dev.dfonline.flint.feature.trait.TickedFeature;
 import dev.dfonline.flint.feature.trait.TooltipRenderFeature;
 import dev.dfonline.flint.feature.trait.WorldRenderFeature;
+import dev.dfonline.flint.util.FlintUpdate;
 import dev.dfonline.flint.util.Logger;
 import dev.dfonline.flint.util.result.EventResult;
 import net.fabricmc.api.ClientModInitializer;
@@ -57,6 +58,8 @@ public class Flint implements ClientModInitializer {
         // FlintAPI.setDebugging(true);
         // FlintAPI.confirmLocationWithLocate();
 
+        FlintUpdate.fetchLatestRelease();
+
         FEATURE_MANAGER.registerAll(
                 // Debug
                 new StateDebugDisplayFeature(),
@@ -70,7 +73,6 @@ public class Flint implements ClientModInitializer {
                 new ModeTrackerFeature(),
                 new GetActionDumpFeature(),
                 new FlintCommandFeature()
-
         );
 
         this.registerEventCallbacks();
