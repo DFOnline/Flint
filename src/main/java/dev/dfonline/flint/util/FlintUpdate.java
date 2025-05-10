@@ -75,9 +75,10 @@ public final class FlintUpdate {
         }
 
         try {
-            // Remove the v at the start and try parseInt.
+            // Latest version starts with a v.
             int versionInt = Integer.parseInt(latestVersion.substring(1));
-            int modInt = Integer.parseInt(MOD_VERSION.substring(1));
+            // Current version does not start with a v.
+            int modInt = Integer.parseInt(MOD_VERSION);
             // The string parsed to an integer, now compare.
             if (versionInt <= modInt) {
                 return;
@@ -85,7 +86,7 @@ public final class FlintUpdate {
             // We are outdated, inform the user.
             if (Flint.getClient().player != null) {
                 Flint.getUser().sendMessage(new InfoMessage("flint.update",
-                        Component.text(MOD_VERSION),
+                        Component.text("v" + MOD_VERSION),
                         Component.text(latestVersion),
                         Component.translatable("flint.update.link", PaletteColor.SKY_LIGHT_2)
                                 .clickEvent(ClickEvent.openUrl(MODRINTH_URL))
