@@ -11,5 +11,7 @@
   "flint.command.flint.action_dump.progress": "Reading action dump, %s second(s) elapsed, %s characters",
   "flint.command.flint.action_dump.success": "Action dump written in %s seconds! lines: %s, length: %s",
   "flint.locate.timeout.title": "Locate timeout",
-  "flint.locate.timeout.description": "Failed to locate after %s second(s)."
+  "flint.locate.timeout.description": "Failed to locate after %s second(s).",
+  "flint.update": "There is a new Flint release! Current: %s, Latest: %s. %s",
+  "flint.update.link": "Click here to download"
 }

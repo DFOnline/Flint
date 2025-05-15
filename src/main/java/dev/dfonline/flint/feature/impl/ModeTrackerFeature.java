@@ -8,6 +8,7 @@ import dev.dfonline.flint.feature.trait.TickedFeature;
 import dev.dfonline.flint.hypercube.Mode;
 import dev.dfonline.flint.hypercube.Plot;
 import dev.dfonline.flint.hypercube.PlotSize;
+import dev.dfonline.flint.util.FlintUpdate;
 import dev.dfonline.flint.util.Logger;
 import dev.dfonline.flint.util.result.EventResult;
 import net.minecraft.block.BlockState;
@@ -41,6 +42,7 @@ public class ModeTrackerFeature implements PacketListeningFeature, TickedFeature
     private PendingModeSwitchAction pendingAction = PendingModeSwitchAction.CLEAR_TITLE;
     private static boolean hasQueuedLocate = false;
     private static Mode queuedMode = null;
+    private static boolean sentUpdateMessageThisSession = false;
 
     @Override
     public boolean alwaysOn() {
@@ -131,6 +133,12 @@ public class ModeTrackerFeature implements PacketListeningFeature, TickedFeature
                 });
             }
             if (queuedMode != null) {
+                if (!sentUpdateMessageThisSession) {
+
+                    FlintUpdate.sendUpdateMessage();
+
+                    sentUpdateMessageThisSession = true;
+                }
                 setMode(queuedMode);
                 queuedMode = null;
             }
@@ -181,6 +189,7 @@ public class ModeTrackerFeature implements PacketListeningFeature, TickedFeature
     @Override
     public void onDisconnect() {
         setMode(Mode.NONE);
+        sentUpdateMessageThisSession = false;
     }
 
     private enum PendingModeSwitchAction {

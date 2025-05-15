@@ -19,6 +19,8 @@ jobs:
         with:
           java-version: 21
           distribution: "temurin"
+      - name: Inject Version File
+        run: echo "${{ github.run_number }}" > src/main/resources/flint_version.txt
       - name: Build with Gradle
         run: ./gradlew build '-Pversion=${{ github.run_number }}'
       - name: Upload Artifact
