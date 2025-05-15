@@ -40,11 +40,13 @@ public class MClientConnection {
 
             if (shouldReturn) {
                 ci.cancel();
+                return;
             }
 
             if (newMessage != null) {
                 ci.cancel();
                 Flint.getUser().getPlayer().sendMessage(newMessage, false);
+                return;
             }
         }
 
