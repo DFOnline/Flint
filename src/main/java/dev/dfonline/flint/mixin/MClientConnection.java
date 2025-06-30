@@ -23,24 +23,18 @@ public class MClientConnection {
     @Inject(method = "handlePacket", at = @At("HEAD"), cancellable = true)
     private static <T extends PacketListener> void handlePacket(Packet<T> packet, PacketListener listener, CallbackInfo ci) {
         if (packet instanceof GameMessageS2CPacket(Text content, boolean overlay)) {
-            boolean shouldReturn = false;
             Text newMessage = null;
 
             for (FeatureTrait feature : Flint.FEATURE_MANAGER.getByTrait(FeatureTraitType.CHAT_LISTENING)) {
                 ReplacementEventResult<Text> result = ((ChatListeningFeature) feature).onChatMessage(content, overlay);
 
                 if (result.getType() == ReplacementEventResult.Type.CANCEL) {
-                    shouldReturn = true;
+                    ci.cancel();
                 }
 
                 if (result.getType() == ReplacementEventResult.Type.REPLACE) {
                     newMessage = result.getValue();
                 }
-            }
-
-            if (shouldReturn) {
-                ci.cancel();
-                return;
             }
 
             if (newMessage != null) {
