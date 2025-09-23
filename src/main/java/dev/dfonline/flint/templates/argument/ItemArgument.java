@@ -4,8 +4,10 @@ import com.google.gson.JsonObject;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.serialization.DataResult;
 import dev.dfonline.flint.Flint;
+import dev.dfonline.flint.FlintAPI;
 import dev.dfonline.flint.templates.argument.abstracts.Argument;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.StringNbtReader;
@@ -14,6 +16,7 @@ import net.minecraft.registry.RegistryWrapper;
 
 public class ItemArgument extends Argument {
     private ItemStack item;
+
     public ItemArgument(JsonObject json, JsonObject data) {
         super(json);
         var nbt = data.get("item").getAsString();
@@ -26,22 +29,22 @@ public class ItemArgument extends Argument {
     }
 
     public String getNBT() {
-        var registries = Flint.getClient().world.getRegistryManager();
-        RegistryOps<NbtElement> ops = RegistryOps.of(NbtOps.INSTANCE, registries);
-        DataResult<NbtElement> dr = ItemStack.CODEC.encodeStart(ops, item);
-        NbtElement el = dr.result().orElseThrow(() -> new RuntimeException("Failed to encode ItemStack: " + dr.error().map(Object::toString).orElse("unknown")));
-        return el.toString();
+        return ItemStack.CODEC.encodeStart(
+                Flint.getClient().player.getRegistryManager().getOps(NbtOps.INSTANCE), item)
+            .getOrThrow(str -> new RuntimeException("Failed to parse item into NBT for templates: %s".formatted(str)))
+            .toString();
     }
 
     public void setNBT(String nbt) {
-        var registries = Flint.getClient().world.getRegistryManager();
         try {
-            NbtElement el = StringNbtReader.readCompound(nbt);
-            RegistryOps<NbtElement> ops = RegistryOps.of(NbtOps.INSTANCE, registries);
-            DataResult<ItemStack> dr = ItemStack.CODEC.parse(ops, el);
-            item = dr.result().orElse(ItemStack.EMPTY);
+            NbtCompound nbtCompound = StringNbtReader.readCompound(nbt);
+            item = ItemStack.CODEC.decode(
+                    Flint.getClient().player.getRegistryManager().getOps(NbtOps.INSTANCE), nbtCompound)
+                .getOrThrow(str -> new RuntimeException("Failed to parse NBT into item for templates: %s".formatted(str)))
+                .getFirst()
+            ;
         } catch (Exception e) {
-            throw new RuntimeException("Failed to parse ItemStack: " + nbt, e);
+            throw new RuntimeException("Failed to parse item into NBT for templates: %s".formatted(nbt), e);
         }
     }
 
