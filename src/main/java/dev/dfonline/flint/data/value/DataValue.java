@@ -30,11 +30,11 @@ public class DataValue {
      * @return The new DataValue.
      */
     public static DataValue fromNbt(NbtElement nbt) {
-        if (nbt instanceof NbtString) {
-            return new StringDataValue(nbt.asString());
+        if (nbt instanceof NbtString(String value)) {
+            return new StringDataValue(value);
         }
-        if (nbt instanceof AbstractNbtNumber) {
-            return new NumberDataValue(((AbstractNbtNumber) nbt).doubleValue());
+        if (nbt instanceof AbstractNbtNumber abstractNbtNumber) {
+            return new NumberDataValue(abstractNbtNumber.doubleValue());
         }
         return new UnknownDataValue(nbt);
     }

@@ -45,7 +45,7 @@ public final class CommandSenderFeature implements PacketListeningFeature, Ticke
         ClientPlayNetworkHandler networkHandler = Flint.getClient().getNetworkHandler();
         if (networkHandler != null && !rateLimiter.isRateLimited() && !commandQueue.isEmpty()) {
             // No need to increment here, since our packet listener will do that for us.
-            networkHandler.sendCommand(commandQueue.pop());
+            networkHandler.sendChatCommand(commandQueue.pop());
         }
     }
 

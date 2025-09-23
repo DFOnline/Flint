@@ -9,6 +9,7 @@ import net.minecraft.component.type.DyedColorComponent;
 import net.minecraft.component.type.LoreComponent;
 import net.minecraft.component.type.ProfileComponent;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.Registry;
 import net.minecraft.text.Text;
 import net.minecraft.util.Unit;
 import org.jetbrains.annotations.Nullable;
@@ -172,15 +173,17 @@ public class DFItem {
         this.item.set(DataComponentTypes.CUSTOM_NAME, name);
     }
 
-    /**
-     * Hides additional information about the item, such as additional tooltip, jukebox playable, fireworks, and attribute modifiers.
-     */
-    public void hideFlags() {
-        this.item.set(DataComponentTypes.HIDE_ADDITIONAL_TOOLTIP, Unit.INSTANCE);
-        this.item.remove(DataComponentTypes.JUKEBOX_PLAYABLE);
-        this.item.remove(DataComponentTypes.FIREWORKS);
-        this.item.remove(DataComponentTypes.ATTRIBUTE_MODIFIERS);
-    }
+//    Since this is currently unused we can keep it that way for now
+//    TODO: Reimplement
+//    /**
+//     * Hides additional information about the item, such as additional tooltip, jukebox playable, fireworks, and attribute modifiers.
+//     */
+//    public void hideFlags() {
+//        this.item.set(DataComponentTypes.HIDE_ADDITIONAL_TOOLTIP, Unit.INSTANCE);
+//        this.item.remove(DataComponentTypes.JUKEBOX_PLAYABLE);
+//        this.item.remove(DataComponentTypes.FIREWORKS);
+//        this.item.remove(DataComponentTypes.ATTRIBUTE_MODIFIERS);
+//    }
 
     /**
      * Sets the dye color of the item.
@@ -188,17 +191,19 @@ public class DFItem {
      * @param color The new dye color to set.
      */
     public void setDyeColor(int color) {
-        this.item.set(DataComponentTypes.DYED_COLOR, new DyedColorComponent(color, false));
+        this.item.set(DataComponentTypes.DYED_COLOR, new DyedColorComponent(color));
     }
 
-    /**
-     * Sets the custom model data of the item.
-     *
-     * @param modelData The new custom model data to set.
-     */
-    public void setCustomModelData(int modelData) {
-        this.item.set(DataComponentTypes.CUSTOM_MODEL_DATA, new CustomModelDataComponent(modelData));
-    }
+//    Since this is currently unused we can keep it that way for now
+//    TODO: Reimplement (custom model data works differently now so this needs a full rework)
+//    /**
+//     * Sets the custom model data of the item.
+//     *
+//     * @param modelData The new custom model data to set.
+//     */
+//    public void setCustomModelData(int modelData) {
+//        this.item.set(DataComponentTypes.CUSTOM_MODEL_DATA, new CustomModelDataComponent());
+//    }
 
     /**
      * Sets the profile of the item, for use with player heads.
