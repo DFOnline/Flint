@@ -102,7 +102,7 @@ public class ItemData {
      * @return The value of the key, or an empty string if it doesn't exist.
      */
     public String getStringValue(String key) {
-        return this.customData.getString(key);
+        return this.customData.getString(key).orElse("");
     }
 
     /**

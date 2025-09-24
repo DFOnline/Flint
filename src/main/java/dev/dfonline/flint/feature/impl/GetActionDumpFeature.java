@@ -50,7 +50,7 @@ public class GetActionDumpFeature implements ChatListeningFeature, PacketListeni
         lines = 0;
         length = 0;
         startTime = System.currentTimeMillis();
-        networkHandler.sendCommand("dumpactioninfo");
+        networkHandler.sendChatCommand("dumpactioninfo");
     }
 
     @Override
