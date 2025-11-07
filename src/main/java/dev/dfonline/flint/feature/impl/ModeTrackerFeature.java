@@ -108,6 +108,7 @@ public class ModeTrackerFeature implements PacketListeningFeature, TickedFeature
                 String name = Flint.getUser().getPlayer().getNameForScoreboard();
                 LocateFeature.requestLocate(name).thenAccept(locate -> {
                     Flint.getUser().setNode(locate.node());
+                    Flint.getUser().setNodeId(locate.nodeId());
 
                     Vec3i newOrigin;
                     if (locate.mode() == Mode.DEV) {

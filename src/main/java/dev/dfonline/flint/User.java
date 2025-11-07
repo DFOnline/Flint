@@ -20,6 +20,7 @@ public final class User {
     private @NotNull Mode mode = Mode.NONE;
     private @Nullable Plot plot;
     private @Nullable Node node;
+    private int nodeId;
 
     public ClientPlayerEntity getPlayer() {
         ClientPlayerEntity player = Flint.getClient().player;
@@ -73,6 +74,14 @@ public final class User {
     @ApiStatus.Internal
     public void setNode(@Nullable Node node) {
         this.node = node;
+    }
+
+    public int getNodeId() {
+        return this.nodeId;
+    }
+
+    public void setNodeId(int nodeId) {
+        this.nodeId = nodeId;
     }
 
     public void sendMessage(Message message) {
