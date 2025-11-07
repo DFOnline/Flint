@@ -17,7 +17,11 @@ public enum Node {
     DEV("dev", "Dev", true),
     DEV_2("dev2", "Dev 2", true),
     DEV_3("dev3", "Dev 3", true),
-    LOCAL("local", "Local", true);
+    DEV_4("dev4", "Dev 4", true),
+    LOCAL("local", "Local", true),
+    PRIVATE("private", "Private Node", false),
+    ALPHA_1("alpha1", "Alpha 1", true),
+    ALPHA_2("alpha2", "Alpha 2", true);
 
     private static final Map<String, Node> ID_MAP = new HashMap<>();
     private static final Map<String, Node> NAME_MAP = new HashMap<>();
@@ -44,6 +48,8 @@ public enum Node {
     }
 
     public static Node fromName(String serverName) {
+        if(serverName.startsWith("Private Node")) return PRIVATE;
+
         return NAME_MAP.get(serverName);
     }
 

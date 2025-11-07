@@ -28,6 +28,7 @@ import java.util.regex.Pattern;
 public class LocateFeature implements PacketListeningFeature {
 
     private static final Pattern LOCATE_PATTERN = Pattern.compile("\\s{39}\\n(?:You are|(?<username>[A-Za-z0-9_]+) is) currently (?<mode>playing|coding|building|at spawn|existing)(?:(?: on:\\n)?\\n)?(?:→ (?<plotName>.+) \\[(?<plotID>\\d+)](?: \\[)?(?<plotHandle>[a-z0-9_-]+)?]? ?(?:\\n→ (?<status>.++))?\\n→ Owner: (?<owner>[A-Za-z0-9_]+)(?<whitelisted> \\[Whitelisted])?)? ?\\n?→ Server: (?<node>[\\w ?]+)\\n\\s{39}", Pattern.MULTILINE);
+    private static final Pattern NODE_ID_PATTERN = Pattern.compile("(?<nodeId>\\d+)$");
     private static final Queue<Pair<String, CompletableFuture<LocateResult>>> locateRequests = new LinkedList<>();
     private static boolean awaitingResponse = false;
     private static final int LOCATE_TIMEOUT_SECONDS = 3;
@@ -134,7 +135,10 @@ public class LocateFeature implements PacketListeningFeature {
 
         Node node = Node.fromName(matcher.group("node"));
 
-        return new LocateResult(username, mode, plot, node);
+        Matcher nodeIdMatcher = NODE_ID_PATTERN.matcher(matcher.group("node"));
+        int nodeId = nodeIdMatcher.find() ? Integer.parseInt(nodeIdMatcher.group("nodeId")) : 1;
+
+        return new LocateResult(username, mode, plot, node, nodeId);
     }
 
     private static @Nullable Plot parsePlot(Matcher matcher) {
@@ -149,10 +153,13 @@ public class LocateFeature implements PacketListeningFeature {
             plotHandle = matcher.group("plotHandle");
         }
         boolean whitelisted = matcher.group("whitelisted") != null;
-        return new Plot(plotID, Text.literal(plotName), plotHandle, whitelisted);
+
+        String owner = matcher.group("owner");
+
+        return new Plot(plotID, Text.literal(plotName), plotHandle, whitelisted, owner);
     }
 
-    public record LocateResult(String player, Mode mode, @Nullable Plot plot, Node node) {
+    public record LocateResult(String player, Mode mode, @Nullable Plot plot, Node node, int nodeId) {
     }
 
 }
