@@ -36,6 +36,7 @@ public class StateDebugDisplayFeature implements RenderedFeature, ModeSwitchList
         texts.add(formatValue("Dev Origin Location",
                 ObjectUtil.toString(user.getPlot(), plot -> ObjectUtil.toString(plot.getDevOrigin(), Object::toString))
         ));
+        texts.add(formatValue("Owner", ObjectUtil.toString(user.getPlot(), Plot::getOwner)));
 
         this.renderTexts(texts, draw);
     }

@@ -149,7 +149,10 @@ public class LocateFeature implements PacketListeningFeature {
             plotHandle = matcher.group("plotHandle");
         }
         boolean whitelisted = matcher.group("whitelisted") != null;
-        return new Plot(plotID, Text.literal(plotName), plotHandle, whitelisted);
+
+        String owner = matcher.group("owner");
+
+        return new Plot(plotID, Text.literal(plotName), plotHandle, whitelisted, owner);
     }
 
     public record LocateResult(String player, Mode mode, @Nullable Plot plot, Node node) {

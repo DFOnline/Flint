@@ -15,12 +15,14 @@ public class Plot {
     private Vec3i devOrigin;
     private PlotSize size;
     private boolean hasUnderground = false;
+    private final String owner;
 
-    public Plot(int id, Text name, String handle, boolean whitelisted) {
+    public Plot(int id, Text name, String handle, boolean whitelisted, String owner) {
         this.id = id;
         this.name = name;
         this.handle = handle;
         this.whitelisted = whitelisted;
+        this.owner = owner;
     }
 
     public int getId() {
@@ -63,6 +65,10 @@ public class Plot {
         this.hasUnderground = hasUnderground;
     }
 
+    public String getOwner() {
+        return this.owner;
+    }
+
     public boolean isPosInCodeSpace(BlockPos pos) {
         int x = pos.getX();
         int z = pos.getZ();
@@ -74,7 +80,7 @@ public class Plot {
     }
 
     public String toReadableString() {
-        return "ID " + this.id + ", name " + this.name.getString() + ", handle " + this.handle + ", whitelisted " + this.whitelisted + ", origin " + this.devOrigin;
+        return "ID " + this.id + ", name " + this.name.getString() + ", handle " + this.handle + ", whitelisted " + this.whitelisted + ", origin " + this.devOrigin + ", owner " + this.owner;
     }
 
     @Override
@@ -87,7 +93,8 @@ public class Plot {
             return this.id == plot.getId() &&
                     this.name.equals(plot.getName()) &&
                     (this.handle == null && plot.getHandle() == null || this.handle != null && this.handle.equals(plot.getHandle())) &&
-                    this.whitelisted == plot.isWhitelisted();
+                    this.whitelisted == plot.isWhitelisted() &&
+                    this.owner.equals(plot.getOwner());
         }
         return false;
     }
