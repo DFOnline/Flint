@@ -102,7 +102,7 @@ public class Plot {
     @Override
     public int hashCode() {
         // Origin might be null, but it's still the same plot, so we don't include it in the hash code.
-        return Objects.hash(this.id, this.name, this.handle, this.whitelisted);
+        return Objects.hash(this.id, this.name, this.handle, this.whitelisted, this.owner);
     }
 
 }
