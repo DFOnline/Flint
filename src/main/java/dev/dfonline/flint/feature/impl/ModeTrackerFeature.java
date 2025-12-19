@@ -146,7 +146,7 @@ public class ModeTrackerFeature implements PacketListeningFeature, TickedFeature
             }
 
             Plot plot = Flint.getUser().getPlot();
-            if (plot != null) {
+            if (plot != null && plot.getDevOrigin() != null) {
                 if (!plot.isSizeKnown()) {
                     plot.setSize(detectPlotSize());
                 }
