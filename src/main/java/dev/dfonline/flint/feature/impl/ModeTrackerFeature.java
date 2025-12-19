@@ -23,7 +23,6 @@ import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
 
-import java.util.Objects;
 import java.util.regex.Pattern;
 
 /**
@@ -148,7 +147,7 @@ public class ModeTrackerFeature implements PacketListeningFeature, TickedFeature
 
             Plot plot = Flint.getUser().getPlot();
             if (plot != null) {
-                if (plot.getSize() == null) {
+                if (!plot.isSizeKnown()) {
                     plot.setSize(detectPlotSize());
                 }
 
@@ -187,20 +186,8 @@ public class ModeTrackerFeature implements PacketListeningFeature, TickedFeature
         BlockState LARGE_PLUS = world.getBlockState(pos.south(101));
         BlockState MASSIVE = world.getBlockState(pos.south(300));
         BlockState MASSIVE_PLUS = world.getBlockState(pos.south(301));
-        BlockState MEGA = world.getBlockState(pos.add(-19, 0, 10));
-        BlockState MEGA_PLUS = world.getBlockState(pos.add(-20, 0, 10));
-
-        System.out.println(
-                "[PlotSize Debug]\n" +
-                        "BASIC (50): " + BASIC.getBlock() + " | state=" + BASIC + "\n" +
-                        "BASIC+ (51): " + BASIC_PLUS.getBlock() + " | state=" + BASIC_PLUS + "\n" +
-                        "LARGE (100): " + LARGE.getBlock() + " | state=" + LARGE + "\n" +
-                        "LARGE+ (101): " + LARGE_PLUS.getBlock() + " | state=" + LARGE_PLUS + "\n" +
-                        "MASSIVE (300): " + MASSIVE.getBlock() + " | state=" + MASSIVE + "\n" +
-                        "MASSIVE+ (301): " + MASSIVE_PLUS.getBlock() + " | state=" + MASSIVE_PLUS + "\n" +
-                        "MEGA: " + MEGA.getBlock() + " | state=" + MEGA + "\n" +
-                        "MEGA+: " + MEGA_PLUS.getBlock() + " | state=" + MEGA_PLUS
-        );
+        BlockState MEGA = world.getBlockState(pos.add(-18, 0, 10));
+        BlockState MEGA_PLUS = world.getBlockState(pos.add(-19, 0, 10));
 
         if (MEGA_PLUS.isOf(Blocks.GRASS_BLOCK) && MEGA.isOf(Blocks.GRASS_BLOCK)) {
             return PlotSize.MEGA;
@@ -224,7 +211,7 @@ public class ModeTrackerFeature implements PacketListeningFeature, TickedFeature
         if (plot == null) return false;
         if (Flint.getClient().world == null) return false;
 
-        PlotSize size = Objects.requireNonNullElse(plot.getSize(), PlotSize.MASSIVE);
+        PlotSize size = plot.getSize();
         BlockState groundCheck = Flint.getClient().world.getBlockState(new BlockPos(
                 Math.max(Math.min((int) Flint.getUser().getPlayer().getX(), plot.getDevOrigin().getX() - 1), plot.getDevOrigin().getX() - (size.getCodeWidth())),
                 49,

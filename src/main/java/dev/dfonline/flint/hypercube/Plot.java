@@ -50,7 +50,14 @@ public class Plot {
     }
 
     public PlotSize getSize() {
-        return this.size;
+        // since chunks are "streamed" to the client, it's hard to tell what the plot size is immediately
+        // however basic, large, and mega checks should go by pretty quickly within normal render distance
+        // so if we don't know the plots size it's likely it's a massive
+        return Objects.requireNonNullElse(this.size, PlotSize.MASSIVE);
+    }
+
+    public boolean isSizeKnown() {
+        return this.size != null;
     }
 
     public void setSize(PlotSize size) {
