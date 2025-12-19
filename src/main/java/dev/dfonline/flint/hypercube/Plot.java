@@ -50,7 +50,7 @@ public class Plot {
     }
 
     public PlotSize getSize() {
-        return Objects.requireNonNullElse(this.size, PlotSize.MASSIVE);
+        return this.size;
     }
 
     public void setSize(PlotSize size) {

@@ -23,6 +23,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
 
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 /**
@@ -36,7 +37,7 @@ public class ModeTrackerFeature implements PacketListeningFeature, TickedFeature
     private static final String DEV_MODE_MESSAGE = "» You are now in dev mode.";
     private static final String BUILD_MODE_MESSAGE = "» You are now in build mode.";
     private static final String JOINED_GAME_PREFIX = "» Joined game: ";
-    private static final double DEV_SPAWN_OFFSET = 10.5;
+    private static final int DEV_SPAWN_OFFSET = 10;
     private static final int GROUND_LEVEL = 49;
 
     private PendingModeSwitchAction pendingAction = PendingModeSwitchAction.CLEAR_TITLE;
@@ -113,7 +114,7 @@ public class ModeTrackerFeature implements PacketListeningFeature, TickedFeature
                     Vec3i newOrigin;
                     if (locate.mode() == Mode.DEV) {
                         BlockPos blockpos = Flint.getUser().getPlayer().getBlockPos();
-                        newOrigin = new Vec3i((int) (blockpos.getX() + DEV_SPAWN_OFFSET), GROUND_LEVEL, (int) (blockpos.getZ() - DEV_SPAWN_OFFSET));
+                        newOrigin = new Vec3i(blockpos.getX() + DEV_SPAWN_OFFSET, GROUND_LEVEL, blockpos.getZ() - DEV_SPAWN_OFFSET);
                     } else {
                         newOrigin = null;
                     }
@@ -133,6 +134,7 @@ public class ModeTrackerFeature implements PacketListeningFeature, TickedFeature
                     Flint.getUser().setMode(locate.mode());
                 });
             }
+
             if (queuedMode != null) {
                 if (!sentUpdateMessageThisSession) {
 
@@ -144,45 +146,13 @@ public class ModeTrackerFeature implements PacketListeningFeature, TickedFeature
                 queuedMode = null;
             }
 
-            if (Flint.getUser().getMode() == Mode.DEV && Flint.getUser().getPlot() != null && Flint.getUser().getPlot().getDevOrigin() != null) {
-                Plot plot = Flint.getUser().getPlot();
-                Vec3i devOrigin = plot.getDevOrigin();
-
-                BlockPos pos = new BlockPos(devOrigin.getX() - 1, 49, devOrigin.getZ());
-                ClientWorld world = Flint.getClient().world;
-                if (world == null) {
-                    return;
-                }
+            Plot plot = Flint.getUser().getPlot();
+            if (plot != null) {
                 if (plot.getSize() == null) {
-                    BlockState BASIC = world.getBlockState(pos.south(50));
-                    BlockState BASIC_PLUS = world.getBlockState(pos.south(51));
-                    BlockState LARGE = world.getBlockState(pos.south(100));
-                    BlockState LARGE_PLUS = world.getBlockState(pos.south(101));
-                    BlockState MASSIVE = world.getBlockState(pos.south(300));
-                    BlockState MASSIVE_PLUS = world.getBlockState(pos.south(301));
-                    BlockState MEGA = world.getBlockState(pos.add(-19, 0, 10));
-                    BlockState MEGA_PLUS = world.getBlockState(pos.add(-20, 0, 10));
-                    if (MEGA_PLUS.isOf(Blocks.GRASS_BLOCK) && MEGA.isOf(Blocks.GRASS_BLOCK)) {
-                        plot.setSize(PlotSize.MEGA);
-                    } else if (!MEGA.isOf(Blocks.VOID_AIR) && !MEGA_PLUS.isOf(Blocks.VOID_AIR) && !MEGA.isOf(Blocks.GRASS_BLOCK) && !MEGA.isOf(Blocks.STONE) && !MEGA_PLUS.isOf(Blocks.GRASS_BLOCK)) {
-                        plot.setSize(PlotSize.MEGA);
-                    } else if (!(BASIC.isOf(Blocks.VOID_AIR) || BASIC_PLUS.isOf(Blocks.VOID_AIR)) && !BASIC.isOf(BASIC_PLUS.getBlock())) {
-                        plot.setSize(PlotSize.BASIC);
-                    } else if (!(LARGE.isOf(Blocks.VOID_AIR) || LARGE_PLUS.isOf(Blocks.VOID_AIR)) && !LARGE.isOf(LARGE_PLUS.getBlock())) {
-                        plot.setSize(PlotSize.LARGE);
-                    } else if (!(MASSIVE.isOf(Blocks.VOID_AIR) || MASSIVE_PLUS.isOf(Blocks.VOID_AIR)) && !MASSIVE.isOf(MASSIVE_PLUS.getBlock())) {
-                        plot.setSize(PlotSize.MASSIVE);
-                    }
+                    plot.setSize(detectPlotSize());
                 }
-                PlotSize size = plot.getSize();
-                BlockState groundCheck = Flint.getClient().world.getBlockState(new BlockPos(
-                        Math.max(Math.min((int) Flint.getUser().getPlayer().getX(), plot.getDevOrigin().getX() - 1), plot.getDevOrigin().getX() - (size.getCodeWidth())),
-                        49,
-                        Math.max(Math.min((int) Flint.getUser().getPlayer().getZ(), plot.getDevOrigin().getZ() + size.getCodeLength()), plot.getDevOrigin().getZ())
-                ));
-                if (!groundCheck.isOf(Blocks.VOID_AIR)) {
-                    plot.setHasUnderground(!groundCheck.isOf(Blocks.GRASS_BLOCK) && !groundCheck.isOf(Blocks.STONE));
-                }
+
+                plot.setHasUnderground(detectPlotUnderground());
             }
         }
     }
@@ -197,6 +167,75 @@ public class ModeTrackerFeature implements PacketListeningFeature, TickedFeature
         CLEAR_TITLE,
         POSITION_CHANGE,
         MESSAGE
+    }
+
+    private PlotSize detectPlotSize() {
+        if (Flint.getUser().getMode() != Mode.DEV || Flint.getUser().getPlot() == null || Flint.getUser().getPlot().getDevOrigin() == null) {
+            return null;
+        }
+
+        Plot plot = Flint.getUser().getPlot();
+        Vec3i devOrigin = plot.getDevOrigin();
+
+        BlockPos pos = new BlockPos(devOrigin.getX() - 1, 49, devOrigin.getZ());
+        ClientWorld world = Flint.getClient().world;
+        if (world == null) return null;
+
+        BlockState BASIC = world.getBlockState(pos.south(50));
+        BlockState BASIC_PLUS = world.getBlockState(pos.south(51));
+        BlockState LARGE = world.getBlockState(pos.south(100));
+        BlockState LARGE_PLUS = world.getBlockState(pos.south(101));
+        BlockState MASSIVE = world.getBlockState(pos.south(300));
+        BlockState MASSIVE_PLUS = world.getBlockState(pos.south(301));
+        BlockState MEGA = world.getBlockState(pos.add(-19, 0, 10));
+        BlockState MEGA_PLUS = world.getBlockState(pos.add(-20, 0, 10));
+
+        System.out.println(
+                "[PlotSize Debug]\n" +
+                        "BASIC (50): " + BASIC.getBlock() + " | state=" + BASIC + "\n" +
+                        "BASIC+ (51): " + BASIC_PLUS.getBlock() + " | state=" + BASIC_PLUS + "\n" +
+                        "LARGE (100): " + LARGE.getBlock() + " | state=" + LARGE + "\n" +
+                        "LARGE+ (101): " + LARGE_PLUS.getBlock() + " | state=" + LARGE_PLUS + "\n" +
+                        "MASSIVE (300): " + MASSIVE.getBlock() + " | state=" + MASSIVE + "\n" +
+                        "MASSIVE+ (301): " + MASSIVE_PLUS.getBlock() + " | state=" + MASSIVE_PLUS + "\n" +
+                        "MEGA: " + MEGA.getBlock() + " | state=" + MEGA + "\n" +
+                        "MEGA+: " + MEGA_PLUS.getBlock() + " | state=" + MEGA_PLUS
+        );
+
+        if (MEGA_PLUS.isOf(Blocks.GRASS_BLOCK) && MEGA.isOf(Blocks.GRASS_BLOCK)) {
+            return PlotSize.MEGA;
+        } else if (!MEGA.isOf(Blocks.VOID_AIR) && !MEGA_PLUS.isOf(Blocks.VOID_AIR) && !MEGA.isOf(Blocks.GRASS_BLOCK) && !MEGA.isOf(Blocks.STONE) && !MEGA_PLUS.isOf(Blocks.GRASS_BLOCK)) {
+            return PlotSize.MEGA;
+        } else if (!(BASIC.isOf(Blocks.VOID_AIR) || BASIC_PLUS.isOf(Blocks.VOID_AIR)) && !BASIC.isOf(BASIC_PLUS.getBlock())) {
+            return PlotSize.BASIC;
+        } else if (!(LARGE.isOf(Blocks.VOID_AIR) || LARGE_PLUS.isOf(Blocks.VOID_AIR)) && !LARGE.isOf(LARGE_PLUS.getBlock())) {
+            return PlotSize.LARGE;
+        } else if (!(MASSIVE.isOf(Blocks.VOID_AIR) || MASSIVE_PLUS.isOf(Blocks.VOID_AIR)) && !MASSIVE.isOf(MASSIVE_PLUS.getBlock())) {
+            return PlotSize.MASSIVE;
+        } else {
+            // unknown, maybe the world is still streaming in chunks
+            return null;
+        }
+    }
+
+    private boolean detectPlotUnderground() {
+        Plot plot = Flint.getUser().getPlot();
+
+        if (plot == null) return false;
+        if (Flint.getClient().world == null) return false;
+
+        PlotSize size = Objects.requireNonNullElse(plot.getSize(), PlotSize.MASSIVE);
+        BlockState groundCheck = Flint.getClient().world.getBlockState(new BlockPos(
+                Math.max(Math.min((int) Flint.getUser().getPlayer().getX(), plot.getDevOrigin().getX() - 1), plot.getDevOrigin().getX() - (size.getCodeWidth())),
+                49,
+                Math.max(Math.min((int) Flint.getUser().getPlayer().getZ(), plot.getDevOrigin().getZ() + size.getCodeLength()), plot.getDevOrigin().getZ())
+        ));
+
+        if (!groundCheck.isOf(Blocks.VOID_AIR)) {
+            return !groundCheck.isOf(Blocks.GRASS_BLOCK) && !groundCheck.isOf(Blocks.STONE);
+        } else {
+            return false;
+        }
     }
 
 }

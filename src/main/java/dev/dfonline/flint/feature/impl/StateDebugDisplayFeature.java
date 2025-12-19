@@ -8,6 +8,7 @@ import dev.dfonline.flint.feature.trait.RenderedFeature;
 import dev.dfonline.flint.hypercube.Mode;
 import dev.dfonline.flint.hypercube.Node;
 import dev.dfonline.flint.hypercube.Plot;
+import dev.dfonline.flint.hypercube.PlotSize;
 import dev.dfonline.flint.util.Logger;
 import dev.dfonline.flint.util.ObjectUtil;
 import dev.dfonline.flint.util.PaletteColor;
@@ -28,11 +29,14 @@ public class StateDebugDisplayFeature implements RenderedFeature, ModeSwitchList
     @Override
     public void render(DrawContext draw, RenderTickCounter renderTickCounter) {
         User user = Flint.getUser();
+        PlotSize plotSize = user.getPlot() == null ? null : user.getPlot().getSize();
+
         ArrayList<Text> texts = new ArrayList<>();
         texts.add(literal("General State:").withColor(PaletteColor.PURPLE.value()));
         texts.add(formatValue("Node", ObjectUtil.toString(user.getNode(), Node::getName)));
         texts.add(formatValue("Node Id", user.getNodeId() + ""));
         texts.add(formatValue("Plot", ObjectUtil.toString(user.getPlot(), plot -> plot.getId() + "")));
+        texts.add(formatValue("Plot Size", ObjectUtil.toString(plotSize, Enum::name)));
         texts.add(formatValue("Mode", ObjectUtil.toString(user.getMode(), Mode::getName)));
         texts.add(formatValue("Dev Origin Location",
                 ObjectUtil.toString(user.getPlot(), plot -> ObjectUtil.toString(plot.getDevOrigin(), Object::toString))
