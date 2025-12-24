@@ -49,21 +49,9 @@ public final class User {
 
     @ApiStatus.Internal
     public void setPlot(@Nullable Plot plot) {
-        boolean shouldTriggerEvent = false;
-        if (this.plot == null || plot == null) {
-            if (this.plot != plot) {
-                shouldTriggerEvent = true;
-            }
-        } else {
-            if (!this.plot.equals(plot)) {
-                shouldTriggerEvent = true;
-            }
-        }
-        if (shouldTriggerEvent) {
-            Flint.FEATURE_MANAGER.getByTrait(FeatureTraitType.PLOT_SWITCH_LISTENING).forEach(feature ->
-                    ((PlotSwitchListeningFeature) feature).onSwitchPlot(this.plot, plot)
-            );
-        }
+        Flint.FEATURE_MANAGER.getByTrait(FeatureTraitType.PLOT_SWITCH_LISTENING).forEach(feature ->
+                ((PlotSwitchListeningFeature) feature).onSwitchPlot(this.plot, plot)
+        );
         this.plot = plot;
     }
 
