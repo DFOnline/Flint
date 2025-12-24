@@ -95,7 +95,7 @@ public boolean shouldShowPlotOverlay() {
 ```
 
 > [!IMPORTANT]  
-> You only have access to the user's plot if **FlintAPI.shouldConfirmLocationWithLocate()** was called, if you are not
+> You only have access to the user's plot if **FlintAPI.confirmLocationWithLocate()** was called, if you are not
 > calling this on your own, remember that you will get null when calling **Flint.getUser().getPlot()**!
 >
 > This makes Flint run /locate every time a suspected mode change occurs.
