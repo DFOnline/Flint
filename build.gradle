@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '1.14-SNAPSHOT';
+    id 'fabric-loom' version '1.11.4';
     id 'maven-publish'
 }
 
@@ -21,9 +21,11 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-    modImplementation include('net.kyori:adventure-platform-fabric:6.8.0')
+    modImplementation include("net.kyori:adventure-platform-fabric:${project.adventure_fabric_version}") {
+        exclude group: "net.fabricmc.fabric-api"
+    }
 
-    modRuntimeOnly("me.djtheredstoner:DevAuth-fabric:1.2.2")
+    modRuntimeOnly("me.djtheredstoner:DevAuth-fabric:1.2.1")
 }
 
 processResources {

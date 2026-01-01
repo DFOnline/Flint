@@ -1,8 +1,5 @@
 package dev.dfonline.flint.util;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import java.util.function.Function;
 
 public final class ObjectUtil {
@@ -19,7 +16,7 @@ public final class ObjectUtil {
      * @param mapper a function that converts the object to a string
      * @return the string representation of the object, or {@code "null"} if the object is {@code null}
      */
-    public static <T> String toString(@Nullable T value, Function<@NotNull T, String> mapper) {
+    public static <T> String toString(T value, Function<T, String> mapper) {
         return toString(value, mapper, "null");
     }
 
@@ -33,7 +30,7 @@ public final class ObjectUtil {
      * @param defaultValue the string to return if {@code value} is {@code null}
      * @return the string representation of the object, or {@code defaultValue} if the object is {@code null}
      */
-    public static <T> String toString(@Nullable T value, Function<@NotNull T, String> mapper, String defaultValue) {
+    public static <T> String toString(T value, Function<T, String> mapper, String defaultValue) {
         if (value == null) {
             return defaultValue;
         }

@@ -2,10 +2,7 @@ package dev.dfonline.flint.feature.trait;
 
 import dev.dfonline.flint.feature.core.FeatureTrait;
 import dev.dfonline.flint.util.result.EventResult;
-import net.fabricmc.fabric.api.client.rendering.v1.world.WorldExtractionContext;
-import net.fabricmc.fabric.api.client.rendering.v1.world.WorldRenderContext;
-import net.fabricmc.fabric.api.client.rendering.v1.world.WorldTerrainRenderContext;
-import net.minecraft.client.render.state.OutlineRenderState;
+import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.minecraft.util.hit.HitResult;
 
 /**
@@ -14,34 +11,34 @@ import net.minecraft.util.hit.HitResult;
 public interface WorldRenderFeature extends FeatureTrait {
 
     /**
-     * Called after the block outline render state is extracted, before it is drawn.
+     * Called at the very end of the world rendering process.
      *
-     * @param context The world extraction context
-     * @param hit     The hit result of the block being outlined
+     * @param context The world render context
      */
-    default void worldRenderAfterBlockOutlineExtraction(WorldExtractionContext context, HitResult hit) {
+    default void worldRenderLast(WorldRenderContext context) {
     }
 
     /**
-     * Called after all render states are extracted, before any is drawn.
+     * Called when world rendering has ended.
      *
-     * @param context The world extraction context
+     * @param context The world render context
      */
-    default void worldRenderEndExtraction(WorldExtractionContext context) {
+    default void worldRenderEnd(WorldRenderContext context) {
     }
 
     /**
-     * Called after all chunks to be rendered are uploaded to GPU,
-     * before any chunks are drawn to the framebuffer.
+     * Called before the block outline is rendered.
      *
-     * @param context The world terrain render context
+     * @param context The world render context
+     * @param hit     The hit result for the block being outlined
+     * @return The event result
      */
-    default void worldRenderStartMain(WorldTerrainRenderContext context) {
+    default EventResult worldRenderBeforeBlockOutline(WorldRenderContext context, HitResult hit) {
+        return EventResult.PASS;
     }
 
     /**
-     * Called after the {@link net.minecraft.client.render.BlockRenderLayer#SOLID SOLID}, {@link net.minecraft.client.render.BlockRenderLayer#CUTOUT CUTOUT},
-     * and {@link net.minecraft.client.render.BlockRenderLayer#CUTOUT CUTOUT_MIPPED} terrain layers are drawn to the framebuffer.
+     * Called before entities are rendered in the world.
      *
      * @param context The world render context
      */
@@ -49,7 +46,7 @@ public interface WorldRenderFeature extends FeatureTrait {
     }
 
     /**
-     * Called after entities and block entities are drawn to the framebuffer.
+     * Called after entities are rendered in the world.
      *
      * @param context The world render context
      */
@@ -57,8 +54,23 @@ public interface WorldRenderFeature extends FeatureTrait {
     }
 
     /**
-     * Called after entities, block breaking, and most non-translucent objects are drawn to the framebuffer,
-     * before vanilla debug renderers and translucency are drawn to the framebuffer.
+     * Called after the rendering setup is complete.
+     *
+     * @param context The world render context
+     */
+    default void worldRenderAfterSetup(WorldRenderContext context) {
+    }
+
+    /**
+     * Called after translucent blocks are rendered.
+     *
+     * @param context The world render context
+     */
+    default void worldRenderAfterTranslucent(WorldRenderContext context) {
+    }
+
+    /**
+     * Called before debug rendering occurs.
      *
      * @param context The world render context
      */
@@ -66,35 +78,22 @@ public interface WorldRenderFeature extends FeatureTrait {
     }
 
     /**
-     * Called after entities and block entities are drawn to the framebuffer,
-     * before translucent terrain is drawn to the framebuffer,
-     * and before translucency combine has happened in fabulous mode.
+     * Called when a block outline is being rendered.
      *
      * @param context The world render context
-     */
-    default void worldRenderBeforeTranslucent(WorldRenderContext context) {
-    }
-
-    /**
-     * Called after block outline render checks are made
-     * and before the default block outline is drawn to the framebuffer.
-     *
-     * @param context            The world render context
-     * @param outlineRenderState The outline render state
+     * @param blockOutlineContext Context specific to the block outline being rendered
      * @return The event result
      */
-    default EventResult worldRenderBeforeBlockOutline(WorldRenderContext context, OutlineRenderState outlineRenderState) {
+    default EventResult worldRenderBlockOutline(WorldRenderContext context, WorldRenderContext.BlockOutlineContext blockOutlineContext) {
         return EventResult.PASS;
     }
 
     /**
-     * Called at the end of the main render pass, after entities, block entities,
-     * terrain, and translucent terrain are drawn to the framebuffer,
-     * before particles, clouds, weather, and late debug are drawn to the framebuffer.
+     * Called when world rendering begins.
      *
      * @param context The world render context
      */
-    default void worldRenderEndMain(WorldRenderContext context) {
+    default void worldRenderStart(WorldRenderContext context) {
     }
 
 }

@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 import static net.minecraft.text.Text.literal;
 
-public class StateDebugDisplayFeature implements RenderedFeature {
+public class StateDebugDisplayFeature implements RenderedFeature, ModeSwitchListeningFeature {
 
     private static final Logger LOGGER = Logger.of(StateDebugDisplayFeature.class);
     private static final int STARTING_Y = 5;
@@ -69,6 +69,23 @@ public class StateDebugDisplayFeature implements RenderedFeature {
     @Override
     public boolean isEnabled() {
         return FlintAPI.isDebugging();
+    }
+
+    @Override
+    public void onSwitchMode(Mode oldMode, Mode newMode) {
+        if (Flint.getClient().player == null) {
+            LOGGER.info("Null player :scream:");
+            return;
+        }
+
+        Flint.getUser().getPlayer().sendMessage(literal(
+                "Old: " + ObjectUtil.toString(oldMode, Mode::getName) + " -> New: " + ObjectUtil.toString(newMode, Mode::getName)
+        ), false);
+
+        Flint.getUser().getPlayer().sendMessage(literal(
+                ObjectUtil.toString(Flint.getUser().getPlot(), Plot::toReadableString, "No Plot")
+        ), false);
+
     }
 
 }

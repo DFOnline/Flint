@@ -24,7 +24,6 @@ public final class FlintUpdate {
     private static final String MOD_REPOSITORY = "DFOnline/Flint";
     private static final String MODRINTH_URL = "https://modrinth.com/mod/flint/versions";
     private static final String MOD_VERSION = getCurrentVersion();
-    private static final String UNKNOWN_VERSION = "unknown";
     private static String latestVersion;
 
     private FlintUpdate() {
@@ -55,40 +54,40 @@ public final class FlintUpdate {
     private static String getCurrentVersion() {
         try (InputStream input = Flint.class.getClassLoader().getResourceAsStream("flint_version.txt")) {
             if (input == null) {
-                return UNKNOWN_VERSION;
+                return "unknown";
             }
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(input))) {
                 return reader.readLine();
             }
         } catch (IOException e) {
             if (FabricLoader.getInstance().isDevelopmentEnvironment()) {
-                return UNKNOWN_VERSION;
+                return "unknown";
             }
             LOGGER.error("Failed to get mod version", e);
-            return UNKNOWN_VERSION;
+            return "error";
         }
     }
 
 
     public static void sendUpdateMessage() {
-        if (MOD_VERSION.equals(latestVersion) || MOD_VERSION.equals(UNKNOWN_VERSION)) {
+        if (MOD_VERSION.equals(latestVersion)) {
             return;
         }
 
         try {
             // Latest version starts with a v.
-            int latestVersion = Integer.parseInt(FlintUpdate.latestVersion.substring(1));
+            int versionInt = Integer.parseInt(latestVersion.substring(1));
             // Current version does not start with a v.
-            int currentVersion = Integer.parseInt(MOD_VERSION);
+            int modInt = Integer.parseInt(MOD_VERSION);
             // The string parsed to an integer, now compare.
-            if (latestVersion - currentVersion > 5) {
+            if (versionInt <= modInt) {
                 return;
             }
             // We are outdated, inform the user.
             if (Flint.getClient().player != null) {
                 Flint.getUser().sendMessage(new InfoMessage("flint.update",
                         Component.text("v" + MOD_VERSION),
-                        Component.text(FlintUpdate.latestVersion),
+                        Component.text(latestVersion),
                         Component.translatable("flint.update.link", PaletteColor.SKY_LIGHT_2)
                                 .clickEvent(ClickEvent.openUrl(MODRINTH_URL))
                                 .hoverEvent(HoverEvent.showText(Component.text(MODRINTH_URL, PaletteColor.GRAY_LIGHT)))
