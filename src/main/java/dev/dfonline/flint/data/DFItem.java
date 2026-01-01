@@ -1,5 +1,9 @@
 package dev.dfonline.flint.data;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.Multimap;
+import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import com.mojang.authlib.properties.PropertyMap;
 import net.minecraft.component.DataComponentTypes;
@@ -14,7 +18,9 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Unit;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Consumer;
@@ -194,16 +200,14 @@ public class DFItem {
         this.item.set(DataComponentTypes.DYED_COLOR, new DyedColorComponent(color));
     }
 
-//    Since this is currently unused we can keep it that way for now
-//    TODO: Reimplement (custom model data works differently now so this needs a full rework)
-//    /**
-//     * Sets the custom model data of the item.
-//     *
-//     * @param modelData The new custom model data to set.
-//     */
-//    public void setCustomModelData(int modelData) {
-//        this.item.set(DataComponentTypes.CUSTOM_MODEL_DATA, new CustomModelDataComponent());
-//    }
+    /**
+     * Sets the custom model data of the item.
+     *
+     * @param modelData The new custom model data to set.
+     */
+    public void setCustomModelData(int modelData) {
+        this.item.set(DataComponentTypes.CUSTOM_MODEL_DATA, new CustomModelDataComponent(List.of((float) modelData), List.of(), List.of(), List.of()));
+    }
 
     /**
      * Sets the profile of the item, for use with player heads.
@@ -213,9 +217,10 @@ public class DFItem {
      * @param signature The signature of the profile.
      */
     public void setProfile(UUID uuid, String value, String signature) {
-        PropertyMap map = new PropertyMap();
-        map.put("textures", new Property("textures", value, signature));
-        this.item.set(DataComponentTypes.PROFILE, new ProfileComponent(Optional.empty(), Optional.ofNullable(uuid), map));
+        Multimap<String, Property> map = ImmutableMultimap.<String, Property>builder()
+                .put("textures", new Property("textures", value, signature))
+                .build();
+        this.item.set(DataComponentTypes.PROFILE, ProfileComponent.ofStatic(new GameProfile(uuid, value, new PropertyMap(map))));
     }
 
     /**

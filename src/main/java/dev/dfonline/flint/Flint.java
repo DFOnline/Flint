@@ -27,7 +27,7 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
-import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
+import net.fabricmc.fabric.api.client.rendering.v1.world.WorldRenderEvents;
 import net.kyori.adventure.platform.modcommon.MinecraftAudiences;
 import net.kyori.adventure.platform.modcommon.MinecraftClientAudiences;
 import net.minecraft.client.MinecraftClient;
@@ -55,8 +55,8 @@ public class Flint implements ClientModInitializer {
     public void onInitializeClient() {
         LOGGER.info("Sparking it up");
 
-        // FlintAPI.setDebugging(true);
-        // FlintAPI.confirmLocationWithLocate();
+//         FlintAPI.setDebugging(true);
+//         FlintAPI.confirmLocationWithLocate();
 
         FlintUpdate.fetchLatestRelease();
 
@@ -103,22 +103,52 @@ public class Flint implements ClientModInitializer {
                 )
         );
 
-        WorldRenderEvents.LAST.register(worldRenderContext ->
+        WorldRenderEvents.AFTER_BLOCK_OUTLINE_EXTRACTION.register((context, hit) ->
                 FEATURE_MANAGER.getByTrait(FeatureTraitType.WORLD_RENDER).forEach(feature ->
-                        ((WorldRenderFeature) feature).worldRenderLast(worldRenderContext)
+                        ((WorldRenderFeature) feature).worldRenderAfterBlockOutlineExtraction(context, hit)
                 )
         );
 
-        WorldRenderEvents.END.register(worldRenderContext ->
+        WorldRenderEvents.END_EXTRACTION.register(context ->
                 FEATURE_MANAGER.getByTrait(FeatureTraitType.WORLD_RENDER).forEach(feature ->
-                        ((WorldRenderFeature) feature).worldRenderEnd(worldRenderContext)
+                        ((WorldRenderFeature) feature).worldRenderEndExtraction(context)
                 )
         );
 
-        WorldRenderEvents.BEFORE_BLOCK_OUTLINE.register((worldRenderContext, hitResult) -> {
+        WorldRenderEvents.START_MAIN.register(context ->
+                FEATURE_MANAGER.getByTrait(FeatureTraitType.WORLD_RENDER).forEach(feature ->
+                        ((WorldRenderFeature) feature).worldRenderStartMain(context)
+                )
+        );
+        
+        WorldRenderEvents.BEFORE_ENTITIES.register(context ->
+                FEATURE_MANAGER.getByTrait(FeatureTraitType.WORLD_RENDER).forEach(feature ->
+                        ((WorldRenderFeature) feature).worldRenderBeforeEntities(context)
+                )
+        );
+        
+        WorldRenderEvents.AFTER_ENTITIES.register(context ->
+                FEATURE_MANAGER.getByTrait(FeatureTraitType.WORLD_RENDER).forEach(feature ->
+                        ((WorldRenderFeature) feature).worldRenderAfterEntities(context)
+                )
+        );
+        
+        WorldRenderEvents.BEFORE_DEBUG_RENDER.register(context ->
+                FEATURE_MANAGER.getByTrait(FeatureTraitType.WORLD_RENDER).forEach(feature ->
+                        ((WorldRenderFeature) feature).worldRenderBeforeDebugRender(context)
+                )
+        );   
+        
+        WorldRenderEvents.BEFORE_TRANSLUCENT.register(context ->
+                FEATURE_MANAGER.getByTrait(FeatureTraitType.WORLD_RENDER).forEach(feature ->
+                        ((WorldRenderFeature) feature).worldRenderBeforeTranslucent(context)
+                )
+        );
+
+        WorldRenderEvents.BEFORE_BLOCK_OUTLINE.register((context, outlineRenderState) -> {
             boolean shouldRender = true;
             for (FeatureTrait feature : FEATURE_MANAGER.getByTrait(FeatureTraitType.WORLD_RENDER)) {
-                if (((WorldRenderFeature) feature).worldRenderBeforeBlockOutline(worldRenderContext, hitResult) == EventResult.CANCEL) {
+                if (((WorldRenderFeature) feature).worldRenderBeforeBlockOutline(context, outlineRenderState) == EventResult.CANCEL) {
                     shouldRender = false;
                 }
             }
@@ -126,53 +156,12 @@ public class Flint implements ClientModInitializer {
             return shouldRender;
         });
 
-        WorldRenderEvents.BEFORE_ENTITIES.register(worldRenderContext ->
+        WorldRenderEvents.END_MAIN.register(context ->
                 FEATURE_MANAGER.getByTrait(FeatureTraitType.WORLD_RENDER).forEach(feature ->
-                        ((WorldRenderFeature) feature).worldRenderBeforeEntities(worldRenderContext)
+                        ((WorldRenderFeature) feature).worldRenderEndMain(context)
                 )
         );
-
-        WorldRenderEvents.AFTER_ENTITIES.register(worldRenderContext ->
-                FEATURE_MANAGER.getByTrait(FeatureTraitType.WORLD_RENDER).forEach(feature ->
-                        ((WorldRenderFeature) feature).worldRenderAfterEntities(worldRenderContext)
-                )
-        );
-
-        WorldRenderEvents.AFTER_SETUP.register(worldRenderContext ->
-                FEATURE_MANAGER.getByTrait(FeatureTraitType.WORLD_RENDER).forEach(feature ->
-                        ((WorldRenderFeature) feature).worldRenderAfterSetup(worldRenderContext)
-                )
-        );
-
-        WorldRenderEvents.AFTER_TRANSLUCENT.register(worldRenderContext ->
-                FEATURE_MANAGER.getByTrait(FeatureTraitType.WORLD_RENDER).forEach(feature ->
-                        ((WorldRenderFeature) feature).worldRenderAfterTranslucent(worldRenderContext)
-                )
-        );
-
-        WorldRenderEvents.BEFORE_DEBUG_RENDER.register(worldRenderContext ->
-                FEATURE_MANAGER.getByTrait(FeatureTraitType.WORLD_RENDER).forEach(feature ->
-                        ((WorldRenderFeature) feature).worldRenderBeforeDebugRender(worldRenderContext)
-                )
-        );
-
-        WorldRenderEvents.BLOCK_OUTLINE.register((worldRenderContext, blockOutlineContext) -> {
-            boolean shouldRender = true;
-            for (FeatureTrait feature : FEATURE_MANAGER.getByTrait(FeatureTraitType.WORLD_RENDER)) {
-                if (((WorldRenderFeature) feature).worldRenderBlockOutline(worldRenderContext, blockOutlineContext) == EventResult.CANCEL) {
-                    shouldRender = false;
-                }
-            }
-
-            return shouldRender;
-        });
-
-        WorldRenderEvents.START.register(worldRenderContext ->
-                FEATURE_MANAGER.getByTrait(FeatureTraitType.WORLD_RENDER).forEach(feature ->
-                        ((WorldRenderFeature) feature).worldRenderStart(worldRenderContext)
-                )
-        );
-
+        
         ClientLifecycleEvents.CLIENT_STOPPING.register(client ->
                 FEATURE_MANAGER.getByTrait(FeatureTraitType.SHUTDOWN).forEach(feature ->
                         ((ShutdownFeature) feature).onShutdown()

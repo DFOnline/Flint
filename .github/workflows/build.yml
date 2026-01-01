@@ -52,6 +52,6 @@ jobs:
           loaders: |-
             fabric
           game-versions: |-
-            1.21.8
+            1.21.11
           files: '["./build/libs/Flint-1.0.0.jar", "./build/libs/Flint-1.0.0-sources.jar"]'
           primary-file: "Flint-1.0.0.jar"
