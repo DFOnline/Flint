@@ -1,6 +1,6 @@
-package dev.dfonline.flint.actiondump;
+package dev.dfonline.flint.actiondump.codeblocks;
 
-import java.util.List;
+import dev.dfonline.flint.actiondump.Icon;
 
 public record ActionType(
         String name,

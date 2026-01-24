@@ -1,14 +1,12 @@
 package dev.dfonline.flint.actiondump;
 
 import com.google.gson.*;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
+import dev.dfonline.flint.actiondump.codeblocks.ActionType;
+import dev.dfonline.flint.actiondump.codeblocks.CodeBlockType;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
 
 public record ActionDump(
         CodeBlockType[] codeblocks,
