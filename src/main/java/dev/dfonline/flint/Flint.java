@@ -1,5 +1,6 @@
 package dev.dfonline.flint;
 
+import dev.dfonline.flint.actiondump.ActionDump;
 import dev.dfonline.flint.feature.core.FeatureManager;
 import dev.dfonline.flint.feature.core.FeatureTrait;
 import dev.dfonline.flint.feature.core.FeatureTraitType;
@@ -32,6 +33,8 @@ import net.kyori.adventure.platform.modcommon.MinecraftAudiences;
 import net.kyori.adventure.platform.modcommon.MinecraftClientAudiences;
 import net.minecraft.client.MinecraftClient;
 
+import java.util.Arrays;
+
 public class Flint implements ClientModInitializer {
 
     public static final String MOD_ID = "flint";
@@ -53,10 +56,10 @@ public class Flint implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-//        System.out.println(ActionDump.get().toString());
-//        System.out.println(Arrays.toString(ActionDump.get().actions()));
-//        System.out.println(Arrays.toString(ActionDump.get().codeblocks()));
-//        System.exit(0);
+        System.out.println(ActionDump.get().toString());
+        System.out.println(Arrays.toString(ActionDump.get().gameValues()));
+        System.out.println(Arrays.toString(ActionDump.get().gameValueCategories()));
+        System.exit(0);
         LOGGER.info("Sparking it up");
 
 //         FlintAPI.setDebugging(true);

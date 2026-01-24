@@ -3,6 +3,8 @@ package dev.dfonline.flint.actiondump;
 import com.google.gson.*;
 import dev.dfonline.flint.actiondump.codeblocks.ActionType;
 import dev.dfonline.flint.actiondump.codeblocks.CodeBlockType;
+import dev.dfonline.flint.actiondump.gamevalues.GameValueCategory;
+import dev.dfonline.flint.actiondump.gamevalues.GameValueType;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -10,7 +12,9 @@ import java.nio.file.Path;
 
 public record ActionDump(
         CodeBlockType[] codeblocks,
-        ActionType[] actions
+        ActionType[] actions,
+        GameValueCategory[] gameValueCategories,
+        GameValueType[] gameValues
 ) {
     private static class Instance {
         private static ActionDump ACTION_DUMP;
