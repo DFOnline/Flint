@@ -5,6 +5,7 @@ import dev.dfonline.flint.actiondump.codeblocks.ActionType;
 import dev.dfonline.flint.actiondump.codeblocks.CodeBlockType;
 import dev.dfonline.flint.actiondump.gamevalues.GameValueCategory;
 import dev.dfonline.flint.actiondump.gamevalues.GameValueType;
+import dev.dfonline.flint.actiondump.particle.ParticleType;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -14,7 +15,8 @@ public record ActionDump(
         CodeBlockType[] codeblocks,
         ActionType[] actions,
         GameValueCategory[] gameValueCategories,
-        GameValueType[] gameValues
+        GameValueType[] gameValues,
+        ParticleType[] particles
 ) {
     private static class Instance {
         private static ActionDump ACTION_DUMP;
