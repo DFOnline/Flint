@@ -6,6 +6,8 @@ import dev.dfonline.flint.actiondump.codeblocks.CodeBlockType;
 import dev.dfonline.flint.actiondump.gamevalues.GameValueCategory;
 import dev.dfonline.flint.actiondump.gamevalues.GameValueType;
 import dev.dfonline.flint.actiondump.particle.ParticleType;
+import dev.dfonline.flint.actiondump.sound.SoundCategory;
+import dev.dfonline.flint.actiondump.sound.SoundType;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -16,7 +18,9 @@ public record ActionDump(
         ActionType[] actions,
         GameValueCategory[] gameValueCategories,
         GameValueType[] gameValues,
-        ParticleType[] particles
+        ParticleType[] particles,
+        SoundCategory[] soundCategories,
+        SoundType[] sounds
 ) {
     private static class Instance {
         private static ActionDump ACTION_DUMP;
