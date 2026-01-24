@@ -38,7 +38,7 @@ public record Icon(
         /// Whether this action is exclusive to world plots or not
         boolean worldExclusive,
 
-        /// TODO: I have no clue
+        /// The number of block tags an action has
         int tags,
 
         /// The return type of this game value
