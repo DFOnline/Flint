@@ -56,10 +56,10 @@ public class Flint implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        System.out.println(ActionDump.get().toString());
-        System.out.println(Arrays.toString(ActionDump.get().gameValues()));
-        System.out.println(Arrays.toString(ActionDump.get().gameValueCategories()));
-        System.exit(0);
+//        System.out.println(ActionDump.get().toString());
+//        System.out.println(Arrays.toString(ActionDump.get().gameValues()));
+//        System.out.println(Arrays.toString(ActionDump.get().gameValueCategories()));
+//        System.exit(0);
         LOGGER.info("Sparking it up");
 
 //         FlintAPI.setDebugging(true);

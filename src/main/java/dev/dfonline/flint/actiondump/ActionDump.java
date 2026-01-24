@@ -7,6 +7,7 @@ import dev.dfonline.flint.actiondump.gamevalues.GameValueCategory;
 import dev.dfonline.flint.actiondump.gamevalues.GameValueType;
 import dev.dfonline.flint.actiondump.particle.ParticleType;
 import dev.dfonline.flint.actiondump.potion.PotionType;
+import dev.dfonline.flint.actiondump.shop.CosmeticType;
 import dev.dfonline.flint.actiondump.sound.SoundCategory;
 import dev.dfonline.flint.actiondump.sound.SoundType;
 
@@ -22,7 +23,8 @@ public record ActionDump(
         ParticleType[] particles,
         SoundCategory[] soundCategories,
         SoundType[] sounds,
-        PotionType[] potionTypes
+        PotionType[] potionTypes,
+        CosmeticType[] cosmetics
 ) {
     private static class Instance {
         private static ActionDump ACTION_DUMP;
