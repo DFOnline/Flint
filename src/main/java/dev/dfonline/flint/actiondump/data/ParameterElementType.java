@@ -5,7 +5,7 @@ public record ParameterElementType(
         boolean plural,
         boolean optional,
         String[] description,
-        String[] notes,
+        String[][] notes,
         String text
 ) {
 }
