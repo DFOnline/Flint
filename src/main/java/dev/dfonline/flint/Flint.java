@@ -1,7 +1,6 @@
 package dev.dfonline.flint;
 
 import dev.dfonline.flint.actiondump.ActionDump;
-import dev.dfonline.flint.actiondump.ActionType;
 import dev.dfonline.flint.feature.core.FeatureManager;
 import dev.dfonline.flint.feature.core.FeatureTrait;
 import dev.dfonline.flint.feature.core.FeatureTraitType;
@@ -57,10 +56,6 @@ public class Flint implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-//        System.out.println(ActionDump.get().toString());
-//        System.out.println(Arrays.toString(ActionDump.get().actions()));
-//        System.out.println(Arrays.toString(ActionDump.get().codeblocks()));
-//        System.exit(0);
         LOGGER.info("Sparking it up");
 
 //         FlintAPI.setDebugging(true);

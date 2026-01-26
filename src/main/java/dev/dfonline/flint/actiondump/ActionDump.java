@@ -1,18 +1,30 @@
 package dev.dfonline.flint.actiondump;
 
 import com.google.gson.*;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
+import dev.dfonline.flint.actiondump.codeblocks.ActionType;
+import dev.dfonline.flint.actiondump.codeblocks.CodeBlockType;
+import dev.dfonline.flint.actiondump.gamevalues.GameValueCategory;
+import dev.dfonline.flint.actiondump.gamevalues.GameValueType;
+import dev.dfonline.flint.actiondump.particle.ParticleType;
+import dev.dfonline.flint.actiondump.potion.PotionType;
+import dev.dfonline.flint.actiondump.shop.CosmeticType;
+import dev.dfonline.flint.actiondump.sound.SoundCategory;
+import dev.dfonline.flint.actiondump.sound.SoundType;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
 
 public record ActionDump(
         CodeBlockType[] codeblocks,
-        ActionType[] actions
+        ActionType[] actions,
+        GameValueCategory[] gameValueCategories,
+        GameValueType[] gameValues,
+        ParticleType[] particles,
+        SoundCategory[] soundCategories,
+        SoundType[] sounds,
+        PotionType[] potionTypes,
+        CosmeticType[] cosmetics
 ) {
     private static class Instance {
         private static ActionDump ACTION_DUMP;
