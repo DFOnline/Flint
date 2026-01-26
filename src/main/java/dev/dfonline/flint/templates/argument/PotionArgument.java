@@ -6,63 +6,60 @@ import org.apache.commons.lang3.StringUtils;
 
 public class PotionArgument extends Argument {
     public enum PotionType {
-        ABSORPTION,
-        CONDUIT_POWER,
+        ABSORPTION("Absorption"),
+        CONDUIT_POWER("Conduit Power"),
         DOLPHINS_GRACE("Dolphin's Grace"),
-        FIRE_RESISTANCE,
-        HEALTH_BOOST,
-        HASTE,
+        FIRE_RESISTANCE("Fire Resistance"),
+        HEALTH_BOOST("Health Boost"),
+        HASTE("Haste"),
         HERO_OF_THE_VILLAGE("Hero of the Village"),
-        INSTANT_HEALTH,
-        JUMP_BOOST,
-        INVISIBILITY,
-        LUCK,
-        NIGHT_VISION,
-        REGENERATION,
-        RESISTANCE,
-        SATURATION,
-        SLOW_FALLING,
-        STRENGTH,
-        SPEED,
-        WATER_BREATHING,
+        INSTANT_HEALTH("Instant Health"),
+        JUMP_BOOST("Jump Boost"),
+        INVISIBILITY("Invisibility"),
+        LUCK("Luck"),
+        NIGHT_VISION("Night Vision"),
+        REGENERATION("Regeneration"),
+        RESISTANCE("Resistance"),
+        SATURATION("Saturation"),
+        SLOW_FALLING("Slow Falling"),
+        STRENGTH("Strength"),
+        SPEED("Speed"),
+        WATER_BREATHING("Water Breathing"),
 
-        BAD_OMEN,
-        BLINDNESS,
-        DARKNESS,
-        GLOWING,
-        HUNGER,
-        INFESTED,
-        INSTANT_DAMAGE,
-        LEVITATION,
-        MINING_FATIGUE,
-        NAUSEA,
-        OOZING,
-        POISON,
-        RAID_OMEN,
-        SLOWNESS,
-        TRIAL_OMEN,
-        BAD_LUCK,
-        WEAKNESS,
-        WEAVING,
-        WIND_CHARGED,
-        WITHER
+        BAD_OMEN("Bad Omen"),
+        BLINDNESS("Blindness"),
+        DARKNESS("Darkness"),
+        GLOWING("Glowing"),
+        HUNGER("Hunger"),
+        INFESTED("Infested"),
+        INSTANT_DAMAGE("Instant Damage"),
+        LEVITATION("Levitation"),
+        MINING_FATIGUE("Mining Fatigue"),
+        NAUSEA("Nausea"),
+        OOZING("Oozing"),
+        POISON("Poison"),
+        RAID_OMEN("Raid Omen"),
+        SLOWNESS("Slowness"),
+        TRIAL_OMEN("Trial Omen"),
+        BAD_LUCK("Bad Luck"),
+        WEAKNESS("Weakness"),
+        WEAVING("Weaving"),
+        WIND_CHARGED("Wind Charged"),
+        WITHER("Wither")
         ;
 
-        public final String name;
+        public final String dfName;
         PotionType(String name) {
-            this.name = name;
-        }
-        PotionType() {
-            this.name = StringUtils.capitalize(this.name().replaceAll("_", " ").toLowerCase());
+            this.dfName = name;
         }
 
         public String getName() {
-            return name;
+            return dfName;
         }
 
         public static PotionType getFromString(String string) {
             for (PotionType potionType : PotionType.values()) {
-                if (string.equals(potionType.name)) {
+                if (string.equals(potionType.dfName)) {
                     return potionType;
                 }
             }
