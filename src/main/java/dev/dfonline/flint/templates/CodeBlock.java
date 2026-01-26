@@ -32,6 +32,7 @@ public abstract class CodeBlock implements JSONable {
                 case "process" -> new Process(json);
                 case "event" -> new PlayerEvent(json);
                 case "entity_event" -> new EntityEvent(json);
+                case "game_event" -> new GameEvent(json);
                 case "select_obj" -> new SelectObject(json);
                 default -> null;
             };
