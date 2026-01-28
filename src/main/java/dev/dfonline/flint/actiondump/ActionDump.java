@@ -3,30 +3,29 @@ package dev.dfonline.flint.actiondump;
 import com.google.gson.*;
 import dev.dfonline.flint.actiondump.codeblocks.ActionType;
 import dev.dfonline.flint.actiondump.codeblocks.CodeBlockType;
-import dev.dfonline.flint.actiondump.gamevalues.GameValueCategory;
+import dev.dfonline.flint.actiondump.categories.ValueCategory;
 import dev.dfonline.flint.actiondump.gamevalues.GameValueType;
 import dev.dfonline.flint.actiondump.gson.ComponentGson;
 import dev.dfonline.flint.actiondump.particle.ParticleType;
 import dev.dfonline.flint.actiondump.potion.PotionType;
 import dev.dfonline.flint.actiondump.shop.CosmeticType;
-import dev.dfonline.flint.actiondump.sound.SoundCategory;
 import dev.dfonline.flint.actiondump.sound.SoundType;
 import dev.dfonline.flint.util.ComponentUtil;
 import net.kyori.adventure.text.Component;
 
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 
 public record ActionDump(
         CodeBlockType[] codeblocks,
         ActionType[] actions,
-        GameValueCategory[] gameValueCategories,
+        ValueCategory[] gameValueCategories,
         GameValueType[] gameValues,
+        ValueCategory[] particleCategories,
         ParticleType[] particles,
-        SoundCategory[] soundCategories,
+        ValueCategory[] soundCategories,
         SoundType[] sounds,
-        PotionType[] potionTypes,
+        PotionType[] potions,
         CosmeticType[] cosmetics
 ) {
     private static class Instance {
