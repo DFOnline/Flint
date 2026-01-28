@@ -3,6 +3,7 @@ package dev.dfonline.flint.feature.impl;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import dev.dfonline.flint.Flint;
+import dev.dfonline.flint.actiondump.ActionDump;
 import dev.dfonline.flint.feature.trait.CommandFeature;
 import dev.dfonline.flint.hypercube.Plot;
 import dev.dfonline.flint.util.ComponentUtil;
@@ -16,6 +17,7 @@ import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.kyori.adventure.text.Component;
 import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.Text;
 
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.argument;
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal;
@@ -84,6 +86,14 @@ public class FlintCommandFeature implements CommandFeature {
                 .then(literal("force")
                         .executes(context -> {
                             GetActionDumpFeature.getActionDump(true);
+                            return 1;
+                        })
+                )
+                .then(literal("dbg")
+                        .executes(context -> {
+                            context.getSource().sendFeedback(
+                                    Text.literal(ActionDump.get().toString())
+                            );
                             return 1;
                         })
                 )

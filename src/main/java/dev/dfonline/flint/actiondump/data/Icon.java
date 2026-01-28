@@ -1,5 +1,7 @@
 package dev.dfonline.flint.actiondump.data;
 
+import net.kyori.adventure.text.Component;
+
 import java.util.List;
 
 public record Icon(
@@ -12,18 +14,18 @@ public record Icon(
         /// If the material is a POTION, or SPLASH_POTION, this is it's color
         Color color,
         /// Represents the canonical name associated with the parent object
-        String name,
+        Component name,
 
         /// The description of the object, split by each line
         String[] description,
         /// Reasons why an action may be deprecated, split by each line
         String[] deprecatedNote,
         /// Examples of how to use the object, split by each line
-        String[] example,
+        Component[] example,
         /// Examples of what the parent object works with, split by each line
         String[] worksWith,
         /// Any additional info necessary for the parent object, split by each purpose, and then each line
-        String[][] additionalInfo,
+        Component[][] additionalInfo,
 
         /// The rank required to use this object
         String requiredRank,
@@ -44,7 +46,7 @@ public record Icon(
         /// The return type of this game value
         String returnType,
         /// The description of what this game value returns
-        String[] returnDescription,
+        Component[] returnDescription,
 
         /// The parameters this action accepts
         ParameterElementType[] arguments,
