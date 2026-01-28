@@ -30,6 +30,11 @@ public record ActionDump(
         private static ActionDump ACTION_DUMP;
     }
 
+    public static ActionDump reload() {
+        Instance.ACTION_DUMP = null;
+        return ActionDump.get();
+    }
+
     public static ActionDump get() {
         if(Instance.ACTION_DUMP == null) {
             var gson = new GsonBuilder().create();
