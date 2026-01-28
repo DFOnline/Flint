@@ -89,14 +89,6 @@ public class FlintCommandFeature implements CommandFeature {
                             return 1;
                         })
                 )
-                .then(literal("dbg")
-                        .executes(context -> {
-                            context.getSource().sendFeedback(
-                                    Text.literal(ActionDump.get().toString())
-                            );
-                            return 1;
-                        })
-                )
         );
     }
 
