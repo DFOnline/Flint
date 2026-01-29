@@ -2,6 +2,7 @@ package dev.dfonline.flint.feature.impl;
 
 import com.google.common.collect.Maps;
 import dev.dfonline.flint.Flint;
+import dev.dfonline.flint.actiondump.ActionDumpFormat;
 import dev.dfonline.flint.feature.trait.ChatListeningFeature;
 import dev.dfonline.flint.feature.trait.PacketListeningFeature;
 import dev.dfonline.flint.hypercube.Node;
@@ -24,7 +25,7 @@ public class GetActionDumpFeature implements ChatListeningFeature, PacketListeni
     private static int lines;
     private static int length;
     private static long startTime;
-    private static Map<ComponentUtil.ColorMode, StringBuilder> actionDumpProgression;
+    private static Map<ActionDumpFormat, StringBuilder> actionDumpProgression;
 
     public static void getActionDump(boolean allowNonObtainableActionDumpNodes) {
         if (isGettingActionDump) {
@@ -48,8 +49,8 @@ public class GetActionDumpFeature implements ChatListeningFeature, PacketListeni
 
         actionDumpProgression = Maps.newHashMap();
 
-        for(var mode : ComponentUtil.ColorMode.values()) {
-            actionDumpProgression.put(mode, new StringBuilder());
+        for(var format : ActionDumpFormat.values()) {
+            actionDumpProgression.put(format, new StringBuilder());
         }
         lines = 0;
         length = 0;
@@ -69,9 +70,9 @@ public class GetActionDumpFeature implements ChatListeningFeature, PacketListeni
             return ReplacementEventResult.cancel();
         }
 
-        for(var colorMode : ComponentUtil.ColorMode.values()) {
-            ComponentUtil.textToString(text, actionDumpProgression.get(colorMode), colorMode);
-            actionDumpProgression.get(colorMode).append("\n");
+        for(var format : ActionDumpFormat.values()) {
+            ComponentUtil.textToString(text, actionDumpProgression.get(format), format);
+            actionDumpProgression.get(format).append("\n");
         }
         String content = text.getString();
         lines += 1;
@@ -81,9 +82,9 @@ public class GetActionDumpFeature implements ChatListeningFeature, PacketListeni
         if (text.getString().equals("}")) {
             isGettingActionDump = false;
             try {
-                for(var colorMode : ComponentUtil.ColorMode.values()) {
-                    var capturedData = actionDumpProgression.get(colorMode);
-                    FileUtil.writeFile(colorMode.getFile().getPath(), capturedData.toString());
+                for(var format : ActionDumpFormat.values()) {
+                    var capturedData = actionDumpProgression.get(format);
+                    FileUtil.writeFile(format.getFile().getPath(), capturedData.toString());
                 }
                 Flint.getUser().sendMessage(new SuccessMessage("flint.command.flint.action_dump.success", Component.text((float) (System.currentTimeMillis() - startTime) / MS_IN_SEC), Component.text(lines), Component.text(length)));
             } catch (IOException e) {

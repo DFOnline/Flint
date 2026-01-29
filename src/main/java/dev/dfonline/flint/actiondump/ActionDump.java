@@ -10,7 +10,6 @@ import dev.dfonline.flint.actiondump.particle.ParticleType;
 import dev.dfonline.flint.actiondump.potion.PotionType;
 import dev.dfonline.flint.actiondump.shop.CosmeticType;
 import dev.dfonline.flint.actiondump.sound.SoundType;
-import dev.dfonline.flint.util.ComponentUtil;
 import net.kyori.adventure.text.Component;
 
 import java.io.IOException;
@@ -43,7 +42,7 @@ public record ActionDump(
                     .registerTypeAdapter(Component.class, new ComponentGson())
                     .create();
             try {
-                var file = Files.readString(ComponentUtil.ColorMode.MINI_MESSAGE.getFile().getPath());
+                var file = Files.readString(ActionDumpFormat.MINI_MESSAGE.getFile().getPath());
                 Instance.ACTION_DUMP = gson.fromJson(file, ActionDump.class);
             } catch (IOException e) {
                 throw new ActionDumpFileMissingException();

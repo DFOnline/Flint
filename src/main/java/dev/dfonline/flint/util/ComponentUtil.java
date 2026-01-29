@@ -1,7 +1,7 @@
 package dev.dfonline.flint.util;
 
 import dev.dfonline.flint.Flint;
-import dev.dfonline.flint.util.file.FlintFile;
+import dev.dfonline.flint.actiondump.ActionDumpFormat;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -16,17 +16,17 @@ public final class ComponentUtil {
     private ComponentUtil() {
     }
 
-    public static void textToString(Text content, StringBuilder build, ColorMode colorMode) {
+    public static void textToString(Text content, StringBuilder build, ActionDumpFormat format) {
         TextColor lastColor = null;
         for (Text text : content.getSiblings()) {
-            if (colorMode != ColorMode.MINI_MESSAGE) {
+            if (format != ActionDumpFormat.MINI_MESSAGE) {
                 TextColor color = text.getStyle().getColor();
-                if (color != null && lastColor != color && colorMode != ColorMode.NONE) {
+                if (color != null && lastColor != color && format != ActionDumpFormat.NONE) {
                     lastColor = color;
                     if (color.getName().contains("#")) {
-                        build.append(String.join(colorMode.getPrefix(), color.getName().split("")).replace("#", colorMode.getPrefix() + "x").toLowerCase());
+                        build.append(String.join(format.getPrefix(), color.getName().split("")).replace("#", format.getPrefix() + "x").toLowerCase());
                     } else {
-                        build.append(Formatting.valueOf(String.valueOf(color).toUpperCase()).toString().replace("§", colorMode.getPrefix()));
+                        build.append(Formatting.valueOf(String.valueOf(color).toUpperCase()).toString().replace("§", format.getPrefix()));
                     }
                 }
                 build.append(text.getString());
@@ -73,30 +73,6 @@ public final class ComponentUtil {
         }
 
         build.append("<").append(colorStr).append(">");
-    }
-
-    public enum ColorMode {
-        SECTION("§", FlintFile.ACTION_DUMP_SECTION),
-        AMPERSAND("&", FlintFile.ACTION_DUMP_AMPERSAND),
-        MINI_MESSAGE(null, FlintFile.ACTION_DUMP_MINI_MESSAGE),
-        NONE(null, FlintFile.ACTION_DUMP_PLAIN);
-
-        private final FlintFile file;
-        private final String prefix;
-
-        ColorMode(String prefix, FlintFile file) {
-            this.prefix = prefix;
-            this.file = file;
-        }
-
-        public String getPrefix() {
-            return this.prefix;
-        }
-
-        public FlintFile getFile() {
-            return this.file;
-        }
-
     }
 
 }
