@@ -80,8 +80,9 @@ public final class FlintUpdate {
             int latestVersion = Integer.parseInt(FlintUpdate.latestVersion.substring(1));
             // Current version does not start with a v.
             int currentVersion = Integer.parseInt(MOD_VERSION);
-            // The string parsed to an integer, now compare.
-            if (latestVersion - currentVersion > 5) {
+
+            // Ignore if outdated for less than 5 versions.
+            if (latestVersion - currentVersion < 5) {
                 return;
             }
             // We are outdated, inform the user.
