@@ -3,6 +3,7 @@ package dev.dfonline.flint.feature.impl;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import dev.dfonline.flint.Flint;
+import dev.dfonline.flint.actiondump.ActionDump;
 import dev.dfonline.flint.feature.trait.CommandFeature;
 import dev.dfonline.flint.hypercube.Plot;
 import dev.dfonline.flint.util.ComponentUtil;
@@ -16,6 +17,7 @@ import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.kyori.adventure.text.Component;
 import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.Text;
 
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.argument;
 import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal;
@@ -78,32 +80,12 @@ public class FlintCommandFeature implements CommandFeature {
                 )
         ).then(literal("action_dump")
                 .executes(context -> {
-                    GetActionDumpFeature.getActionDump(ComponentUtil.ColorMode.MINI_MESSAGE, false);
+                    GetActionDumpFeature.getActionDump(false);
                     return 1;
                 })
-                .then(argument("color_mode", StringArgumentType.word())
-                        .suggests((context, builder) -> {
-                            for (ComponentUtil.ColorMode colorMode : ComponentUtil.ColorMode.values()) {
-                                builder.suggest(colorMode.name().toLowerCase());
-                            }
-                            return builder.buildFuture();
-                        })
-                        .executes(context -> {
-                            ComponentUtil.ColorMode colorMode = ComponentUtil.ColorMode.valueOf(StringArgumentType.getString(context, "color_mode").toUpperCase());
-                            GetActionDumpFeature.getActionDump(colorMode, false);
-                            return 1;
-                        })
-                        .then(literal("force")
-                                .executes(context -> {
-                                    ComponentUtil.ColorMode colorMode = ComponentUtil.ColorMode.valueOf(StringArgumentType.getString(context, "color_mode").toUpperCase());
-                                    GetActionDumpFeature.getActionDump(colorMode, true);
-                                    return 1;
-                                })
-                        )
-                )
                 .then(literal("force")
                         .executes(context -> {
-                            GetActionDumpFeature.getActionDump(ComponentUtil.ColorMode.MINI_MESSAGE, true);
+                            GetActionDumpFeature.getActionDump(true);
                             return 1;
                         })
                 )

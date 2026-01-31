@@ -1,5 +1,6 @@
 package dev.dfonline.flint;
 
+import dev.dfonline.flint.actiondump.ActionDump;
 import dev.dfonline.flint.feature.core.FeatureManager;
 import dev.dfonline.flint.feature.core.FeatureTrait;
 import dev.dfonline.flint.feature.core.FeatureTraitType;
@@ -31,6 +32,8 @@ import net.fabricmc.fabric.api.client.rendering.v1.world.WorldRenderEvents;
 import net.kyori.adventure.platform.modcommon.MinecraftAudiences;
 import net.kyori.adventure.platform.modcommon.MinecraftClientAudiences;
 import net.minecraft.client.MinecraftClient;
+
+import java.util.Arrays;
 
 public class Flint implements ClientModInitializer {
 
