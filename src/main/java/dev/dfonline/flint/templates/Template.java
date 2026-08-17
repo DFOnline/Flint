@@ -6,14 +6,14 @@ import com.google.gson.JsonParser;
 import dev.dfonline.flint.Flint;
 import dev.dfonline.flint.data.DFItem;
 import dev.dfonline.flint.data.PublicBukkitValues;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 
-import static net.minecraft.text.Text.literal;
+import static net.minecraft.network.chat.Component.literal;
 
 public class Template {
     private String name = "null";
@@ -106,7 +106,7 @@ public class Template {
     }
 
     static void print(String string) {
-        Flint.getUser().getPlayer().sendMessage(literal(string), false);
+        Flint.getUser().getPlayer().sendSystemMessage(literal(string));
     }
 
     @Override

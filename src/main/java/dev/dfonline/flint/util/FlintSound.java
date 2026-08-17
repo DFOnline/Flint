@@ -1,8 +1,8 @@
 package dev.dfonline.flint.util;
 
 import dev.dfonline.flint.util.message.impl.SoundMessage;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvent;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
 
 /**
  * Represents a Minecraft sound with a pre-configured volume, pitch, and source.
@@ -25,7 +25,7 @@ public final class FlintSound {
     private final SoundEvent soundEvent;
     private final float volume;
     private final float pitch;
-    private final SoundCategory source;
+    private final SoundSource source;
 
     public FlintSound(Builder builder) {
         this.soundEvent = builder.sound;
@@ -50,7 +50,7 @@ public final class FlintSound {
         return this.pitch;
     }
 
-    public SoundCategory getSource() {
+    public SoundSource getSource() {
         return this.source;
     }
 
@@ -59,7 +59,7 @@ public final class FlintSound {
         private SoundEvent sound;
         private float volume = 1.0F;
         private float pitch = 1.0F;
-        private SoundCategory source = SoundCategory.MASTER;
+        private SoundSource source = SoundSource.MASTER;
 
         public Builder setSound(SoundEvent sound) {
             this.sound = sound;
@@ -76,7 +76,7 @@ public final class FlintSound {
             return this;
         }
 
-        public Builder setSource(SoundCategory source) {
+        public Builder setSource(SoundSource source) {
             this.source = source;
             return this;
         }

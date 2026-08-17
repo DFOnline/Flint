@@ -7,7 +7,7 @@ import dev.dfonline.flint.hypercube.Mode;
 import dev.dfonline.flint.hypercube.Node;
 import dev.dfonline.flint.hypercube.Plot;
 import dev.dfonline.flint.util.message.Message;
-import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.player.LocalPlayer;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -22,8 +22,8 @@ public final class User {
     private @Nullable Node node;
     private int nodeId;
 
-    public ClientPlayerEntity getPlayer() {
-        ClientPlayerEntity player = Flint.getClient().player;
+    public LocalPlayer getPlayer() {
+        LocalPlayer player = Flint.getClient().player;
 
         if (player == null) {
             throw new NullPointerException("Player is null, User#getPlayer should only be used as a shorthand when it is known that the player is not null.");

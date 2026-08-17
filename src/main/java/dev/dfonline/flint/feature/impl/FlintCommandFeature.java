@@ -15,12 +15,11 @@ import dev.dfonline.flint.util.message.impl.prefix.InfoMessage;
 import dev.dfonline.flint.util.message.impl.prefix.SuccessMessage;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.kyori.adventure.text.Component;
-import net.minecraft.command.CommandRegistryAccess;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.Text;
+import net.minecraft.commands.CommandBuildContext;
+import net.minecraft.sounds.SoundEvents;
 
-import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.argument;
-import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal;
+import static net.fabricmc.fabric.api.client.command.v2.ClientCommands.argument;
+import static net.fabricmc.fabric.api.client.command.v2.ClientCommands.literal;
 
 public class FlintCommandFeature implements CommandFeature {
 
@@ -30,12 +29,12 @@ public class FlintCommandFeature implements CommandFeature {
     }
 
     @Override
-    public LiteralArgumentBuilder<FabricClientCommandSource> createCommand(LiteralArgumentBuilder<FabricClientCommandSource> cmd, CommandRegistryAccess registryAccess) {
+    public LiteralArgumentBuilder<FabricClientCommandSource> createCommand(LiteralArgumentBuilder<FabricClientCommandSource> cmd, CommandBuildContext registryAccess) {
         return cmd.executes(context -> {
             Flint.getUser().sendMessage(new CompoundMessage(
                     new SuccessMessage("flint.command.flint"),
                     new SoundMessage(FlintSound.builder()
-                            .setSound(SoundEvents.ENTITY_VILLAGER_YES)
+                            .setSound(SoundEvents.VILLAGER_YES)
                             .setPitch(2.0F)
                             .build()
                     )
@@ -69,7 +68,7 @@ public class FlintCommandFeature implements CommandFeature {
                 })
         ).then(literal("locate_test")
                 .executes(context -> {
-                    debugLocate(Flint.getUser().getPlayer().getNameForScoreboard());
+                    debugLocate(Flint.getUser().getPlayer().getScoreboardName());
                     return 1;
                 })
                 .then(argument("player", StringArgumentType.greedyString())

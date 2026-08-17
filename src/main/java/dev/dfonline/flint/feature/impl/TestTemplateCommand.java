@@ -10,7 +10,7 @@ import dev.dfonline.flint.templates.builders.ArgBuilder;
 import dev.dfonline.flint.templates.builders.CodeBuilder;
 import dev.dfonline.flint.templates.codeblock.SetVariable;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
-import net.minecraft.command.CommandRegistryAccess;
+import net.minecraft.commands.CommandBuildContext;
 
 public class TestTemplateCommand implements CommandFeature {
     @Override
@@ -19,7 +19,7 @@ public class TestTemplateCommand implements CommandFeature {
     }
 
     @Override
-    public LiteralArgumentBuilder<FabricClientCommandSource> createCommand(LiteralArgumentBuilder<FabricClientCommandSource> cmd, CommandRegistryAccess registryAccess) {
+    public LiteralArgumentBuilder<FabricClientCommandSource> createCommand(LiteralArgumentBuilder<FabricClientCommandSource> cmd, CommandBuildContext registryAccess) {
         return cmd.executes(this::run);
     }
 
@@ -38,7 +38,7 @@ public class TestTemplateCommand implements CommandFeature {
                 .build()
         );
 
-        Flint.getUser().getPlayer().giveItemStack(template.toItem());
+        Flint.getUser().getPlayer().addItem(template.toItem());
 
         return 0;
     }

@@ -1,7 +1,7 @@
 package dev.dfonline.flint.data;
 
 import dev.dfonline.flint.data.value.DataValue;
-import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.CompoundTag;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
@@ -21,9 +21,9 @@ public final class PublicBukkitValues {
      */
     private static final String HYPERCUBE_KEY_PREFIX = "hypercube:";
 
-    private final NbtCompound publicBukkitValues;
+    private final CompoundTag publicBukkitValues;
 
-    private PublicBukkitValues(NbtCompound publicBukkitValues) {
+    private PublicBukkitValues(CompoundTag publicBukkitValues) {
         this.publicBukkitValues = publicBukkitValues;
     }
 
@@ -36,11 +36,11 @@ public final class PublicBukkitValues {
      */
     @Nullable
     public static PublicBukkitValues fromItemData(ItemData data) {
-        NbtCompound customData = data.getNbt();
+        CompoundTag customData = data.getNbt();
         if (customData == null) {
             return null;
         }
-        Optional<NbtCompound> publicBukkitValues = customData.getCompound(PUBLIC_BUKKIT_VALUES_KEY);
+        Optional<CompoundTag> publicBukkitValues = customData.getCompound(PUBLIC_BUKKIT_VALUES_KEY);
         return publicBukkitValues.map(PublicBukkitValues::new).orElse(null);
     }
 
@@ -50,8 +50,8 @@ public final class PublicBukkitValues {
      * @return The new empty PublicBukkitValues.
      */
     public static PublicBukkitValues getEmpty() {
-        NbtCompound empty = new NbtCompound();
-        empty.put(PUBLIC_BUKKIT_VALUES_KEY, new NbtCompound());
+        CompoundTag empty = new CompoundTag();
+        empty.put(PUBLIC_BUKKIT_VALUES_KEY, new CompoundTag());
         return new PublicBukkitValues(empty);
     }
 
@@ -61,7 +61,7 @@ public final class PublicBukkitValues {
      * @return The NbtCompound of the PublicBukkitValues.
      * @apiNote This should only be used in very specific cases; the entire point of this class is to abstract the NBT data.
      */
-    public NbtCompound getNbt() {
+    public CompoundTag getNbt() {
         return this.publicBukkitValues;
     }
 
@@ -101,7 +101,7 @@ public final class PublicBukkitValues {
      * @return The hypercube keys.
      */
     public Set<String> getHypercubeKeys() {
-        return this.publicBukkitValues.getKeys().stream().filter(key -> key.startsWith(HYPERCUBE_KEY_PREFIX)).map(key -> key.substring(HYPERCUBE_KEY_PREFIX.length())).collect(Collectors.toSet());
+        return this.publicBukkitValues.keySet().stream().filter(key -> key.startsWith(HYPERCUBE_KEY_PREFIX)).map(key -> key.substring(HYPERCUBE_KEY_PREFIX.length())).collect(Collectors.toSet());
     }
 
     /**
@@ -110,7 +110,7 @@ public final class PublicBukkitValues {
      * @return The keys.
      */
     public Set<String> getKeys() {
-        return this.publicBukkitValues.getKeys();
+        return this.publicBukkitValues.keySet();
     }
 
     /**

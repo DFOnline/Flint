@@ -6,16 +6,15 @@ import com.google.common.collect.Multimap;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import com.mojang.authlib.properties.PropertyMap;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.ContainerComponent;
-import net.minecraft.component.type.CustomModelDataComponent;
-import net.minecraft.component.type.DyedColorComponent;
-import net.minecraft.component.type.LoreComponent;
-import net.minecraft.component.type.ProfileComponent;
-import net.minecraft.item.ItemStack;
-import net.minecraft.registry.Registry;
-import net.minecraft.text.Text;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.network.chat.Component;
 import net.minecraft.util.Unit;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.CustomModelData;
+import net.minecraft.world.item.component.DyedItemColor;
+import net.minecraft.world.item.component.ItemContainerContents;
+import net.minecraft.world.item.component.ItemLore;
+import net.minecraft.world.item.component.ResolvableProfile;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
@@ -125,7 +124,7 @@ public class DFItem {
      */
     public ItemStack getItemStack() {
         if (this.data != null) {
-            this.item.set(DataComponentTypes.CUSTOM_DATA, this.getItemData().toComponent());
+            this.item.set(DataComponents.CUSTOM_DATA, this.getItemData().toComponent());
         }
         return this.item;
     }
@@ -144,8 +143,8 @@ public class DFItem {
      *
      * @return The lore of the item.
      */
-    public List<Text> getLore() {
-        LoreComponent loreComponent = this.item.get(DataComponentTypes.LORE);
+    public List<Component> getLore() {
+        ItemLore loreComponent = this.item.get(DataComponents.LORE);
         if (loreComponent == null) {
             return List.of();
         }
@@ -157,8 +156,8 @@ public class DFItem {
      *
      * @param lore The new lore to set.
      */
-    public void setLore(List<Text> lore) {
-        this.item.set(DataComponentTypes.LORE, new LoreComponent(lore));
+    public void setLore(List<Component> lore) {
+        this.item.set(DataComponents.LORE, new ItemLore(lore));
     }
 
     /**
@@ -166,8 +165,8 @@ public class DFItem {
      *
      * @return The name of the item.
      */
-    public Text getName() {
-        return this.item.getName();
+    public Component getName() {
+        return this.item.getHoverName();
     }
 
     /**
@@ -175,8 +174,8 @@ public class DFItem {
      *
      * @param name The new name to set.
      */
-    public void setName(Text name) {
-        this.item.set(DataComponentTypes.CUSTOM_NAME, name);
+    public void setName(Component name) {
+        this.item.set(DataComponents.CUSTOM_NAME, name);
     }
 
 //    Since this is currently unused we can keep it that way for now
@@ -197,7 +196,7 @@ public class DFItem {
      * @param color The new dye color to set.
      */
     public void setDyeColor(int color) {
-        this.item.set(DataComponentTypes.DYED_COLOR, new DyedColorComponent(color));
+        this.item.set(DataComponents.DYED_COLOR, new DyedItemColor(color));
     }
 
     /**
@@ -206,7 +205,7 @@ public class DFItem {
      * @param modelData The new custom model data to set.
      */
     public void setCustomModelData(int modelData) {
-        this.item.set(DataComponentTypes.CUSTOM_MODEL_DATA, new CustomModelDataComponent(List.of((float) modelData), List.of(), List.of(), List.of()));
+        this.item.set(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(List.of((float) modelData), List.of(), List.of(), List.of()));
     }
 
     /**
@@ -220,14 +219,14 @@ public class DFItem {
         Multimap<String, Property> map = ImmutableMultimap.<String, Property>builder()
                 .put("textures", new Property("textures", value, signature))
                 .build();
-        this.item.set(DataComponentTypes.PROFILE, ProfileComponent.ofStatic(new GameProfile(uuid, value, new PropertyMap(map))));
+        this.item.set(DataComponents.PROFILE, ResolvableProfile.createResolved(new GameProfile(uuid, value, new PropertyMap(map))));
     }
 
     /**
      * Removes the item's data.
      */
     public void removeItemData() {
-        this.item.remove(DataComponentTypes.CUSTOM_DATA);
+        this.item.remove(DataComponents.CUSTOM_DATA);
         this.data = null;
     }
 
@@ -240,8 +239,8 @@ public class DFItem {
      * @return The container of the item.
      */
     @Nullable
-    public ContainerComponent getContainer() {
-        return this.item.get(DataComponentTypes.CONTAINER);
+    public ItemContainerContents getContainer() {
+        return this.item.get(DataComponents.CONTAINER);
     }
 
 }

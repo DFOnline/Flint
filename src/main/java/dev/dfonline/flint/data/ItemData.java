@@ -1,14 +1,14 @@
 package dev.dfonline.flint.data;
 
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.NbtComponent;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.CustomData;
 import org.jetbrains.annotations.Nullable;
 
 public class ItemData {
 
-    private NbtCompound customData;
+    private CompoundTag customData;
     private PublicBukkitValues publicBukkitValues;
 
     /**
@@ -18,9 +18,9 @@ public class ItemData {
      * @implNote Most operations won't work if the item doesn't have custom data.
      */
     public ItemData(ItemStack item) {
-        NbtComponent customDataComponent = item.get(DataComponentTypes.CUSTOM_DATA);
+        CustomData customDataComponent = item.get(DataComponents.CUSTOM_DATA);
         if (customDataComponent != null) {
-            this.customData = customDataComponent.copyNbt();
+            this.customData = customDataComponent.copyTag();
         }
     }
 
@@ -28,7 +28,7 @@ public class ItemData {
      * Creates an ItemData with an existing empty NbtCompound.
      */
     private ItemData() {
-        this.customData = new NbtCompound();
+        this.customData = new CompoundTag();
     }
 
     /**
@@ -37,10 +37,10 @@ public class ItemData {
      * @return The NBT Compound of the CUSTOM_DATA item component.
      * @apiNote This should only be used in very specific cases; the entire point of this class is to abstract the NBT data.
      */
-    public NbtCompound getNbt() {
+    public CompoundTag getNbt() {
         // Should only be used in very specific cases, the entire point of this class is to abstract the NBT data.
         if (this.customData == null) {
-            this.customData = new NbtCompound();
+            this.customData = new CompoundTag();
         }
         if (this.publicBukkitValues != null) {
             this.customData.put(PublicBukkitValues.PUBLIC_BUKKIT_VALUES_KEY, this.publicBukkitValues.getNbt());
@@ -173,8 +173,8 @@ public class ItemData {
      * @return The NbtComponent.
      * @apiNote This should only be used in very specific cases; the entire point of this class is to abstract the NBT data.
      */
-    public NbtComponent toComponent() {
-        return NbtComponent.of(this.getNbt());
+    public CustomData toComponent() {
+        return CustomData.of(this.getNbt());
     }
 
 }

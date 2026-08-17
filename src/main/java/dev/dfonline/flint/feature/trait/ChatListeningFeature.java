@@ -2,7 +2,7 @@ package dev.dfonline.flint.feature.trait;
 
 import dev.dfonline.flint.feature.core.FeatureTrait;
 import dev.dfonline.flint.util.result.ReplacementEventResult;
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
 
 /**
  * A feature that listens for chat messages, allowing to cancel or replace them.
@@ -16,6 +16,6 @@ public interface ChatListeningFeature extends FeatureTrait {
      * @param actionbar Whether the message was displayed in the action bar
      * @return The result of the event
      */
-    ReplacementEventResult<Text> onChatMessage(Text text, boolean actionbar);
+    ReplacementEventResult<Component> onChatMessage(Component text, boolean actionbar);
 
 }

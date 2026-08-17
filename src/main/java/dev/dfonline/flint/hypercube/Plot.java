@@ -1,15 +1,15 @@
 package dev.dfonline.flint.hypercube;
 
-import net.minecraft.text.Text;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3i;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Vec3i;
+import net.minecraft.network.chat.Component;
 
 import java.util.Objects;
 
 public class Plot {
 
     private final int id;
-    private final Text name;
+    private final Component name;
     private final String handle;
     private final boolean whitelisted;
     private Vec3i devOrigin;
@@ -17,7 +17,7 @@ public class Plot {
     private boolean hasUnderground = false;
     private final String owner;
 
-    public Plot(int id, Text name, String handle, boolean whitelisted, String owner) {
+    public Plot(int id, Component name, String handle, boolean whitelisted, String owner) {
         this.id = id;
         this.name = name;
         this.handle = handle;
@@ -29,7 +29,7 @@ public class Plot {
         return this.id;
     }
 
-    public Text getName() {
+    public Component getName() {
         return this.name;
     }
 

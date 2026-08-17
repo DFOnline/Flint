@@ -11,13 +11,13 @@ import dev.dfonline.flint.hypercube.Plot;
 import dev.dfonline.flint.util.Logger;
 import dev.dfonline.flint.util.ObjectUtil;
 import dev.dfonline.flint.util.PaletteColor;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.RenderTickCounter;
-import net.minecraft.text.Text;
+import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.network.chat.Component;
 
 import java.util.ArrayList;
 
-import static net.minecraft.text.Text.literal;
+import static net.minecraft.network.chat.Component.literal;
 
 public class StateDebugDisplayFeature implements RenderedFeature {
 
@@ -26,10 +26,10 @@ public class StateDebugDisplayFeature implements RenderedFeature {
     private static final int STARTING_X = 5;
 
     @Override
-    public void render(DrawContext draw, RenderTickCounter renderTickCounter) {
+    public void render(GuiGraphicsExtractor draw, DeltaTracker renderTickCounter) {
         User user = Flint.getUser();
 
-        ArrayList<Text> texts = new ArrayList<>();
+        ArrayList<Component> texts = new ArrayList<>();
         texts.add(literal("General State:").withColor(PaletteColor.PURPLE.value()));
         texts.add(formatValue("Node", ObjectUtil.toString(user.getNode(), Node::getName)));
         texts.add(formatValue("Node Id", user.getNodeId() + ""));
@@ -46,21 +46,21 @@ public class StateDebugDisplayFeature implements RenderedFeature {
         this.renderTexts(texts, draw);
     }
 
-    private void renderTexts(ArrayList<Text> texts, DrawContext draw) {
+    private void renderTexts(ArrayList<Component> texts, GuiGraphicsExtractor draw) {
         int y = STARTING_Y;
         for (int i = 0; i < texts.size(); i++) {
-            Text text = texts.get(i);
+            Component text = texts.get(i);
             if (i == 0) {
-                draw.drawTextWithShadow(Flint.getClient().textRenderer, text, STARTING_X, y, 0xFF_FFFFFF);
+                draw.text(Flint.getClient().font, text, STARTING_X, y, 0xFF_FFFFFF);
                 y += 2;
             } else {
-                draw.drawTextWithShadow(Flint.getClient().textRenderer, text, STARTING_X + STARTING_Y, y, 0xFF_FFFFFF);
+                draw.text(Flint.getClient().font, text, STARTING_X + STARTING_Y, y, 0xFF_FFFFFF);
             }
-            y += Flint.getClient().textRenderer.fontHeight + 2;
+            y += Flint.getClient().font.lineHeight + 2;
         }
     }
 
-    private static Text formatValue(String key, String value) {
+    private static Component formatValue(String key, String value) {
         return literal(key).withColor(PaletteColor.PURPLE.value())
                 .append(literal(" = ").withColor(PaletteColor.GRAY_DARK.value()))
                 .append(literal(value).withColor(PaletteColor.PURPLE_LIGHT.value()));
