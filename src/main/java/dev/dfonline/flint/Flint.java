@@ -27,11 +27,13 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
-import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
-import net.fabricmc.fabric.api.client.rendering.v1.world.WorldRenderEvents;
+import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.level.LevelExtractionEvents;
+import net.fabricmc.fabric.api.client.rendering.v1.level.LevelRenderEvents;
 import net.kyori.adventure.platform.modcommon.MinecraftAudiences;
 import net.kyori.adventure.platform.modcommon.MinecraftClientAudiences;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
+import net.minecraft.resources.Identifier;
 
 import java.util.Arrays;
 
@@ -43,10 +45,10 @@ public class Flint implements ClientModInitializer {
     public static final MinecraftAudiences AUDIENCE = MinecraftClientAudiences.builder().build();
 
     private static final Logger LOGGER = Logger.of(Flint.class);
-    private static final MinecraftClient CLIENT = MinecraftClient.getInstance();
+    private static final Minecraft CLIENT = Minecraft.getInstance();
     private static final User user = new User();
 
-    public static MinecraftClient getClient() {
+    public static Minecraft getClient() {
         return CLIENT;
     }
 
@@ -94,7 +96,7 @@ public class Flint implements ClientModInitializer {
                 )
         );
 
-        HudRenderCallback.EVENT.register((drawContext, renderTickCounter) ->
+        HudElementRegistry.addLast(Identifier.fromNamespaceAndPath(MOD_ID, "features"), (drawContext, renderTickCounter) ->
                 FEATURE_MANAGER.getByTrait(FeatureTraitType.RENDERED).forEach(feature ->
                         ((RenderedFeature) feature).render(drawContext, renderTickCounter)
                 )
@@ -106,49 +108,49 @@ public class Flint implements ClientModInitializer {
                 )
         );
 
-        WorldRenderEvents.AFTER_BLOCK_OUTLINE_EXTRACTION.register((context, hit) ->
+        LevelExtractionEvents.AFTER_BLOCK_OUTLINE_EXTRACTION.register((context, hit) ->
                 FEATURE_MANAGER.getByTrait(FeatureTraitType.WORLD_RENDER).forEach(feature ->
                         ((WorldRenderFeature) feature).worldRenderAfterBlockOutlineExtraction(context, hit)
                 )
         );
 
-        WorldRenderEvents.END_EXTRACTION.register(context ->
+        LevelExtractionEvents.END_EXTRACTION.register(context ->
                 FEATURE_MANAGER.getByTrait(FeatureTraitType.WORLD_RENDER).forEach(feature ->
                         ((WorldRenderFeature) feature).worldRenderEndExtraction(context)
                 )
         );
 
-        WorldRenderEvents.START_MAIN.register(context ->
+        LevelRenderEvents.START_MAIN.register(context ->
                 FEATURE_MANAGER.getByTrait(FeatureTraitType.WORLD_RENDER).forEach(feature ->
                         ((WorldRenderFeature) feature).worldRenderStartMain(context)
                 )
         );
         
-        WorldRenderEvents.BEFORE_ENTITIES.register(context ->
+        LevelRenderEvents.COLLECT_SUBMITS.register(context ->
                 FEATURE_MANAGER.getByTrait(FeatureTraitType.WORLD_RENDER).forEach(feature ->
                         ((WorldRenderFeature) feature).worldRenderBeforeEntities(context)
                 )
         );
         
-        WorldRenderEvents.AFTER_ENTITIES.register(context ->
+        LevelRenderEvents.AFTER_SOLID_FEATURES.register(context ->
                 FEATURE_MANAGER.getByTrait(FeatureTraitType.WORLD_RENDER).forEach(feature ->
                         ((WorldRenderFeature) feature).worldRenderAfterEntities(context)
                 )
         );
         
-        WorldRenderEvents.BEFORE_DEBUG_RENDER.register(context ->
+        LevelRenderEvents.BEFORE_GIZMOS.register(context ->
                 FEATURE_MANAGER.getByTrait(FeatureTraitType.WORLD_RENDER).forEach(feature ->
                         ((WorldRenderFeature) feature).worldRenderBeforeDebugRender(context)
                 )
         );   
         
-        WorldRenderEvents.BEFORE_TRANSLUCENT.register(context ->
+        LevelRenderEvents.BEFORE_TRANSLUCENT_TERRAIN.register(context ->
                 FEATURE_MANAGER.getByTrait(FeatureTraitType.WORLD_RENDER).forEach(feature ->
                         ((WorldRenderFeature) feature).worldRenderBeforeTranslucent(context)
                 )
         );
 
-        WorldRenderEvents.BEFORE_BLOCK_OUTLINE.register((context, outlineRenderState) -> {
+        LevelRenderEvents.BEFORE_BLOCK_OUTLINE.register((context, outlineRenderState) -> {
             boolean shouldRender = true;
             for (FeatureTrait feature : FEATURE_MANAGER.getByTrait(FeatureTraitType.WORLD_RENDER)) {
                 if (((WorldRenderFeature) feature).worldRenderBeforeBlockOutline(context, outlineRenderState) == EventResult.CANCEL) {
@@ -159,7 +161,7 @@ public class Flint implements ClientModInitializer {
             return shouldRender;
         });
 
-        WorldRenderEvents.END_MAIN.register(context ->
+        LevelRenderEvents.END_MAIN.register(context ->
                 FEATURE_MANAGER.getByTrait(FeatureTraitType.WORLD_RENDER).forEach(feature ->
                         ((WorldRenderFeature) feature).worldRenderEndMain(context)
                 )

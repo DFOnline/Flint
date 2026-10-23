@@ -7,24 +7,24 @@ import dev.dfonline.flint.feature.trait.PacketListeningFeature;
 import dev.dfonline.flint.feature.trait.UserCommandListeningFeature;
 import dev.dfonline.flint.util.result.EventResult;
 import dev.dfonline.flint.util.result.ReplacementEventResult;
-import net.minecraft.client.network.ClientCommonNetworkHandler;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.c2s.play.CommandExecutionC2SPacket;
+import net.minecraft.client.multiplayer.ClientCommonPacketListenerImpl;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ServerboundChatCommandPacket;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(ClientCommonNetworkHandler.class)
+@Mixin(ClientCommonPacketListenerImpl.class)
 public abstract class MClientCommonPlayNetworkHandler {
 
     @Unique
     private boolean sendingModifiedCommand = false;
 
-    @Inject(method = "sendPacket", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "send", at = @At("HEAD"), cancellable = true)
     private void sendPacket(Packet<?> packet, CallbackInfo ci) {
-        if (!this.sendingModifiedCommand && packet instanceof CommandExecutionC2SPacket(String command)) {
+        if (!this.sendingModifiedCommand && packet instanceof ServerboundChatCommandPacket(String command)) {
             String newCommand = null;
             for (FeatureTrait trait : Flint.FEATURE_MANAGER.getByTrait(FeatureTraitType.USER_COMMAND_LISTENING)) {
                 ReplacementEventResult<String> result = ((UserCommandListeningFeature) trait).sendCommand(command);
@@ -37,9 +37,9 @@ public abstract class MClientCommonPlayNetworkHandler {
                 }
             }
 
-            if (newCommand != null && Flint.getClient().getNetworkHandler() != null) {
+            if (newCommand != null && Flint.getClient().getConnection() != null) {
                 this.sendingModifiedCommand = true;
-                Flint.getClient().getNetworkHandler().sendPacket(new CommandExecutionC2SPacket(newCommand));
+                Flint.getClient().getConnection().send(new ServerboundChatCommandPacket(newCommand));
                 this.sendingModifiedCommand = false;
             }
         }

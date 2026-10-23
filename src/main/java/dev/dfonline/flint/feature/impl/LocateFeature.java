@@ -8,10 +8,9 @@ import dev.dfonline.flint.util.Toaster;
 import dev.dfonline.flint.util.result.EventResult;
 import it.unimi.dsi.fastutil.Pair;
 import net.kyori.adventure.text.Component;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientboundSystemChatPacket;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.LinkedList;
@@ -75,7 +74,7 @@ public class LocateFeature implements PacketListeningFeature {
 
     @Override
     public EventResult onReceivePacket(Packet<?> packet) {
-        if (!(packet instanceof GameMessageS2CPacket message)) {
+        if (!(packet instanceof ClientboundSystemChatPacket message)) {
             return EventResult.PASS;
         }
 
@@ -88,7 +87,7 @@ public class LocateFeature implements PacketListeningFeature {
 
         String text = message.content().getString();
 
-        Matcher matcher = LOCATE_PATTERN.matcher(Formatting.strip(text));
+        Matcher matcher = LOCATE_PATTERN.matcher(ChatFormatting.stripFormatting(text));
 
         if (!matcher.find()) {
             return EventResult.PASS;
@@ -156,7 +155,7 @@ public class LocateFeature implements PacketListeningFeature {
 
         String owner = matcher.group("owner");
 
-        return new Plot(plotID, Text.literal(plotName), plotHandle, whitelisted, owner);
+        return new Plot(plotID, net.minecraft.network.chat.Component.literal(plotName), plotHandle, whitelisted, owner);
     }
 
     public record LocateResult(String player, Mode mode, @Nullable Plot plot, Node node, int nodeId) {

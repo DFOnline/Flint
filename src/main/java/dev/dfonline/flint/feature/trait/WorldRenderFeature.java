@@ -2,11 +2,11 @@ package dev.dfonline.flint.feature.trait;
 
 import dev.dfonline.flint.feature.core.FeatureTrait;
 import dev.dfonline.flint.util.result.EventResult;
-import net.fabricmc.fabric.api.client.rendering.v1.world.WorldExtractionContext;
-import net.fabricmc.fabric.api.client.rendering.v1.world.WorldRenderContext;
-import net.fabricmc.fabric.api.client.rendering.v1.world.WorldTerrainRenderContext;
-import net.minecraft.client.render.state.OutlineRenderState;
-import net.minecraft.util.hit.HitResult;
+import net.fabricmc.fabric.api.client.rendering.v1.level.LevelExtractionContext;
+import net.fabricmc.fabric.api.client.rendering.v1.level.LevelRenderContext;
+import net.fabricmc.fabric.api.client.rendering.v1.level.LevelTerrainRenderContext;
+import net.minecraft.client.renderer.state.level.BlockOutlineRenderState;
+import net.minecraft.world.phys.HitResult;
 
 /**
  * A feature that receives world rendering events.
@@ -19,7 +19,7 @@ public interface WorldRenderFeature extends FeatureTrait {
      * @param context The world extraction context
      * @param hit     The hit result of the block being outlined
      */
-    default void worldRenderAfterBlockOutlineExtraction(WorldExtractionContext context, HitResult hit) {
+    default void worldRenderAfterBlockOutlineExtraction(LevelExtractionContext context, HitResult hit) {
     }
 
     /**
@@ -27,7 +27,7 @@ public interface WorldRenderFeature extends FeatureTrait {
      *
      * @param context The world extraction context
      */
-    default void worldRenderEndExtraction(WorldExtractionContext context) {
+    default void worldRenderEndExtraction(LevelExtractionContext context) {
     }
 
     /**
@@ -36,16 +36,16 @@ public interface WorldRenderFeature extends FeatureTrait {
      *
      * @param context The world terrain render context
      */
-    default void worldRenderStartMain(WorldTerrainRenderContext context) {
+    default void worldRenderStartMain(LevelTerrainRenderContext context) {
     }
 
     /**
-     * Called after the {@link net.minecraft.client.render.BlockRenderLayer#SOLID SOLID}, {@link net.minecraft.client.render.BlockRenderLayer#CUTOUT CUTOUT},
-     * and {@link net.minecraft.client.render.BlockRenderLayer#CUTOUT CUTOUT_MIPPED} terrain layers are drawn to the framebuffer.
+     * Called after {@linkplain net.minecraft.client.renderer.chunk.ChunkSectionLayerGroup#OPAQUE opaque terrain} is drawn
+     * and entity, block entity, and particle submit nodes are collected, before their geometry is drawn.
      *
      * @param context The world render context
      */
-    default void worldRenderBeforeEntities(WorldRenderContext context) {
+    default void worldRenderBeforeEntities(LevelRenderContext context) {
     }
 
     /**
@@ -53,7 +53,7 @@ public interface WorldRenderFeature extends FeatureTrait {
      *
      * @param context The world render context
      */
-    default void worldRenderAfterEntities(WorldRenderContext context) {
+    default void worldRenderAfterEntities(LevelRenderContext context) {
     }
 
     /**
@@ -62,7 +62,7 @@ public interface WorldRenderFeature extends FeatureTrait {
      *
      * @param context The world render context
      */
-    default void worldRenderBeforeDebugRender(WorldRenderContext context) {
+    default void worldRenderBeforeDebugRender(LevelRenderContext context) {
     }
 
     /**
@@ -72,7 +72,7 @@ public interface WorldRenderFeature extends FeatureTrait {
      *
      * @param context The world render context
      */
-    default void worldRenderBeforeTranslucent(WorldRenderContext context) {
+    default void worldRenderBeforeTranslucent(LevelRenderContext context) {
     }
 
     /**
@@ -83,7 +83,7 @@ public interface WorldRenderFeature extends FeatureTrait {
      * @param outlineRenderState The outline render state
      * @return The event result
      */
-    default EventResult worldRenderBeforeBlockOutline(WorldRenderContext context, OutlineRenderState outlineRenderState) {
+    default EventResult worldRenderBeforeBlockOutline(LevelRenderContext context, BlockOutlineRenderState outlineRenderState) {
         return EventResult.PASS;
     }
 
@@ -94,7 +94,7 @@ public interface WorldRenderFeature extends FeatureTrait {
      *
      * @param context The world render context
      */
-    default void worldRenderEndMain(WorldRenderContext context) {
+    default void worldRenderEndMain(LevelRenderContext context) {
     }
 
 }

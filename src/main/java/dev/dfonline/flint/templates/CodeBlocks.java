@@ -9,7 +9,7 @@ import dev.dfonline.flint.FlintAPI;
 import java.util.ArrayList;
 
 import static dev.dfonline.flint.templates.Template.print;
-import static net.minecraft.text.Text.literal;
+import static net.minecraft.network.chat.Component.literal;
 
 public class CodeBlocks {
     private ArrayList<CodeBlock> blocks = new ArrayList<>();
@@ -18,7 +18,7 @@ public class CodeBlocks {
         CodeBlocks codeBlocks = new CodeBlocks();
 
         if (FlintAPI.isDebugging()) {
-            Flint.getUser().getPlayer().sendMessage(literal(blocks.toString()), false);
+            Flint.getUser().getPlayer().sendSystemMessage(literal(blocks.toString()));
         }
 
         codeBlocks.blocks = new ArrayList<>();

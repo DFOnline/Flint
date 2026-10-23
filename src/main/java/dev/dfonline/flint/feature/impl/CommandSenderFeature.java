@@ -5,10 +5,10 @@ import dev.dfonline.flint.feature.trait.PacketListeningFeature;
 import dev.dfonline.flint.feature.trait.TickedFeature;
 import dev.dfonline.flint.util.RateLimiter;
 import dev.dfonline.flint.util.result.EventResult;
-import net.minecraft.client.network.ClientPlayNetworkHandler;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.c2s.play.ChatMessageC2SPacket;
-import net.minecraft.network.packet.c2s.play.CommandExecutionC2SPacket;
+import net.minecraft.client.multiplayer.ClientPacketListener;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ServerboundChatCommandPacket;
+import net.minecraft.network.protocol.game.ServerboundChatPacket;
 
 import java.util.ArrayDeque;
 
@@ -42,16 +42,16 @@ public final class CommandSenderFeature implements PacketListeningFeature, Ticke
     @Override
     public void tick() {
         rateLimiter.tick();
-        ClientPlayNetworkHandler networkHandler = Flint.getClient().getNetworkHandler();
+        ClientPacketListener networkHandler = Flint.getClient().getConnection();
         if (networkHandler != null && !rateLimiter.isRateLimited() && !commandQueue.isEmpty()) {
             // No need to increment here, since our packet listener will do that for us.
-            networkHandler.sendChatCommand(commandQueue.pop());
+            networkHandler.sendCommand(commandQueue.pop());
         }
     }
 
     @Override
     public EventResult onSendPacket(Packet<?> packet) {
-        if (packet instanceof CommandExecutionC2SPacket || packet instanceof ChatMessageC2SPacket) {
+        if (packet instanceof ServerboundChatCommandPacket || packet instanceof ServerboundChatPacket) {
             rateLimiter.increment();
         }
 

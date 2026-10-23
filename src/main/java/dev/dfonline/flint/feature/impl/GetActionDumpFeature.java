@@ -12,8 +12,7 @@ import dev.dfonline.flint.util.message.impl.prefix.ErrorMessage;
 import dev.dfonline.flint.util.message.impl.prefix.SuccessMessage;
 import dev.dfonline.flint.util.result.ReplacementEventResult;
 import net.kyori.adventure.text.Component;
-import net.minecraft.client.network.ClientPlayNetworkHandler;
-import net.minecraft.text.Text;
+import net.minecraft.client.multiplayer.ClientPacketListener;
 
 import java.io.IOException;
 import java.util.Map;
@@ -40,7 +39,7 @@ public class GetActionDumpFeature implements ChatListeningFeature, PacketListeni
         }
 
         isGettingActionDump = true;
-        ClientPlayNetworkHandler networkHandler = Flint.getClient().getNetworkHandler();
+        ClientPacketListener networkHandler = Flint.getClient().getConnection();
 
         if (networkHandler == null) {
             isGettingActionDump = false;
@@ -55,11 +54,11 @@ public class GetActionDumpFeature implements ChatListeningFeature, PacketListeni
         lines = 0;
         length = 0;
         startTime = System.currentTimeMillis();
-        networkHandler.sendChatCommand("dumpactioninfo");
+        networkHandler.sendCommand("dumpactioninfo");
     }
 
     @Override
-    public ReplacementEventResult<Text> onChatMessage(Text text, boolean actionbar) {
+    public ReplacementEventResult<net.minecraft.network.chat.Component> onChatMessage(net.minecraft.network.chat.Component text, boolean actionbar) {
         if (actionDumpProgression == null || !isGettingActionDump) {
             return ReplacementEventResult.pass();
         }

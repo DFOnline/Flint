@@ -11,17 +11,17 @@ import dev.dfonline.flint.hypercube.PlotSize;
 import dev.dfonline.flint.util.FlintUpdate;
 import dev.dfonline.flint.util.Logger;
 import dev.dfonline.flint.util.result.EventResult;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.s2c.play.ClearTitleS2CPacket;
-import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket;
-import net.minecraft.network.packet.s2c.play.OverlayMessageS2CPacket;
-import net.minecraft.network.packet.s2c.play.PlayerSpawnPositionS2CPacket;
-import net.minecraft.text.Text;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3i;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Vec3i;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientboundClearTitlesPacket;
+import net.minecraft.network.protocol.game.ClientboundSetActionBarTextPacket;
+import net.minecraft.network.protocol.game.ClientboundSetDefaultSpawnPositionPacket;
+import net.minecraft.network.protocol.game.ClientboundSystemChatPacket;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.regex.Pattern;
 
@@ -66,15 +66,15 @@ public class ModeTrackerFeature implements PacketListeningFeature, TickedFeature
     @Override
     public EventResult onReceivePacket(Packet<?> packet) {
         if (!hasQueuedLocate) {
-            if (packet instanceof ClearTitleS2CPacket clear && clear.shouldReset()) {
+            if (packet instanceof ClientboundClearTitlesPacket clear && clear.shouldResetTimes()) {
                 this.pendingAction = PendingModeSwitchAction.POSITION_CHANGE;
-            } else if (packet instanceof PlayerSpawnPositionS2CPacket &&
+            } else if (packet instanceof ClientboundSetDefaultSpawnPositionPacket &&
                     this.pendingAction == PendingModeSwitchAction.POSITION_CHANGE) {
                 this.pendingAction = PendingModeSwitchAction.MESSAGE;
             }
         }
 
-        boolean overlayMatches = packet instanceof OverlayMessageS2CPacket(Text text) &&
+        boolean overlayMatches = packet instanceof ClientboundSetActionBarTextPacket(Component text) &&
                 this.pendingAction == PendingModeSwitchAction.MESSAGE &&
                 SPAWN_ACTION_BAR_PATTERN.matcher(text.getString()).matches();
 
@@ -84,7 +84,7 @@ public class ModeTrackerFeature implements PacketListeningFeature, TickedFeature
         }
 
         if (!hasQueuedLocate &&
-                packet instanceof GameMessageS2CPacket gameMsg &&
+                packet instanceof ClientboundSystemChatPacket gameMsg &&
                 this.pendingAction == PendingModeSwitchAction.MESSAGE) {
             String content = gameMsg.content().getString();
 
@@ -105,14 +105,14 @@ public class ModeTrackerFeature implements PacketListeningFeature, TickedFeature
         if (Flint.getClient().player != null) {
             if (hasQueuedLocate) {
                 hasQueuedLocate = false;
-                String name = Flint.getUser().getPlayer().getNameForScoreboard();
+                String name = Flint.getUser().getPlayer().getScoreboardName();
                 LocateFeature.requestLocate(name).thenAccept(locate -> {
                     Flint.getUser().setNode(locate.node());
                     Flint.getUser().setNodeId(locate.nodeId());
 
                     Vec3i newOrigin;
                     if (locate.mode() == Mode.DEV) {
-                        BlockPos blockpos = Flint.getUser().getPlayer().getBlockPos();
+                        BlockPos blockpos = Flint.getUser().getPlayer().blockPosition();
                         newOrigin = new Vec3i(blockpos.getX() + DEV_SPAWN_OFFSET, GROUND_LEVEL, blockpos.getZ() - DEV_SPAWN_OFFSET);
                     } else {
                         newOrigin = null;
@@ -177,7 +177,7 @@ public class ModeTrackerFeature implements PacketListeningFeature, TickedFeature
         Vec3i devOrigin = plot.getDevOrigin();
 
         BlockPos pos = new BlockPos(devOrigin.getX() - 1, 49, devOrigin.getZ());
-        ClientWorld world = Flint.getClient().world;
+        ClientLevel world = Flint.getClient().level;
         if (world == null) return null;
 
         BlockState BASIC = world.getBlockState(pos.south(50));
@@ -186,18 +186,18 @@ public class ModeTrackerFeature implements PacketListeningFeature, TickedFeature
         BlockState LARGE_PLUS = world.getBlockState(pos.south(101));
         BlockState MASSIVE = world.getBlockState(pos.south(300));
         BlockState MASSIVE_PLUS = world.getBlockState(pos.south(301));
-        BlockState MEGA = world.getBlockState(pos.add(-18, 0, 10));
-        BlockState MEGA_PLUS = world.getBlockState(pos.add(-19, 0, 10));
+        BlockState MEGA = world.getBlockState(pos.offset(-18, 0, 10));
+        BlockState MEGA_PLUS = world.getBlockState(pos.offset(-19, 0, 10));
 
-        if (MEGA_PLUS.isOf(Blocks.GRASS_BLOCK) && MEGA.isOf(Blocks.GRASS_BLOCK)) {
+        if (MEGA_PLUS.is(Blocks.GRASS_BLOCK) && MEGA.is(Blocks.GRASS_BLOCK)) {
             return PlotSize.MEGA;
-        } else if (!MEGA.isOf(Blocks.VOID_AIR) && !MEGA_PLUS.isOf(Blocks.VOID_AIR) && !MEGA.isOf(Blocks.GRASS_BLOCK) && !MEGA.isOf(Blocks.STONE) && !MEGA_PLUS.isOf(Blocks.GRASS_BLOCK)) {
+        } else if (!MEGA.is(Blocks.VOID_AIR) && !MEGA_PLUS.is(Blocks.VOID_AIR) && !MEGA.is(Blocks.GRASS_BLOCK) && !MEGA.is(Blocks.STONE) && !MEGA_PLUS.is(Blocks.GRASS_BLOCK)) {
             return PlotSize.MEGA;
-        } else if (!(BASIC.isOf(Blocks.VOID_AIR) || BASIC_PLUS.isOf(Blocks.VOID_AIR)) && !BASIC.isOf(BASIC_PLUS.getBlock())) {
+        } else if (!(BASIC.is(Blocks.VOID_AIR) || BASIC_PLUS.is(Blocks.VOID_AIR)) && !BASIC.is(BASIC_PLUS.getBlock())) {
             return PlotSize.BASIC;
-        } else if (!(LARGE.isOf(Blocks.VOID_AIR) || LARGE_PLUS.isOf(Blocks.VOID_AIR)) && !LARGE.isOf(LARGE_PLUS.getBlock())) {
+        } else if (!(LARGE.is(Blocks.VOID_AIR) || LARGE_PLUS.is(Blocks.VOID_AIR)) && !LARGE.is(LARGE_PLUS.getBlock())) {
             return PlotSize.LARGE;
-        } else if (!(MASSIVE.isOf(Blocks.VOID_AIR) || MASSIVE_PLUS.isOf(Blocks.VOID_AIR)) && !MASSIVE.isOf(MASSIVE_PLUS.getBlock())) {
+        } else if (!(MASSIVE.is(Blocks.VOID_AIR) || MASSIVE_PLUS.is(Blocks.VOID_AIR)) && !MASSIVE.is(MASSIVE_PLUS.getBlock())) {
             return PlotSize.MASSIVE;
         } else {
             // unknown, maybe the world is still streaming in chunks
@@ -209,17 +209,17 @@ public class ModeTrackerFeature implements PacketListeningFeature, TickedFeature
         Plot plot = Flint.getUser().getPlot();
 
         if (plot == null) return false;
-        if (Flint.getClient().world == null) return false;
+        if (Flint.getClient().level == null) return false;
 
         PlotSize size = plot.getSize();
-        BlockState groundCheck = Flint.getClient().world.getBlockState(new BlockPos(
+        BlockState groundCheck = Flint.getClient().level.getBlockState(new BlockPos(
                 Math.max(Math.min((int) Flint.getUser().getPlayer().getX(), plot.getDevOrigin().getX() - 1), plot.getDevOrigin().getX() - (size.getCodeWidth())),
                 49,
                 Math.max(Math.min((int) Flint.getUser().getPlayer().getZ(), plot.getDevOrigin().getZ() + size.getCodeLength()), plot.getDevOrigin().getZ())
         ));
 
-        if (!groundCheck.isOf(Blocks.VOID_AIR)) {
-            return !groundCheck.isOf(Blocks.GRASS_BLOCK) && !groundCheck.isOf(Blocks.STONE);
+        if (!groundCheck.is(Blocks.VOID_AIR)) {
+            return !groundCheck.is(Blocks.GRASS_BLOCK) && !groundCheck.is(Blocks.STONE);
         } else {
             return false;
         }

@@ -1,10 +1,10 @@
 package dev.dfonline.flint.feature.trait;
 
 import dev.dfonline.flint.feature.core.FeatureTrait;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.tooltip.TooltipType;
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 
 import java.util.List;
 
@@ -21,6 +21,6 @@ public interface TooltipRenderFeature extends FeatureTrait {
      * @param type    The tooltip type
      * @param lore    The list of tooltip text lines that can be modified
      */
-    void tooltipRender(ItemStack item, Item.TooltipContext context, TooltipType type, List<Text> lore);
+    void tooltipRender(ItemStack item, Item.TooltipContext context, TooltipFlag type, List<Component> lore);
 
 }

@@ -7,26 +7,25 @@ import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.Style;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.minecraft.text.Text;
-import net.minecraft.text.TextColor;
-import net.minecraft.util.Formatting;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.TextColor;
 
 public final class ComponentUtil {
 
     private ComponentUtil() {
     }
 
-    public static void textToString(Text content, StringBuilder build, ActionDumpFormat format) {
+    public static void textToString(net.minecraft.network.chat.Component content, StringBuilder build, ActionDumpFormat format) {
         TextColor lastColor = null;
-        for (Text text : content.getSiblings()) {
+        for (net.minecraft.network.chat.Component text : content.getSiblings()) {
             if (format != ActionDumpFormat.MINI_MESSAGE) {
                 TextColor color = text.getStyle().getColor();
                 if (color != null && lastColor != color && format != ActionDumpFormat.NONE) {
                     lastColor = color;
-                    if (color.getName().contains("#")) {
-                        build.append(String.join(format.getPrefix(), color.getName().split("")).replace("#", format.getPrefix() + "x").toLowerCase());
+                    if (color.serialize().contains("#")) {
+                        build.append(String.join(format.getPrefix(), color.serialize().split("")).replace("#", format.getPrefix() + "x").toLowerCase());
                     } else {
-                        build.append(Formatting.valueOf(String.valueOf(color).toUpperCase()).toString().replace("§", format.getPrefix()));
+                        build.append(ChatFormatting.valueOf(String.valueOf(color).toUpperCase()).toString().replace("§", format.getPrefix()));
                     }
                 }
                 build.append(text.getString());

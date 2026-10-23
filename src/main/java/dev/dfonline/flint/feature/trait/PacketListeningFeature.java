@@ -2,7 +2,7 @@ package dev.dfonline.flint.feature.trait;
 
 import dev.dfonline.flint.feature.core.FeatureTrait;
 import dev.dfonline.flint.util.result.EventResult;
-import net.minecraft.network.packet.Packet;
+import net.minecraft.network.protocol.Packet;
 
 /**
  * A feature that listens for packets.

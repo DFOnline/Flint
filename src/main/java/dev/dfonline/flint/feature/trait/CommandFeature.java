@@ -4,7 +4,7 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import dev.dfonline.flint.feature.core.FeatureTrait;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
-import net.minecraft.command.CommandRegistryAccess;
+import net.minecraft.commands.CommandBuildContext;
 
 import java.util.Set;
 
@@ -43,7 +43,7 @@ public interface CommandFeature extends FeatureTrait {
      * @param registryAccess Registry access
      * @return The command with its functionality added
      */
-    LiteralArgumentBuilder<FabricClientCommandSource> createCommand(LiteralArgumentBuilder<FabricClientCommandSource> cmd, CommandRegistryAccess registryAccess);
+    LiteralArgumentBuilder<FabricClientCommandSource> createCommand(LiteralArgumentBuilder<FabricClientCommandSource> cmd, CommandBuildContext registryAccess);
 
     /**
      * Registers the command and its aliases.
@@ -51,7 +51,7 @@ public interface CommandFeature extends FeatureTrait {
      * @param dispatcher The command dispatcher
      * @param registryAccess Registry access
      */
-    default void register(CommandDispatcher<FabricClientCommandSource> dispatcher, CommandRegistryAccess registryAccess) {
+    default void register(CommandDispatcher<FabricClientCommandSource> dispatcher, CommandBuildContext registryAccess) {
         dispatcher.register(this.createCommand(literal(this.commandName()), registryAccess));
 
         for (String alias : this.aliases()) {

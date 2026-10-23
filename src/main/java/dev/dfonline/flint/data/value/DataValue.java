@@ -1,8 +1,8 @@
 package dev.dfonline.flint.data.value;
 
-import net.minecraft.nbt.AbstractNbtNumber;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtString;
+import net.minecraft.nbt.NumericTag;
+import net.minecraft.nbt.StringTag;
+import net.minecraft.nbt.Tag;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -29,11 +29,11 @@ public class DataValue {
      * @param nbt The NbtElement to create the DataValue from.
      * @return The new DataValue.
      */
-    public static DataValue fromNbt(NbtElement nbt) {
-        if (nbt instanceof NbtString(String value)) {
+    public static DataValue fromNbt(Tag nbt) {
+        if (nbt instanceof StringTag(String value)) {
             return new StringDataValue(value);
         }
-        if (nbt instanceof AbstractNbtNumber abstractNbtNumber) {
+        if (nbt instanceof NumericTag abstractNbtNumber) {
             return new NumberDataValue(abstractNbtNumber.doubleValue());
         }
         return new UnknownDataValue(nbt);

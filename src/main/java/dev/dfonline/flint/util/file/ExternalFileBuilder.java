@@ -3,7 +3,7 @@ package dev.dfonline.flint.util.file;
 import dev.dfonline.flint.Flint;
 import dev.dfonline.flint.util.Logger;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtIo;
 import org.jetbrains.annotations.Nullable;
 
@@ -83,7 +83,7 @@ public class ExternalFileBuilder {
                 .setName(name)
                 .build(path -> {
                     try {
-                        NbtIo.write(new NbtCompound(), path);
+                        NbtIo.write(new CompoundTag(), path);
                     } catch (IOException e) {
                         LOGGER.error("Failed to write NBT file: " + path, e);
                     }
