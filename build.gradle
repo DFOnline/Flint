@@ -20,7 +20,7 @@ dependencies {
     implementation "net.fabricmc:fabric-loader:${project.loader_version}"
     implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
 
-    implementation include('net.kyori:adventure-platform-fabric:7.1.1')
+    implementation include('net.kyori:adventure-platform-fabric:7.2.0')
 
     runtimeOnly("me.djtheredstoner:DevAuth-fabric:1.2.2")
 }
